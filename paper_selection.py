@@ -76,4 +76,4 @@ def chose_paper_of_field(path,field):
 
 
 if __name__ == '__main__':
-    chose_paper_of_field(sys.argv[1])
+    chose_paper_of_field(sys.argv[1],sys.argv[2])
