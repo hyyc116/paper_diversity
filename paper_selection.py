@@ -55,10 +55,10 @@ def chose_paper_of_field(path,field):
                 ref_paper_ids.append(ref_id)
 
     open('{:}-papers.txt'.format(field),'w+').write('\n'.join(papers))
-    logging.info('Number of paper in this field:{:}'.format(paper_ids))
+    logging.info('Number of paper in this field:{:}'.format(len(paper_ids)))
 
     ref_paper_ids=set(ref_paper_ids)
-    logging.info('Number of paper in this field:{:}'.format(ref_paper_ids))
+    logging.info('Number of references paper in this field:{:}'.format(len(ref_paper_ids)))
 
     ref_papers = []
     for f in os.listdir(path):
@@ -76,7 +76,7 @@ def chose_paper_of_field(path,field):
                 ref_papers.append(line)
     
     open('{:}-ref-papers.txt'.format(field),'w+').write('\n'.join(ref_papers))
-    logging.info('Number of reference papers in this field:{:}'.format(ref_papers))
+    logging.info('Number of reference papers in this field:{:}'.format(len(ref_papers)))
 
 
 
