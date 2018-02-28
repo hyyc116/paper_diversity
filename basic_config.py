@@ -25,7 +25,6 @@ from multiprocessing.dummy import Pool as ThreadPool
 from networkx.algorithms import isomorphism
 from matplotlib import cm as CM
 from collections import Counter
-from viz_graph import plot_a_subcascade
 from scipy.signal import wiener
 import matplotlib as mpl
 from matplotlib.patches import Circle
