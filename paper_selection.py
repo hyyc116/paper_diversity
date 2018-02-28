@@ -64,13 +64,18 @@ def chose_paper_of_field(path,field):
     for f in os.listdir(path):
         fpath = path+f
 
+        if len(ref_papers)==10000:
+            open('{:}-ref-papers.txt'.format(field),'w+').write('\n'.join(ref_papers))
+            ref_papers=[]
+
         for line in open(fpath):
             line = line.strip()
             pObj = json.loads(line)
             pid = pObj['id']
             if pid in ref_paper_ids:
                 ref_papers.append(line)
-                
+    
+    open('{:}-ref-papers.txt'.format(field),'w+').write('\n'.join(ref_papers))
     logging.info('Number of reference papers in this field:{:}'.format(ref_papers))
 
 
