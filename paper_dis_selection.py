@@ -30,16 +30,9 @@ def gen_paper_attrs(papers,ref_papers):
         pObj = json.loads(line)
         pid = pObj['id']
         year = pObj.get('year',-1)
-        if year !=-1:
-            year_paper_count[year]+=1
-
         refs =pObj.get('references',[])
-        refs_dis[len(refs)]+=1
-
         ## if there is no n_citation keywords, return 0
         n_citation = pObj.get('n_citation',0)
-        citation_dis[n_citation]+=1
-
         ## fos
         fos = pObj.get('fos',[])
         pid_attrs[pid]['year']=year
