@@ -68,10 +68,11 @@ def out_ref_papers(ref_ids_path,path):
         path = path+"/"
 
     ref_papers = []
+    parsed_ids = []
     for i,f in enumerate(os.listdir(path)):
         fpath = path+f
         logging.info('progress: {:}/167 ...'.format(i))
-        logging.info('Number of reference papers in this field:{:}'.format(len(ref_papers)))
+        logging.info('Number of reference papers in this field:{:}'.format(len(parsed_ids)))
         
 
         for line in open(fpath):
@@ -80,10 +81,11 @@ def out_ref_papers(ref_ids_path,path):
             pid = pObj['id']
             if pid in ref_paper_ids:
                 ref_papers.append(line)
+                parsed_ids.append(pid)
 
             if len(ref_papers)==10000:
-            open('{:}-ref-papers.txt'.format(field),'w+').write('\n'.join(ref_papers))
-            ref_papers=[]
+                open('{:}-ref-papers.txt'.format(field),'w+').write('\n'.join(ref_papers))
+                ref_papers=[]
     
     open('{:}-ref-papers.txt'.format(field),'w+').write('\n'.join(ref_papers))
     logging.info('Number of reference papers in this field:{:}'.format(len(ref_papers)))
