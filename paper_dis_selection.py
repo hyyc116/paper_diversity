@@ -16,15 +16,13 @@ def gen_paper_attrs(papers,ref_papers):
         draw citation distribution of papers
 
     '''
-    
     pid_attrs=defaultdict(dict)
-    progress=1
+    progress=0
     for line in open(papers):
-
-        progress+=1
-        if progress%100000==1:
+        if progress%100000==0:
             logging.info('paper progress {:} ...'.format(progress))
 
+        progress+=1
 
         line = line.strip()
         pObj = json.loads(line)
@@ -45,10 +43,11 @@ def gen_paper_attrs(papers,ref_papers):
     ref_pid_attrs=defaultdict(dict)
     progress=0
     for line in open(ref_papers):
-        progress+=1
-        if progress%100000==1:
+        if progress%100000==0:
             logging.info('ref paper progress {:} ...'.format(progress))
-            
+        
+        progress+=1
+
         line = line.strip()
         pObj = json.loads(line)
         pid = pObj['id']
