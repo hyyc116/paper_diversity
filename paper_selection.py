@@ -70,7 +70,7 @@ def out_ref_papers(ref_ids_path,path):
     ref_papers = []
     for i,f in enumerate(os.listdir(path)):
         fpath = path+f
-        logging.info('progress: {:}/167 ...')
+        logging.info('progress: {:}/167 ...'.format(i))
 
         if len(ref_papers)==10000:
             open('{:}-ref-papers.txt'.format(field),'w+').write('\n'.join(ref_papers))
