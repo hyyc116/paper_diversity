@@ -44,6 +44,7 @@ def citation_distribution(papers):
     ax.set_title('Paper distribution over publication year')
     ax.set_xlabel('Year')
     ax.set_ylabel('Number of papers')
+    ax.set_xlim(1825,2017)
 
     ## plot citation distribution
 
@@ -57,6 +58,8 @@ def citation_distribution(papers):
     ax.plot(xs,ys,'o',fillstyle=None)
     ax.set_xlabel('Citation Count')
     ax.set_ylabel('Number of Papers')
+    ax.set_xscale('log')
+    ax.set_yscale('log')
 
     plt.tight_layout()
     plt.savefig('figs/paper_distribution.pdf',dpi=200)
