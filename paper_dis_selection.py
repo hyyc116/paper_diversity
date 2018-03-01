@@ -150,7 +150,7 @@ def plot_distributions(paper_attrs_path,ref_paper_attrs_path):
     ys = []
     for year in sorted(year_citation_age_dis.keys()):
         xs.append(year)
-        ys.append(np.mean(year_citation_age_dis[year])
+        ys.append(np.mean(year_citation_age_dis[year]))
 
     ax = axes[3]
     ax.plot(xs,ys)
