@@ -17,7 +17,7 @@ def gen_paper_attrs(papers,ref_papers):
 
     '''
     
-    pid_attrs={}
+    pid_attrs=defaultdict(dict)
     progress=1
     for line in open(papers):
 
@@ -40,7 +40,7 @@ def gen_paper_attrs(papers,ref_papers):
         pid_attrs[pid]['refs']=refs
         pid_attrs[pid]['n_citation']=n_citation
 
-    ref_pid_attrs = {}
+    ref_pid_attrs=defaultdict(dict)
     progress=0
     for line in open(ref_papers):
         progress+=1
