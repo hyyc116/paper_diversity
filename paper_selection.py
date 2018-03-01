@@ -8,84 +8,68 @@
     Output: papers of specific papers
 
 '''
-import sys
-import os
-import json
 from basic_config import *
 
-def chose_paper_of_field(path,field):
-    if not path.endswith('/'):
-        path = path+"/"
-    papers = []
-    paper_ids = []
-    ref_paper_ids = []
-    ## 1. get all ids of this field
-    ## 2. get the references of these papers
-    log_progress=0
-    files = os.listdir(path)
-    for f in files:
-        fpath = path+f
-        log_progress+=1
-        logging.info('progress {:}/{:}, Number of paper in {:}:{:} ....'.format(log_progress,len(files),field,len(paper_ids)))
+def citation_distribution(papers):
+    '''
+        draw paper distribution over year of papers.
+        draw citation distribution of papers
 
-        if len(paper_ids)%10000==1:
-            open('{:}-papers.txt'.format(field),'w+').write('\n'.join(papers))
-            papers = []
+    '''
+    year_paper_count = defaultdict(int)
+    citation_dis = defaultdict(int)
+    for line in open(papers):
+        line = line.strip()
+        pObj = json.loads(line)
 
-        for line in open(fpath):
-            line = line.strip()
-            pObj = json.loads(line)
+        year = pObj.get('year',-1)
+        if year !=-1:
+            year_paper_count[year]+=1
 
-            if 'fos' not in pObj.keys() or 'lang' not in pObj.keys() or 'references' not in pObj.keys():
-                continue
-            fos = ','.join(pObj['fos']).lower()
-
-            if field not in fos:
-                continue
-            lang = pObj['lang']
-            if lang!='en':
-                continue
-
-            references = pObj['references']
-            pid = pObj['id']
-
-            papers.append(line)
-            paper_ids.append(pid)
-            for ref_id in references:
-                ref_paper_ids.append(ref_id)
-
-    open('{:}-papers.txt'.format(field),'w+').write('\n'.join(papers))
-    logging.info('Number of paper in this field:{:}'.format(len(paper_ids)))
-
-    ref_paper_ids=set(ref_paper_ids)
-    logging.info('Number of references paper in this field:{:}'.format(len(ref_paper_ids)))
-    open("{:}-ref-ids.txt".format(field),'w').write('\n'.join(ref_paper_ids))
+        ## if there is no n_citation keywords, return 0
+        n_citation = pObj.get('n_citation',0)
+        citation_dis[n_citation]+=1
 
 
-    ref_papers = []
-    parsed_ids = []
-    for i,f in enumerate(os.listdir(path)):
-        fpath = path+f
-        logging.info('progress: {:}/167 ...'.format(i))
-        logging.info('Number of reference papers in this field:{:}'.format(len(parsed_ids)))
-        
+    fig,axes = plt.subplots(2,1,figsize=(10,10))
+    ## plot paper distribution over years
+    xs = []
+    ys = []
+    for year in sorted(year_paper_count.keys()):
+        xs.append(year)
+        ys.append(year_paper_count[year])
 
-        for line in open(fpath):
-            line = line.strip()
-            pObj = json.loads(line)
-            pid = pObj['id']
-            if pid in ref_paper_ids:
-                ref_papers.append(line)
-                parsed_ids.append(pid)
+    ax = axes[0]
+    ax.plot(xs,ys)
+    ax.set_title('Paper distribution over publication year')
+    ax.set_xlabel('Year')
+    ax.set_ylabel('Number of papers')
 
-            if len(ref_papers)==10000:
-                open('{:}-ref-papers.txt'.format(field),'w+').write('\n'.join(ref_papers))
-                ref_papers=[]
-    
-    open('{:}-ref-papers.txt'.format(field),'w+').write('\n'.join(ref_papers))
-    logging.info('Number of reference papers in this field:{:}/{:}'.format(len(ref_papers),len(parsed_ids)))
+    ## plot citation distribution
+
+    xs = []
+    ys = []
+    for citation in sorted(citation_dis.keys()):
+        xs.append(citation)
+        ys.append(citation_dis[citation])
+
+    ax = axes[1]
+    ax.plot(xs,ys,'o',fillstyle=None)
+    ax.set_xlabel('Citation Count')
+    ax.set_ylabel('Number of Papers')
+
+    plt.tight_layout()
+    plt.savefig('figs/paper_distribution.py',dpi=200)
+
 
 
 
 if __name__ == '__main__':
-    chose_paper_of_field(sys.argv[1],sys.argv[2])
+    citation_distribution(sys.argv[1])
+
+
+
+
+
+
+
