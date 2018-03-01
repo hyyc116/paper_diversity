@@ -88,7 +88,7 @@ def out_ref_papers(ref_ids_path,path):
                 ref_papers=[]
     
     open('{:}-ref-papers.txt'.format(field),'w+').write('\n'.join(ref_papers))
-    logging.info('Number of reference papers in this field:{:}'.format(len(ref_papers)))
+    logging.info('Number of reference papers in this field:{:}/{:}'.format(len(ref_papers),len(parsed_ids)))
 
 
 
