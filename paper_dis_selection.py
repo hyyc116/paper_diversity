@@ -59,7 +59,7 @@ def citation_distribution(papers):
     ax.set_ylabel('Number of Papers')
 
     plt.tight_layout()
-    plt.savefig('figs/paper_distribution.py',dpi=200)
+    plt.savefig('figs/paper_distribution.pdf',dpi=200)
 
 
 
