@@ -61,11 +61,6 @@ def chose_paper_of_field(path,field):
     logging.info('Number of references paper in this field:{:}'.format(len(ref_paper_ids)))
     open("{:}-ref-ids.txt".format(field),'w').write('\n'.join(ref_paper_ids))
 
-def out_ref_papers(ref_ids_path,path,field):
-
-    ref_paper_ids = set([ref_id.strip() for ref_id in open(ref_ids_path)])
-    if not path.endswith('/'):
-        path = path+"/"
 
     ref_papers = []
     parsed_ids = []
@@ -93,5 +88,4 @@ def out_ref_papers(ref_ids_path,path,field):
 
 
 if __name__ == '__main__':
-    # chose_paper_of_field(sys.argv[1],sys.argv[2])
-    out_ref_papers(sys.argv[1],sys.argv[2],sys.argv[3])
+    chose_paper_of_field(sys.argv[1],sys.argv[2])
