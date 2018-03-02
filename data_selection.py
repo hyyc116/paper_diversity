@@ -127,12 +127,6 @@ def gen_ref_paper_attrs(ref_papers):
             logging.info('ref paper progress {:} ...'.format(progress))
         progress+=1
 
-        if progress%100000==0:
-            outfiles.write(json.dumps(ref_pid_attrs)+"\n")
-            logging.info(' saved {:} papers to data/ref_paper_attrs.json.'.format(progress))
-            ref_pid_attrs=defaultdict(dict)
-            attr_index+=1
-
         line = line.strip().encode('utf-8',errors='ignore')
         try:
             pObj = json.loads(line)
