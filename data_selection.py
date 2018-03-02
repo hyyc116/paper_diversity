@@ -126,7 +126,7 @@ def gen_ref_paper_attrs(ref_papers):
         
         progress+=1
 
-        line = line.strip()
+        line = line.strip().encode('utf-8',errors='ignore')
         try:
             pObj = json.loads(line)
         except:
