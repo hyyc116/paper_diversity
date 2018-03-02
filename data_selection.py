@@ -177,6 +177,9 @@ if __name__ == '__main__':
         path = sys.argv[2]
         gen_ref_paper_attrs(path)
 
+    else:
+        logging.info('No such action tag.')
+
 
 
 

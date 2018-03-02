@@ -8,4 +8,4 @@ python data_selection.py out_ref_papers /public/data/Aminer_MAG/MAG/txt/ data/ph
 python data_selection.py out_paper_attrs data/physics-papers.txt
 
 ### out reference attrs
-python out_ref_attrs.py out_paper_attrs data/physics-ref-papers.txt
+python data_selection.py out_ref_attrs data/physics-ref-papers.txt
