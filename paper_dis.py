@@ -116,7 +116,7 @@ def plot_distributions(paper_attrs_path,ref_paper_attrs_path):
 
 
 if __name__ == '__main__':
-    citation_distribution(sys.argv[1],sys.argv[2])
+    plot_distributions(sys.argv[1],sys.argv[2])
 
 
 
