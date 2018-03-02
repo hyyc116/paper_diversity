@@ -56,6 +56,7 @@ def chose_paper_of_field(path,field):
 
     open('data/{:}-papers.txt'.format(field),'w+').write('\n'.join(papers))
     logging.info('Number of paper in this field:{:}'.format(len(paper_ids)))
+    open('data/{:}-paper-ids.txt'.format(field),'w').write('\n'.join(paper_ids))
 
     ref_paper_ids=set(ref_paper_ids)
     logging.info('Number of references paper in this field:{:}'.format(len(ref_paper_ids)))
