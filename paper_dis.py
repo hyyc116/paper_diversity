@@ -10,61 +10,6 @@
 '''
 from basic_config import *
 
-def gen_paper_attrs(papers,ref_papers):
-    '''
-        draw paper distribution over year of papers.
-        draw citation distribution of papers
-
-    '''
-    pid_attrs=defaultdict(dict)
-    progress=0
-    for line in open(papers):
-        if progress%100000==0:
-            logging.info('paper progress {:} ...'.format(progress))
-
-        progress+=1
-
-        line = line.strip()
-        pObj = json.loads(line)
-        pid = pObj['id']
-        year = pObj.get('year',-1)
-        refs =pObj.get('references',[])
-        ## if there is no n_citation keywords, return 0
-        n_citation = pObj.get('n_citation',0)
-        ## fos
-        fos = pObj.get('fos',[])
-        pid_attrs[pid]['year']=year
-        pid_attrs[pid]['fos']=fos
-        pid_attrs[pid]['refs']=refs
-        pid_attrs[pid]['n_citation']=n_citation
-
-    open('data/paper_attrs.json','w').write(json.dumps(pid_attrs))
-
-    ref_pid_attrs=defaultdict(dict)
-    progress=0
-    for line in open(ref_papers):
-        if progress%100000==0:
-            logging.info('ref paper progress {:} ...'.format(progress))
-        
-        progress+=1
-
-        line = line.strip()
-        pObj = json.loads(line)
-        pid = pObj['id']
-        year = pObj.get('year',-1)
-        refs =pObj.get('references',[])
-        ## if there is no n_citation keywords, return 0
-        n_citation = pObj.get('n_citation',0)
-        ## fos
-        fos = pObj.get('fos',[])
-
-        ref_pid_attrs[pid]['year']=year
-        ref_pid_attrs[pid]['fos']=fos
-        ref_pid_attrs[pid]['refs']=refs
-        ref_pid_attrs[pid]['n_citation']=n_citation
-
-    open('data/ref_paper_attrs.json','w').write(json.dumps(ref_pid_attrs))
-
 def plot_distributions(paper_attrs_path,ref_paper_attrs_path):
 
     paper_attrs = json.loads(open(paper_attrs_path).read())
