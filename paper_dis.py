@@ -13,7 +13,11 @@ from basic_config import *
 def plot_distributions(paper_attrs_path,ref_paper_attrs_path):
 
     paper_attrs = json.loads(open(paper_attrs_path).read())
-    ref_paper_attrs = json.loads(open(ref_paper_attrs_path).read())
+    ref_paper_attrs={}
+    for line in open(ref_paper_attrs_path):
+        line = line.strip()
+        obj = json.loads(line)
+        ref_paper_attrs.update(obj)
 
     year_paper_count = defaultdict(int)
     citation_dis = defaultdict(int)
@@ -112,8 +116,7 @@ def plot_distributions(paper_attrs_path,ref_paper_attrs_path):
 
 
 if __name__ == '__main__':
-    gen_paper_attrs(sys.argv[1],sys.argv[2])
-    # citation_distribution(sys.argv[1])
+    citation_distribution(sys.argv[1],sys.argv[2])
 
 
 
