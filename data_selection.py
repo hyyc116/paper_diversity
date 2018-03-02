@@ -62,6 +62,40 @@ def chose_paper_of_field(path,field):
     logging.info('Number of references paper in this field:{:}'.format(len(ref_paper_ids)))
     open("data/{:}-ref-ids.txt".format(field),'w').write('\n'.join(ref_paper_ids))
 
+
+def citing_relation(path,field,paper_ids_path):
+
+    paper_ids = set([line.strip() for line in open(paper_ids_path)])
+    paper_citations=defaultdict(list)
+
+    if not path.endswith('/'):
+        path = path+"/"
+    papers = []
+    paper_ids = []
+    ref_paper_ids = []
+    ## 1. get all ids of this field
+    ## 2. get the references of these papers
+    log_progress=0
+    files = os.listdir(path)
+    for f in files:
+        fpath = path+f
+        log_progress+=1
+        logging.info('progress {:}/{:} ....'.format(log_progress,len(files)))
+
+        for line in open(fpath):
+            line = line.strip()
+            pObj = json.loads(line)
+
+            if 'fos' not in pObj.keys() or 'lang' not in pObj.keys() or 'references' not in pObj.keys():
+                continue
+
+            for ref in pObj['references']:
+                if ref in paper_ids:
+                    paper_citations[ref].append(pObj['id'])
+
+
+    open('data/paper_citation.py','w').write(json.dumps(paper_citations));
+
 def out_refs(path,ref_ids,field):
     ref_paper_ids = set([line.strip() for line in open(ref_ids)])
     ref_papers = []
@@ -160,6 +194,11 @@ if __name__ == '__main__':
         mag_dir_path = sys.argv[2]
         field = sys.argv[3]
         chose_paper_of_field(mag_dir_path,field)
+
+    elif tag=='citing_relation':
+        mag_dir_path = sys.argv[2]
+        paper_ids_path = sys.argv[3]
+        citing_relation(mag_dir_path,paper_ids_path)
 
     elif tag=='out_ref_papers':
 
