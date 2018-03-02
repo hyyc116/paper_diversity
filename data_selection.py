@@ -94,7 +94,7 @@ def citing_relation(path,paper_ids_path):
                     paper_citations[ref].append(pObj['id'])
 
 
-    open('data/paper_citation.py','w').write(json.dumps(paper_citations));
+    open('data/paper_citation.json','w').write(json.dumps(paper_citations));
 
 def out_refs(path,ref_ids,field):
     ref_paper_ids = set([line.strip() for line in open(ref_ids)])
