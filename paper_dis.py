@@ -12,11 +12,14 @@ from basic_config import *
 
 def plot_distributions(paper_attrs_path,ref_paper_attrs_path):
 
+    logging.info('paper attrs ...')
     paper_attrs = json.loads(open(paper_attrs_path).read())
+    logging.info('ref paper attrs ...')
     ref_paper_attrs={}
     progress = 0
     for line in open(ref_paper_attrs_path):
         logging.info('progress {:} ...'.format(progress))
+        progress+=1
         line = line.strip()
         obj = json.loads(line)
         ref_paper_attrs.update(obj)
