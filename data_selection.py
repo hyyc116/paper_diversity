@@ -130,7 +130,7 @@ def gen_ref_paper_attrs(ref_papers):
         try:
             pObj = json.loads(line)
         except:
-            logging.info('error line:'+line)
+            print line
             continue
         pid = pObj['id']
         year = pObj.get('year',-1)
