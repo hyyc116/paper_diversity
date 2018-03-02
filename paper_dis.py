@@ -17,12 +17,13 @@ def plot_distributions(paper_attrs_path,ref_paper_attrs_path):
     papers_ids = [pid for pid in paper_attrs.keys()]
     logging.info('ref paper attrs ...')
     progress = 0
+    ref_paper_atrrs = {}
     for line in open(ref_paper_attrs_path):
         logging.info('progress {:} ...'.format(progress))
         progress+=1
         line = line.strip()
         obj = json.loads(line)
-        paper_attrs.update(obj)
+        ref_paper_atrrs.update(obj)
 
     year_paper_count = defaultdict(int)
     citation_dis = defaultdict(int)
@@ -46,7 +47,7 @@ def plot_distributions(paper_attrs_path,ref_paper_attrs_path):
 
         ref_years = []
         for ref in refs:
-            pObj = paper_attrs.get(ref,-1)
+            pObj = ref_paper_atrrs.get(ref,-1)
             if pObj!=-1:
                 ref_years.append(pObj.get('year',-1))
         if year!=-1:

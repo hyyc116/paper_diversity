@@ -149,7 +149,7 @@ def gen_ref_paper_attrs(ref_papers):
 
         ref_pid_attrs[pid]['year']=year
         ref_pid_attrs[pid]['fos']=fos
-        ref_pid_attrs[pid]['refs']=refs
+        # ref_pid_attrs[pid]['refs']=refs
         ref_pid_attrs[pid]['n_citation']=n_citation
 
     outfiles.write(json.dumps(ref_pid_attrs)+"\n")
