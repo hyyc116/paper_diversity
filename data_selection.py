@@ -61,15 +61,16 @@ def chose_paper_of_field(path,field):
     logging.info('Number of references paper in this field:{:}'.format(len(ref_paper_ids)))
     open("{:}-ref-ids.txt".format(field),'w').write('\n'.join(ref_paper_ids))
 
-
+def out_refs(path,ref_ids,field):
+    ref_paper_ids = set([line.strip() for line in open(ref_ids)])
     ref_papers = []
     parsed_ids = []
+    outfiles =  open('{:}-ref-papers.txt'.format(field),'w+')
     for i,f in enumerate(os.listdir(path)):
         fpath = path+f
         logging.info('progress: {:}/167 ...'.format(i))
         logging.info('Number of reference papers in this field:{:}'.format(len(parsed_ids)))
         
-
         for line in open(fpath):
             line = line.strip()
             pObj = json.loads(line)
@@ -78,14 +79,15 @@ def chose_paper_of_field(path,field):
                 ref_papers.append(line)
                 parsed_ids.append(pid)
 
-                if len(ref_papers)==10000:
-                    open('{:}-ref-papers.txt'.format(field),'w+').write('\n'.join(ref_papers))
+                if len(parsed_ids)%100000==0:
+                    outfiles.write('\n'.join(ref_papers))
                     ref_papers=[]
     
-    open('{:}-ref-papers.txt'.format(field),'w+').write('\n'.join(ref_papers))
+    outfiles.write('\n'.join(ref_papers))
     logging.info('Number of reference papers in this field:{:}/{:}'.format(len(parsed_ids),len(ref_paper_ids)))
 
 
 
 if __name__ == '__main__':
-    chose_paper_of_field(sys.argv[1],sys.argv[2])
+    # chose_paper_of_field(sys.argv[1],sys.argv[2])
+    out_refs(sys.argv[1],sys.argv[2],sys.argv[3])
