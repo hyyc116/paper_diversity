@@ -121,13 +121,14 @@ def gen_ref_paper_attrs(ref_papers):
     ref_pid_attrs=defaultdict(dict)
     progress=0
     attr_index=1
+    outfiles = open('data/ref_paper_attrs.json','w+')
     for line in open(ref_papers):
         if progress%10000==0:
             logging.info('ref paper progress {:} ...'.format(progress))
         progress+=1
 
         if progress%100000==0:
-            open('data/ref_paper_attrs.json','w+').write(json.dumps(ref_pid_attrs))
+            outfiles.write(json.dumps(ref_pid_attrs)+"\n")
             logging.info(' saved {:} papers to data/ref_paper_attrs.json.'.format(progress))
             ref_pid_attrs=defaultdict(dict)
             attr_index+=1
@@ -151,7 +152,7 @@ def gen_ref_paper_attrs(ref_papers):
         ref_pid_attrs[pid]['refs']=refs
         ref_pid_attrs[pid]['n_citation']=n_citation
 
-    open('data/ref_paper_attrs.json','w+').write(json.dumps(ref_pid_attrs))
+    outfiles.write(json.dumps(ref_pid_attrs)+"\n")
 
 if __name__ == '__main__':
 
