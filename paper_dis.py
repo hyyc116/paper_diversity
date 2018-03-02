@@ -14,7 +14,9 @@ def plot_distributions(paper_attrs_path,ref_paper_attrs_path):
 
     paper_attrs = json.loads(open(paper_attrs_path).read())
     ref_paper_attrs={}
+    progress = 0
     for line in open(ref_paper_attrs_path):
+        logging.info('progress {:} ...'.format(progress))
         line = line.strip()
         obj = json.loads(line)
         ref_paper_attrs.update(obj)
