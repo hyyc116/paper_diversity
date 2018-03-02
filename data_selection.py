@@ -127,7 +127,11 @@ def gen_ref_paper_attrs(ref_papers):
         progress+=1
 
         line = line.strip()
-        pObj = json.loads(line)
+        try:
+            pObj = json.loads(line)
+        except:
+            logging.info('error line:'+line)
+            continue
         pid = pObj['id']
         year = pObj.get('year',-1)
         refs =pObj.get('references',[])
