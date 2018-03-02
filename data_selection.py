@@ -78,7 +78,7 @@ def out_refs(path,ref_ids,field):
                 ref_papers.append(line)
                 parsed_ids.append(pid)
 
-                if len(parsed_ids)%100000==0:
+                if len(parsed_ids)%10000==0:
                     logging.info('Number of reference papers in this field:{:}'.format(len(parsed_ids)))
                     outfiles.write('\n'.join(ref_papers))
                     ref_papers=[]
