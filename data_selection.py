@@ -63,7 +63,7 @@ def chose_paper_of_field(path,field):
     open("data/{:}-ref-ids.txt".format(field),'w').write('\n'.join(ref_paper_ids))
 
 
-def citing_relation(path,field,paper_ids_path):
+def citing_relation(path,paper_ids_path):
 
     paper_ids = set([line.strip() for line in open(paper_ids_path)])
     paper_citations=defaultdict(list)
