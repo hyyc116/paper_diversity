@@ -16,14 +16,15 @@ def plot_distributions(paper_attrs_path,ref_paper_attrs_path):
     paper_attrs = json.loads(open(paper_attrs_path).read())
     papers_ids = [pid for pid in paper_attrs.keys()]
     logging.info('ref paper attrs ...')
-    progress = 0
-    ref_paper_atrrs = {}
-    for line in open(ref_paper_attrs_path):
-        logging.info('progress {:} ...'.format(progress))
-        progress+=1
-        line = line.strip()
-        obj = json.loads(line)
-        ref_paper_atrrs.update(obj)
+    ref_paper_atrrs = json.loads(open(ref_paper_attrs_path).read())
+    # progress = 0
+    # ref_paper_atrrs = {}
+    # for line in open(ref_paper_attrs_path):
+    #     logging.info('progress {:} ...'.format(progress))
+    #     progress+=1
+    #     line = line.strip()
+    #     obj = json.loads(line)
+    #     ref_paper_atrrs.update(obj)
 
     year_paper_count = defaultdict(int)
     citation_dis = defaultdict(int)
