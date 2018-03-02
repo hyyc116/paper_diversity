@@ -121,7 +121,7 @@ def gen_ref_paper_attrs(ref_papers):
     ref_pid_attrs=defaultdict(dict)
     progress=0
     attr_index=1
-    outfiles = open('data/ref_paper_attrs.json','w+')
+    outfiles = open('data/ref_paper_attrs.json','w')
     for line in open(ref_papers):
         if progress%10000==0:
             logging.info('ref paper progress {:} ...'.format(progress))
