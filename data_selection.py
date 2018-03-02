@@ -69,7 +69,6 @@ def out_refs(path,ref_ids,field):
     for i,f in enumerate(os.listdir(path)):
         fpath = path+f
         logging.info('progress: {:}/167 ...'.format(i))
-        logging.info('Number of reference papers in this field:{:}'.format(len(parsed_ids)))
         
         for line in open(fpath):
             line = line.strip()
@@ -80,6 +79,7 @@ def out_refs(path,ref_ids,field):
                 parsed_ids.append(pid)
 
                 if len(parsed_ids)%100000==0:
+                    logging.info('Number of reference papers in this field:{:}'.format(len(parsed_ids)))
                     outfiles.write('\n'.join(ref_papers))
                     ref_papers=[]
     
