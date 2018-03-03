@@ -90,6 +90,7 @@ def citing_relation(path,paper_ids_path):
                 continue
 
             for ref in pObj['references']:
+                print ref
                 if ref in paper_ids:
                     paper_citations[ref].append(pObj['id'])
 
