@@ -72,7 +72,6 @@ def citing_relation(path,paper_ids_path):
     if not path.endswith('/'):
         path = path+"/"
     papers = []
-    paper_ids = []
     ref_paper_ids = []
     ## 1. get all ids of this field
     ## 2. get the references of these papers
