@@ -16,8 +16,7 @@ def plot_distributions(paper_attrs_path,paper_citation_path):
     paper_attrs = json.loads(open(paper_attrs_path).read())
     papers_ids = [pid for pid in paper_attrs.keys()]
     logging.info('ref paper attrs ...')
-    ref_paper_atrrs = json.loads(open(paper_citation_path).read())
-    
+    paper_citations = json.loads(open(paper_citation_path).read())
 
     year_paper_count = defaultdict(int)
     citation_dis = defaultdict(int)
@@ -39,14 +38,17 @@ def plot_distributions(paper_attrs_path,paper_citation_path):
         citation_dis[n_citation]+=1
         refs_dis[len(refs)]+=1
 
-        ref_years = []
-        for ref in refs:
-            pObj = ref_paper_atrrs.get(ref,-1)
-            if pObj!=-1:
-                ref_years.append(pObj.get('year',-1))
-        if year!=-1:
-            citation_age = np.max(ref_years)-year
-            year_citation_age_dis[year].append(citation_age)
+
+        ref_year_list = paper_citations[pid]
+        if len(ref_year_list)>0:
+            ref_years=[]
+            for ref_year in ref_year_list:
+                ref,ref_year = ref_year.split(',')
+                ref_years.append(int(ref_year))
+
+            if year!=-1:
+                citation_age = np.max(ref_years)-year
+                year_citation_age_dis[year].append(citation_age)
 
 
     fig,axes = plt.subplots(1,4,figsize=(20,5))
