@@ -39,7 +39,7 @@ def plot_distributions(paper_attrs_path,paper_citation_path):
         refs_dis[len(refs)]+=1
 
 
-        ref_year_list = paper_citations[pid]
+        ref_year_list = paper_citations.get(pid,[])
         if len(ref_year_list)>0:
             ref_years=[]
             for ref_year in ref_year_list:
