@@ -80,7 +80,7 @@ def citing_relation(path,paper_ids_path):
     for f in files:
         fpath = path+f
         log_progress+=1
-        logging.info('progress {:}/{:},length of paper citation:{:} ....'.format(log_progress,len(files)),len(paper_citations.keys()))
+        logging.info('progress {:}/{:},length of paper citation:{:} ....'.format(log_progress,len(files),len(paper_citations.keys())))
 
         for line in open(fpath):
             line = line.strip()
