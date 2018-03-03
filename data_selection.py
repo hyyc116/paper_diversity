@@ -92,7 +92,7 @@ def citing_relation(path,paper_ids_path):
             for ref in pObj['references']:
                 # print ref
                 if ref in paper_ids:
-                    paper_citations[ref].append(pObj['id'])
+                    paper_citations[ref].append('{:},{:}'.format(pObj['id'],pObj.get('year',-1)))
 
 
     open('data/paper_citation.json','w').write(json.dumps(paper_citations));
