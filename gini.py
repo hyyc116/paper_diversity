@@ -23,3 +23,7 @@ def gini(array):
     n = array.shape[0]
     # Gini coefficient:
     return ((np.sum((2 * index - n  - 1) * array)) / (n * np.sum(array)))
+
+
+if __name__ == '__main__':
+    print gini(np.array([1.0,1.0,1.0]))

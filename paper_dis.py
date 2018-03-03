@@ -47,8 +47,8 @@ def plot_distributions(paper_attrs_path,paper_citation_path):
                 ref_years.append(int(ref_year))
 
             if year!=-1:
-                citation_age = np.max(ref_years)-year
-                year_citation_age_dis[year].append(citation_age)
+                citation_age = float(np.max(ref_years)-year)
+                year_citation_age_dis[year].append(len(ref_years)/citation_age)
 
 
     fig,axes = plt.subplots(4,1,figsize=(8,23))
