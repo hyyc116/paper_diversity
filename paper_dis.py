@@ -21,6 +21,8 @@ def plot_distributions(paper_attrs_path,paper_citation_path):
     year_paper_count = defaultdict(int)
     citation_dis = defaultdict(int)
     refs_dis = defaultdict(int)
+    ref_xs=[]
+    ref_ys=[]
     year_citation_age_dis = defaultdict(list)
     logging.info('Generate data ...')
     progress = 0
@@ -35,8 +37,11 @@ def plot_distributions(paper_attrs_path,paper_citation_path):
         # fos = paper_attrs[pid]['fos']
         if year!=-1:
             year_paper_count[year]+=1
+            ref_xs.append(year)
+            ref_ys.append(len(refs))
+
         citation_dis[n_citation]+=1
-        refs_dis[len(refs)]+=1
+        # refs_dis[len(refs)]+=1
 
 
         ref_year_list = paper_citations.get(pid,[])
@@ -86,18 +91,12 @@ def plot_distributions(paper_attrs_path,paper_citation_path):
 
     logging.info('Plotting reference number distribution ... ')
     ## reference num distribution
-    xs = []
-    ys = []
-    for ref in sorted(refs_dis.keys()):
-        xs.append(ref)
-        ys.append(refs_dis[ref])
-
+   
     ax = axes[2]
-    ax.plot(xs,ys,'o',fillstyle=None)
-    ax.set_xlabel('Reference Number')
-    ax.set_ylabel('Number of Papers')
-    ax.set_xscale('log')
-    ax.set_yscale('log')
+    # ax.plot(xs,ys,'o',fillstyle=None)
+    plot_heat_scatter(ref_xs,ref_ys,ax)
+    ax.set_xlabel('Publication Year')
+    ax.set_ylabel('Number of Reference')
     ax.set_title('Reference Number Distribution')
     
     logging.info('Plotting citation age distribution ... ')
