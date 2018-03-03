@@ -51,7 +51,7 @@ def plot_distributions(paper_attrs_path,paper_citation_path):
                 year_citation_age_dis[year].append(citation_age)
 
 
-    fig,axes = plt.subplots(4,1,figsize=(10,23))
+    fig,axes = plt.subplots(4,1,figsize=(8,23))
     logging.info('Plotting distribution over year ...')
     ## plot paper distribution over years
     xs = []
