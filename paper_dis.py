@@ -53,6 +53,8 @@ def plot_distributions(paper_attrs_path,paper_citation_path):
 
             if year!=-1:
                 citation_age = float(np.max(ref_years)-year)
+                if citation_age==0:
+                    citation_age=0.001
                 year_citation_age_dis[year].append(len(ref_years)/citation_age)
 
 
@@ -116,9 +118,6 @@ def plot_distributions(paper_attrs_path,paper_citation_path):
     plt.tight_layout()
     plt.savefig('figs/paper_distribution.pdf',dpi=200)
     logging.info('figures saved to figs/paper_distribution.pdf.')
-
-
-
 
 
 if __name__ == '__main__':
