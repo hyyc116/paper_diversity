@@ -23,6 +23,7 @@ def chose_paper_of_field(path,field):
     ## 2. get the references of these papers
     log_progress=0
     files = os.listdir(path)
+    doc_type_dict=defaultdict(int)
     for f in files:
         fpath = path+f
         log_progress+=1
@@ -46,6 +47,8 @@ def chose_paper_of_field(path,field):
             if lang!='en':
                 continue
 
+            doc_type_dict[pObj.get('doc_type','Other')]+=1
+
             references = pObj['references']
             pid = pObj['id']
 
@@ -61,6 +64,8 @@ def chose_paper_of_field(path,field):
     ref_paper_ids=set(ref_paper_ids)
     logging.info('Number of references paper in this field:{:}'.format(len(ref_paper_ids)))
     open("data/{:}-ref-ids.txt".format(field),'w').write('\n'.join(ref_paper_ids))
+
+    logging.info(json.dumps(doc_type_dict))
 
 
 def citing_relation(path,paper_ids_path):
