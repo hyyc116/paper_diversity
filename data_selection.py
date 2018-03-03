@@ -66,6 +66,7 @@ def chose_paper_of_field(path,field):
 def citing_relation(path,paper_ids_path):
 
     paper_ids = set([line.strip() for line in open(paper_ids_path)])
+    logging.info('length of paper ids:{:}'.format(len(paper_ids)))
     paper_citations=defaultdict(list)
 
     if not path.endswith('/'):
