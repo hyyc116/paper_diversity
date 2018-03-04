@@ -48,8 +48,6 @@ def chose_paper_of_field(path,field):
 
             doc_type = pObj.get('doc_type','Other')
 
-            print doc_type
-
             if lang!='en':
                 continue
 
@@ -59,6 +57,8 @@ def chose_paper_of_field(path,field):
             references = pObj['references']
             pid = pObj['id']
 
+            print pid
+            
             paper_ids.append(pid)
             for ref_id in references:
                 ref_paper_ids.append(ref_id)
