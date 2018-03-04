@@ -51,14 +51,12 @@ def chose_paper_of_field(path,field):
             if lang!='en':
                 continue
 
-            if doc_type!='Conference' or doc_type!='Journal':
+            if doc_type!='Conference' and doc_type!='Journal':
                 continue
 
             references = pObj['references']
             pid = pObj['id']
 
-            print pid
-            
             paper_ids.append(pid)
             for ref_id in references:
                 ref_paper_ids.append(ref_id)
