@@ -36,7 +36,7 @@ def chose_paper_of_field(path,field):
             line = line.strip()
             pObj = json.loads(line)
 
-            if 'fos' not in pObj.keys() or 'lang' not in pObj.keys() or 'references' not in pObj.keys() or 'doc_type' not in pObj.keys():
+            if 'fos' not in pObj.keys() or 'lang' not in pObj.keys() or 'references' not in pObj.keys():
                 continue
 
             fos = ','.join(pObj['fos']).lower()
