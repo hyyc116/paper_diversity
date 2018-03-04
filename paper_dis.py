@@ -38,7 +38,10 @@ def plot_distributions(paper_attrs_path,paper_citation_path):
         if year!=-1:
             year_paper_count[year]+=1
             ref_xs.append(year)
-            ref_ys.append(len(refs))
+            l = len(refs)
+            if l >200:
+                l=200
+            ref_ys.append(l)
 
         citation_dis[n_citation]+=1
         # refs_dis[len(refs)]+=1
@@ -107,7 +110,10 @@ def plot_distributions(paper_attrs_path,paper_citation_path):
     ys = []
     for year in sorted(year_citation_age_dis.keys()):
         xs.append(year)
-        ys.append(np.mean(year_citation_age_dis[year]))
+        m = np.mean(year_citation_age_dis[year])
+        if m > 250:
+            m=250
+        ys.append(m)
 
     ax = axes[3]
     ax.plot(xs,ys)
