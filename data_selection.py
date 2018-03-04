@@ -39,7 +39,7 @@ def chose_paper_of_field(path,field):
             if 'fos' not in pObj.keys() or 'lang' not in pObj.keys() or 'references' not in pObj.keys() or 'doc_type' not in pObj.keys():
                 continue
 
-            fos = '\t'.join(pObj['fos']).lower()
+            fos = ','.join(pObj['fos']).lower()
 
             if field not in fos:
                 continue
