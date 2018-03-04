@@ -1,5 +1,7 @@
 ### select data
 python data_selection.py select_papers /public/data/Aminer_MAG/MAG/txt/ physics
+#2018-03-04 11:22:58,376 : INFO : Number of paper in this field:4,129,888
+#2018-03-04 11:24:10,741 : INFO : Number of references paper in this field:11,257,060
 
 ### output reference papers
 python data_selection.py out_papers /public/data/Aminer_MAG/MAG/txt/ data/physics-paper-ids.txt data/physics-ref-ids.txt  physics

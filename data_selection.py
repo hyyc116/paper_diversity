@@ -105,8 +105,8 @@ def citing_relation(path,paper_ids_path):
     open('data/paper_citation.json','w').write(json.dumps(paper_citations));
 
 def out_papers(path,paper_ids_path,ref_ids_path,field):
-    paper_ids = set([line.strip() for line in open(paper_ids_path)])
-    ref_paper_ids = set([line.strip() for line in open(ref_ids_path)])
+    paper_ids = [line.strip() for line in open(paper_ids_path)]
+    ref_paper_ids = [line.strip() for line in open(ref_ids_path)]
     paper_ids.extend(ref_paper_ids)
     all_ids = set(paper_ids)
 
