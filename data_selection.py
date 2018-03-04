@@ -14,50 +14,53 @@ import json
 from basic_config import *
 
 def chose_paper_of_field(path,field):
+
+    ## 1. get all ids of papers in this field
+    ## 2. get the all ids in these papers' reference list
+
     if not path.endswith('/'):
         path = path+"/"
-    papers = []
+
     paper_ids = []
     ref_paper_ids = []
-    ## 1. get all ids of this field
-    ## 2. get the references of these papers
+    
     log_progress=0
     files = os.listdir(path)
-    doc_type_dict=defaultdict(int)
+    # doc_type_dict=defaultdict(int)
     for f in files:
         fpath = path+f
         log_progress+=1
         logging.info('progress {:}/{:}, Number of paper in {:}:{:} ....'.format(log_progress,len(files),field,len(paper_ids)))
 
-        if len(paper_ids)%10000==1:
-            open('data/{:}-papers.txt'.format(field),'w+').write('\n'.join(papers))
-            papers = []
-
         for line in open(fpath):
             line = line.strip()
             pObj = json.loads(line)
 
-            if 'fos' not in pObj.keys() or 'lang' not in pObj.keys() or 'references' not in pObj.keys():
+            if 'fos' not in pObj.keys() or 'lang' not in pObj.keys() or 'references' not in pObj.keys() or 'doc_type' not in pObj.keys():
                 continue
-            fos = ','.join(pObj['fos']).lower()
+
+            fos = '\t'.join(pObj['fos']).lower()
 
             if field not in fos:
                 continue
+
             lang = pObj['lang']
+
+            doc_type = pObj['doc_type']
+
             if lang!='en':
                 continue
 
-            doc_type_dict[pObj.get('doc_type','Other')]+=1
+            if doc_type!='Conference' or doc_type!='Journal':
+                continue
 
             references = pObj['references']
             pid = pObj['id']
 
-            papers.append(line)
             paper_ids.append(pid)
             for ref_id in references:
                 ref_paper_ids.append(ref_id)
 
-    open('data/{:}-papers.txt'.format(field),'w+').write('\n'.join(papers))
     logging.info('Number of paper in this field:{:}'.format(len(paper_ids)))
     open('data/{:}-paper-ids.txt'.format(field),'w').write('\n'.join(paper_ids))
 
@@ -65,7 +68,6 @@ def chose_paper_of_field(path,field):
     logging.info('Number of references paper in this field:{:}'.format(len(ref_paper_ids)))
     open("data/{:}-ref-ids.txt".format(field),'w').write('\n'.join(ref_paper_ids))
 
-    logging.info(json.dumps(doc_type_dict))
 
 
 def citing_relation(path,paper_ids_path):
@@ -102,11 +104,15 @@ def citing_relation(path,paper_ids_path):
 
     open('data/paper_citation.json','w').write(json.dumps(paper_citations));
 
-def out_refs(path,ref_ids,field):
-    ref_paper_ids = set([line.strip() for line in open(ref_ids)])
+def out_papers(path,paper_ids_path,ref_ids_path,field):
+    paper_ids = set([line.strip() for line in open(paper_ids_path)])
+    ref_paper_ids = set([line.strip() for line in open(ref_ids_path)])
+    paper_ids.extend(ref_paper_ids)
+    all_ids = set(paper_ids)
+
     ref_papers = []
     parsed_ids = []
-    outfiles =  open('data/{:}-ref-papers.txt'.format(field),'w+')
+    outfiles =  open('data/{:}-all-papers.txt'.format(field),'w+')
     for i,f in enumerate(os.listdir(path)):
         fpath = path+f
         logging.info('progress: {:}/167 ...'.format(i))
@@ -115,7 +121,7 @@ def out_refs(path,ref_ids,field):
             line = line.strip()
             pObj = json.loads(line)
             pid = pObj['id']
-            if pid in ref_paper_ids:
+            if pid in all_ids:
                 ref_papers.append(line)
                 parsed_ids.append(pid)
 
@@ -128,13 +134,18 @@ def out_refs(path,ref_ids,field):
     logging.info('Number of reference papers in this field:{:}/{:}'.format(len(parsed_ids),len(ref_paper_ids)))
 
 
-def gen_paper_attrs(papers):
+def export_paper_attrs(papers,paper_ids_path,ref_ids_path):
     '''
         draw paper distribution over year of papers.
         draw citation distribution of papers
 
     '''
+    paper_ids = set([line.strip() for line in open(paper_ids_path)])
+    ref_paper_ids = set([line.strip() for line in open(ref_ids_path)])
+
     pid_attrs=defaultdict(dict)
+    ref_pid_attrs=defaultdict(dict)
+
     progress=0
     for line in open(papers):
         if progress%100000==0:
@@ -151,43 +162,22 @@ def gen_paper_attrs(papers):
         n_citation = pObj.get('n_citation',0)
         ## fos
         fos = pObj.get('fos',[])
-        pid_attrs[pid]['year']=year
-        pid_attrs[pid]['fos']=fos
-        pid_attrs[pid]['refs']=refs
-        pid_attrs[pid]['n_citation']=n_citation
+
+
+        if pid in paper_ids:
+            pid_attrs[pid]['year']=year
+            pid_attrs[pid]['fos']=fos
+            pid_attrs[pid]['refs']=refs
+            pid_attrs[pid]['n_citation']=n_citation
+
+        if pid in ref_paper_ids:
+            ref_pid_attrs[pid]['year']=year
+            ref_pid_attrs[pid]['fos']=fos
+            ref_pid_attrs[pid]['n_citation']=n_citation
 
     open('data/paper_attrs.json','w').write(json.dumps(pid_attrs))
+    open('data/ref_paper_attrs.json','w').write(json.dumps(ref_pid_attrs))
 
-def gen_ref_paper_attrs(ref_papers):
-    ref_pid_attrs=defaultdict(dict)
-    progress=0
-    attr_index=1
-    outfiles = open('data/ref_paper_attrs.json','w')
-    for line in open(ref_papers):
-        if progress%10000==0:
-            logging.info('ref paper progress {:} ...'.format(progress))
-        progress+=1
-
-        line = line.strip().encode('utf-8',errors='ignore')
-        try:
-            pObj = json.loads(line)
-        except:
-            print line
-            continue
-        pid = pObj['id']
-        year = pObj.get('year',-1)
-        refs =pObj.get('references',[])
-        ## if there is no n_citation keywords, return 0
-        n_citation = pObj.get('n_citation',0)
-        ## fos
-        fos = pObj.get('fos',[])
-
-        ref_pid_attrs[pid]['year']=year
-        ref_pid_attrs[pid]['fos']=fos
-        # ref_pid_attrs[pid]['refs']=refs
-        ref_pid_attrs[pid]['n_citation']=n_citation
-
-    outfiles.write(json.dumps(ref_pid_attrs)+"\n")
 
 if __name__ == '__main__':
 
@@ -206,27 +196,24 @@ if __name__ == '__main__':
         paper_ids_path = sys.argv[3]
         citing_relation(mag_dir_path,paper_ids_path)
 
-    elif tag=='out_ref_papers':
+    elif tag=='out_papers':
 
         ### extract reference papers of specific field
-        ''' path-to-mag data/physics-ref-ids.txt physics'''
+        ''' path-to-mag data/physics-paper-ids.txt data/physics-ref-ids.txt physics'''
         mag_dir_path = sys.argv[2]
-        ref_ids_path = sys.argv[3]
-        field = sys.argv[4]
-        out_refs(mag_dir_path,ref_ids_path,field)
+        paper_ids_path = sys.argv[3]
+        ref_ids_path = sys.argv[4]
+        field = sys.argv[5]
+        out_papers(mag_dir_path,paper_ids_path,ref_ids_path,field)
 
-    elif tag=='out_paper_attrs':
+    elif tag=='export_paper_attrs':
 
         ### extract json data
         ''' path-to-physics-papers.txt '''
         path = sys.argv[2]
-        gen_paper_attrs(path)
-
-    elif tag=='out_ref_attrs':
-        ### extract json data
-        '''  path to physics-ref-papers.txt'''
-        path = sys.argv[2]
-        gen_ref_paper_attrs(path)
+        paper_ids_path = sys.argv[3]
+        ref_ids_path = sys.argv[4]
+        export_paper_attrs(path,paper_ids_path,ref_ids_path)
 
     else:
         logging.info('No such action tag.')
