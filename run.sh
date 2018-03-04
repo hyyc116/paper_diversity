@@ -5,6 +5,7 @@ python data_selection.py select_papers /public/data/Aminer_MAG/MAG/txt/ physics
 
 ### output reference papers
 python data_selection.py out_papers /public/data/Aminer_MAG/MAG/txt/ data/physics-paper-ids.txt data/physics-ref-ids.txt  physics
+##  INFO : Number of reference papers in this field:12,387,827
 
 ### citing relation
 python data_selection.py citing_relation /public/data/Aminer_MAG/MAG/txt/ data/physics-paper-ids.txt

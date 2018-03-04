@@ -127,10 +127,10 @@ def out_papers(path,paper_ids_path,ref_ids_path,field):
 
                 if len(parsed_ids)%10000==0:
                     logging.info('Number of reference papers in this field:{:}'.format(len(parsed_ids)))
-                    outfiles.write('\n'.join(ref_papers))
+                    outfiles.write('\n'.join(ref_papers)+"\n")
                     ref_papers=[]
     
-    outfiles.write('\n'.join(ref_papers))
+    outfiles.write('\n'.join(ref_papers)+"\n")
     logging.info('Number of reference papers in this field:{:}/{:}'.format(len(parsed_ids),len(ref_paper_ids)))
 
 
