@@ -48,6 +48,8 @@ def chose_paper_of_field(path,field):
 
             doc_type = pObj.get('doc_type','Other')
 
+            print doc_type
+
             if lang!='en':
                 continue
 
