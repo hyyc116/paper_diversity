@@ -99,6 +99,7 @@ def fetch_cc_of_com_ids(com_IDs_path):
     sql = 'select id,ref_id from wos_references'
     progress=0
     for pid,ref_id in query_op.query_database(sql):
+        progress+=1
         if progress%1000000==0:
             logging.info('progress {:} ...'.format(progress))
         if ref_id in com_IDs:
@@ -119,6 +120,7 @@ def fecth_pubyear_of_com_ids(com_IDs_path):
     sql = 'select id,pubyear from wos_summary'
     progress=0
     for pid,pubyear in query_op.query_database(sql):
+        progress+=1
         if progress%1000000==0:
             logging.info('progress {:} ...'.format(progress))
         if pid in com_IDs:
@@ -139,6 +141,7 @@ def fetch_subjects_of_com_ids(com_IDs_path):
     sql = 'select id,subject from wos_subjects'
     progress=0
     for pid,subject in query_op.query_database(sql):
+        progress+=1
         if progress%1000000:
             logging.info('progress {:} ...'.format(progress))
         if pid in com_IDs:
