@@ -10,6 +10,8 @@
 
 '''
 
+from basic_config import *
+
 def filter_out_ids_of_field(field):
     logging.info('filter out paper ids from wos_subjects of filed:[{:}].'.format(field))
     selected_IDs = []
