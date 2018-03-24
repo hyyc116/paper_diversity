@@ -1,18 +1,9 @@
-### select data
-python data_selection.py select_papers /public/data/Aminer_MAG/MAG/txt/ physics
-#2018-03-04 11:22:58,376 : INFO : Number of paper in this field:4,129,888
-#2018-03-04 11:24:10,741 : INFO : Number of references paper in this field:11,257,060
+#     filtering data from web of science through following steps"
+#     1. from wos_subjects filter out IDs of specified field as selected_IDs
+python wos_data_filtering.py t1 physics
 
-### output reference papers
-python data_selection.py out_papers /public/data/Aminer_MAG/MAG/txt/ data/physics-paper-ids.txt data/physics-ref-ids.txt  physics
-##  INFO : Number of reference papers in this field:12,387,827
-
-### citing relation
-python data_selection.py citing_relation /public/data/Aminer_MAG/MAG/txt/ data/physics-paper-ids.txt
-
-### out paper attrs
-python data_selection.py export_paper_attrs data/physics-all-papers.txt data/physics-paper-ids.txt data/physics-ref-ids.txt
-
-##### plot paper distributions
-python paper_dis.py data/paper_attrs.json data/paper_citation.json
-
+#     2. from wos_references get reference list of these selected_IDs and get list of cited papers as cited_IDs
+#     3. combine selected_IDs and cited_IDs and get set COM_IDs
+#     4. use COM_IDs to stats the citation count of each paper from wos_references and saved as com_ids_cc.json {(id:number of cc)}, cc = citation count
+#     5. use COM_IDs to get pubyear from wos_summray saved as com_ids_year.json {(id:pubyear)}
+#     6. use COM_IDs to get subjects from wos_subjects saved as com_ids_subjects.json {id:[list of subjects]}
