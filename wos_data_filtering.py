@@ -29,7 +29,7 @@ def filter_out_ids_of_field(field):
 
             
         if field in subject.lower():
-            selected_IDs.append(fid)
+            selected_IDs.append(str(fid))
 
     ## close db
     query_op.close_db()
