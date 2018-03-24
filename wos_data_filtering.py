@@ -41,11 +41,26 @@ def filter_out_ids_of_field(field):
 
 
 
-def fetch_references(selected_IDs):
+def fetch_references(selected_IDs_path):
+    selected_IDs = set([line.strip() for line in open(selected_IDs_path)])
     logging.info('fetch reference list of {:} selected_IDs.'.format(selected_IDs))
     selected_IDs_references = defaultdict(list)
     cited_IDs = []
+    length = len(selected_IDs)
+    ## query database
+    query_op = dbop()
+    sql = 'select id,ref_id from wos_references'
+    progress=0
+    sub_progress = 0
+    for pid,ref_id in query_op.query_database(sql):
+        progress+=1
+        if progress%10000000==0:
+            logging.info('total progress {:}, sub_progress:{:}/{:}'.format(progress,sub_progress,length))
+        if pid in selected_IDs:
+            sub_progress+=1
 
+            selected_IDs_references[pid].append(ref_id)
+            cited_IDs.append(ref_id)
 
     saved_si_refs_path = 'data/selected_IDs_references.json'
     saved_cited_ids = 'data/cited_ids.txt'
