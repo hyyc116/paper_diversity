@@ -142,7 +142,7 @@ def fetch_subjects_of_com_ids(com_IDs_path):
     progress=0
     for pid,subject in query_op.query_database(sql):
         progress+=1
-        if progress%1000000:
+        if progress%1000000==0:
             logging.info('progress {:} ...'.format(progress))
         if pid in com_IDs:
             com_ids_subjects[pid].append(subject)
