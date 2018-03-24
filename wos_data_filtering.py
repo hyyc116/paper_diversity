@@ -107,6 +107,9 @@ if __name__ == '__main__':
     if label=='t1':
         filter_out_ids_of_field(sys.argv[2])
 
+    elif label == 't2':
+        fetch_references(sys.argv[2])
+
 
 
 
