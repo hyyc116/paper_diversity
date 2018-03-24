@@ -13,7 +13,7 @@
 from basic_config import *
 
 def filter_out_ids_of_field(field):
-    logging.info('filter out paper ids from wos_subjects of filed:[{:}].'.format(field))
+    logging.info('filter out paper ids from wos_subjects of field:[{:}].'.format(field))
     selected_IDs = []
     
     ## query database 
@@ -24,7 +24,7 @@ def filter_out_ids_of_field(field):
     progress = 0
     for fid,subject in query_op.query_database(sql):
         progress+=1
-        if progress%10000==0:
+        if progress%1000000==0:
             logging.info('progress {:}/167,000,000 ...' .format(progress))
 
             
@@ -34,9 +34,9 @@ def filter_out_ids_of_field(field):
     ## close db
     query_op.close_db()
 
-    saved_path = 'data/selected_IDs_from_{:}.txt'.format(filed)
+    saved_path = 'data/selected_IDs_from_{:}.txt'.format(field)
     open(saved_path,'w').write('\n'.join(selected_IDs))
-    logging.info('number of papers belong to filed [{:}] is [{:}], and saved to {:}.'.format(filed,len(selected_IDs),saved_path))
+    logging.info('number of papers belong to field [{:}] is [{:}], and saved to {:}.'.format(field,len(selected_IDs),saved_path))
     return selected_IDs
 
 
