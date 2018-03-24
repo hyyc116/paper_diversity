@@ -96,7 +96,7 @@ def fetch_cc_of_com_ids(com_IDs_path):
 
     ##query table wos_refrences
     query_op = dbop()
-    sql = 'select id,ref_id from wos_refrences'
+    sql = 'select id,ref_id from wos_references'
     progress=0
     for pid,ref_id in query_op.query_database(sql):
         if progress%1000000==0:
