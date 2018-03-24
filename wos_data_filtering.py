@@ -79,7 +79,7 @@ def combine_ids(selected_IDs_path,cited_IDs_path):
 
     selected_IDs = list(set([line.strip() for line in open(selected_IDs_path)]))
     cited_IDs = list(set([line.strip() for line in open(cited_IDs_path)]))
-    logging.info('combine ids: {:} selected_IDs and {:} cited_IDs..'.format(selected_IDs,cited_IDs))
+    logging.info('combine ids: {:} selected_IDs and {:} cited_IDs..'.format(len(selected_IDs),len(cited_IDs)))
     com_IDs = []
     com_IDs.extend(selected_IDs)
     com_IDs.extend(cited_IDs)
@@ -91,7 +91,7 @@ def combine_ids(selected_IDs_path,cited_IDs_path):
 
 def fetch_cc_of_com_ids(com_IDs_path):
     com_IDs = set([line.strip() for line in open(com_IDs_path)])
-    logging.info('fetch citation count of {:} combine ids'.format(com_IDs))
+    logging.info('fetch citation count of {:} combine ids'.format(len(com_IDs)))
     com_ids_cc = defaultdict(int)
 
     ##query table wos_refrences
@@ -111,7 +111,7 @@ def fetch_cc_of_com_ids(com_IDs_path):
 
 def fecth_pubyear_of_com_ids(com_IDs_path):
     com_IDs = set([line.strip() for line in open(com_IDs_path)])
-    logging.info('fetch published year of {:} combine ids'.format(com_IDs))
+    logging.info('fetch published year of {:} combine ids'.format(len(com_IDs)))
     com_ids_year = {}
 
     ## query database wos_summary
@@ -131,7 +131,7 @@ def fecth_pubyear_of_com_ids(com_IDs_path):
 
 def fetch_subjects_of_com_ids(com_IDs_path):
     com_IDs = set([line.strip() for line in open(com_IDs_path)])
-    logging.info('fetch subjects of {:} combine ids'.format(com_IDs))
+    logging.info('fetch subjects of {:} combine ids'.format(len(com_IDs)))
     com_ids_subjects = defaultdict(list)
 
     ## query table wos_subjects
