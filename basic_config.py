@@ -18,8 +18,6 @@ from itertools import combinations
 import pylab
 import itertools
 from mpl_toolkits.mplot3d import Axes3D
-import statsmodels.api as sm
-lowess = sm.nonparametric.lowess
 from scipy.interpolate import spline
 from multiprocessing.dummy import Pool as ThreadPool
 from networkx.algorithms import isomorphism
@@ -153,39 +151,3 @@ class dbop:
 
     def close_db(self):
         self._db.close()
-
-
-
-def plot_heat_scatter(xs,ys,ax):
-
-    xyz = defaultdict(lambda: defaultdict(int))
-    for i,x in enumerate(xs):
-        y = ys[i]
-
-        xyz[x][y]+=1
-
-    xs = []
-    ys = []
-    zs = []
-    for x in xyz.keys():
-        yz = xyz[x]
-        for y in yz.keys():
-            z = xyz[x][y]
-
-            xs.append(x)
-            ys.append(y)
-            zs.append(z)
-
-    zs = np.array(zs)
-    print zs[:10],max(zs)
-    print len(xs),len(ys),len(zs)
-    norm = mpl.colors.LogNorm(vmin=min(zs),vmax=max(zs))
-
-    ccs = [colors.to_rgba(color_sequence[0]),colors.to_rgba(color_sequence[2]),colors.to_rgba(c='y')]
-    cm = LinearSegmentedColormap.from_list('my_list', ccs)
-
-    ax.scatter(xs, ys, c=cm(norm(zs)), marker='o', s = norm(zs)+1,alpha=0.7)
-
-    colmap = CM.ScalarMappable(norm=norm, cmap=cm)
-    colmap.set_array(zs)
-    plt.colorbar(colmap,ax=ax)
