@@ -24,7 +24,7 @@ def filter_out_ids_of_field(field):
     progress = 0
     for fid,subject in query_op.query_database(sql):
         progress+=1
-        if progress%1000000==0:
+        if progress%10000==0:
             logging.info('progress {:}/167,000,000 ...' .format(progress))
 
             
