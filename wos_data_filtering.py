@@ -87,7 +87,7 @@ def fetch_subjects_of_com_ids(com_IDs):
 if __name__ == '__main__':
     label = sys.argv[1]
 
-    if label='t1':
+    if label=='t1':
         filter_out_ids_of_field(sys.argv[2])
 
 
