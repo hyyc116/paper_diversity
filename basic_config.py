@@ -97,9 +97,6 @@ class dbop:
         
         self._insert_index=insert_index
         self._insert_values=[]
-
-
-    def connect_wos(self,isSS=False):
         logging.debug("connect database with normal cursor.")
         self._db = psycopg2.connect(database='wos_core',user="huanyong",password = "pendulum_wist_estival")    
         self._cursor = self._db.cursor()
