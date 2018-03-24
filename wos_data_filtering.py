@@ -43,7 +43,7 @@ def filter_out_ids_of_field(field):
 
 def fetch_references(selected_IDs_path):
     selected_IDs = set([line.strip() for line in open(selected_IDs_path)])
-    logging.info('fetch reference list of {:} selected_IDs.'.format(selected_IDs))
+    logging.info('fetch reference list of {:} selected_IDs.'.format(len(selected_IDs)))
     selected_IDs_references = defaultdict(list)
     cited_IDs = []
     length = len(selected_IDs)
