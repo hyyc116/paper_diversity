@@ -1,5 +1,5 @@
 #     filtering data from web of science through following steps"
-#     1. from wos_subjects filter out IDs of specified field as selected_IDs
+#     1. from wos_subjects filter out IDs of specified field as selected_IDs ====》 12,295,793 unique 5,679,611 
 python wos_data_filtering.py t1 physics
 
 #     2. from wos_references get reference list of these selected_IDs and get list of cited papers as cited_IDs

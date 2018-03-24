@@ -34,6 +34,7 @@ def filter_out_ids_of_field(field):
     ## close db
     query_op.close_db()
 
+    selected_IDs = list(set(selected_IDs))
     saved_path = 'data/selected_IDs_from_{:}.txt'.format(field)
     open(saved_path,'w').write('\n'.join(selected_IDs))
     logging.info('number of papers belong to field [{:}] is [{:}], and saved to {:}.'.format(field,len(selected_IDs),saved_path))
@@ -62,6 +63,9 @@ def fetch_references(selected_IDs_path):
             selected_IDs_references[pid].append(ref_id)
             cited_IDs.append(ref_id)
 
+    query_op.close_db()
+
+    cited_IDs = list(set(cited_IDs))
     saved_si_refs_path = 'data/selected_IDs_references.json'
     saved_cited_ids = 'data/cited_ids.txt'
     open(saved_si_refs_path,'w').write(json.dumps(selected_IDs_references))
@@ -70,7 +74,10 @@ def fetch_references(selected_IDs_path):
     return selected_IDs_references,cited_IDs
 
 
-def combine_ids(selected_IDs,cited_IDs):
+def combine_ids(selected_IDs_path,cited_IDs_path):
+
+    selected_IDs = list(set([line.strip() for line in open(selected_IDs_path)]))
+    cited_IDs = list(set([line.strip() for line in open(cited_IDs_path)]))
     logging.info('combine ids: {:} selected_IDs and {:} cited_IDs..'.format(selected_IDs,cited_IDs))
     com_IDs = []
     com_IDs.extend(selected_IDs)
@@ -81,23 +88,65 @@ def combine_ids(selected_IDs,cited_IDs):
     logging.info('number of combined ids is [{:}], and saved to {:}.'.format(len(com_IDs),saved_path))
 
 
-def fetch_cc_of_com_ids(com_IDs):
+def fetch_cc_of_com_ids(com_IDs_path):
+    com_IDs = set([line.strip() for line in open(com_IDs_path)])
     logging.info('fetch citation count of {:} combine ids'.format(com_IDs))
     com_ids_cc = defaultdict(int)
 
+    ##query table wos_refrences
+    query_op = dbop()
+    sql = 'select id,ref_id from wos_refrences'
+    progress=0
+    for pid,ref_id in query_op.query_database(sql):
+        if progress%1000000==0:
+            logging.info('progress {:} ...'.format(progress))
+        if ref_id in com_IDs:
+            com_ids_cc[ref_id]+=1
 
+    query_op.close_db()
+    logging.info('{:} cited ids have citations'.format(len(com_ids_cc.keys())))
+    open('data/com_ids_cc.json','w').write(json.dumps(com_ids_cc))
     return com_ids_cc
 
-def fecth_pubyear_of_com_ids(com_IDs):
+def fecth_pubyear_of_com_ids(com_IDs_path):
+    com_IDs = set([line.strip() for line in open(com_IDs_path)])
     logging.info('fetch published year of {:} combine ids'.format(com_IDs))
     com_ids_year = {}
 
+    ## query database wos_summary
+    query_op = dbop()
+    sql = 'select id,pubyear from wos_summary'
+    progress=0
+    for pid,pubyear in query_op.query_database(sql):
+        if progress%1000000==0:
+            logging.info('progress {:} ...'.format(progress))
+        if pid in com_IDs:
+            com_ids_year[pid] = pubyear
+
+    query_op.close_db()
+    logging.info('{:} cited ids have citations'.format(len(com_ids_year.keys())))
+    open('data/com_ids_year.json','w').write(json.dumps(com_ids_year))
     return com_ids_year
 
-def fetch_subjects_of_com_ids(com_IDs):
+def fetch_subjects_of_com_ids(com_IDs_path):
+    com_IDs = set([line.strip() for line in open(com_IDs_path)])
     logging.info('fetch subjects of {:} combine ids'.format(com_IDs))
     com_ids_subjects = defaultdict(list)
 
+    ## query table wos_subjects
+    query_op = dbop()
+    sql = 'select id,subject from wos_subjects'
+    progress=0
+    for pid,subject in query_op.query_database(sql):
+        if progress%1000000:
+            logging.info('progress {:} ...'.format(progress))
+        if pid in com_IDs:
+            com_ids_subjects[pid].append(subject)
+
+    query_op.close_db()
+
+    logging.info('{:} cited ids have citations'.format(len(com_ids_subjects.keys())))
+    open('data/com_ids_subjects.json','w').write(json.dumps(com_ids_subjects))
     return com_ids_subjects
 
 
@@ -109,6 +158,20 @@ if __name__ == '__main__':
 
     elif label == 't2':
         fetch_references(sys.argv[2])
+
+    elif label == 't3':
+        combine_ids(sys.argv[2],sys.argv[3])
+
+    elif label =='t4':
+        fetch_cc_of_com_ids(sys.argv[2])
+
+    elif label =='t5':
+        fecth_pubyear_of_com_ids(sys.argv[2])
+
+    elif label =='t6':
+        fetch_subjects_of_com_ids(sys.argv[2])
+
+        
 
 
 
