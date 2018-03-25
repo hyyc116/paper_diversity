@@ -15,7 +15,7 @@ from basic_config import *
 def plot_statistics(selected_IDs_path,com_IDs_year_path,com_IDs_cc_path,selected_IDs_references_path,com_IDs_subjects_path):
     ## selected Ids
     logging.info("loads selected IDs from {:} ...".format(selected_IDs_path))
-    selected_IDs = [line.strip() for line in open(selected_IDs_path)]
+    selected_IDs = list(set([line.strip() for line in open(selected_IDs_path)]))
 
     ## ID_year
     logging.info('loads year dict from {:} ...'.format(com_IDs_year_path))
@@ -38,23 +38,37 @@ def plot_statistics(selected_IDs_path,com_IDs_year_path,com_IDs_cc_path,selected
 
     ## t1: number of papers VS. published year
     # ax = axes[0]
+    uncited_count = 0
+    used_paper_count = 0
+
 
     year_numbers  = defaultdict(int)
     
     cc_count = defaultdict(int)
-    uncited_count = 0
 
     year_cc = defaultdict(list)
 
     ref_num_count = defaultdict(int)
 
-    # subjects_list = defaultdict(list)
+    year_differences = defaultdict(list)
 
+    # subjects_list = defaultdict(list)
+    progress = 0
+    total_num = len(selected_IDs)
     for pid in selected_IDs:
 
-        published_year = com_IDs_year[pid]
-        cc = com_IDs_cc[pid]
+        progress+=1
+        if progress%100000:
+            logging.info('processing progress {:}/{:} ...'.format(progress,total_num))
 
+        published_year = com_IDs_year.get(pid,-1)
+        cc = com_IDs_cc.get(pid,0)
+        refs = selected_IDs_references.get(pid,[])
+
+        if published_year==-1 or len(refs)==0:
+            continue
+
+        used_paper_count+=1
 
         year_numbers[published_year]+=1
         if cc>0:
@@ -62,17 +76,23 @@ def plot_statistics(selected_IDs_path,com_IDs_year_path,com_IDs_cc_path,selected
         else:
             uncited_count+=1
 
+        year_cc[published_year].append(cc)
 
-        year_cc[year].append(cc)
-
-        ref_num = len(selected_IDs_references[pid])
+        ref_num = len(refs)
         ref_num_count[ref_num]+=1
 
+        for ref in refs:
+            ref_year = com_IDs_year.get(ref,-1)
+            if ref_year!=-1:
+                year_differences[pid].append(int(published_year)-int(ref_year))
 
+    logging.info('data saved to directory data/statistics ..')
     open('data/statistics/year_numbers.json','w').write(json.dumps(year_numbers))
     open('data/statistics/cc_count.json','w').write(json.dumps(cc_count))
     open('data/statistics/year_cc.json','w').write(json.dumps(year_cc))
-    open('data/statistics/ref_num_count','w').write(json.dumps(ref_num_count))
+    open('data/statistics/ref_num_count.json','w').write(json.dumps(ref_num_count))
+    open('data/statistics/year_differences.json','w').write(json.dumps(year_differences))
+
 
     # xs = []
     # ys = []
