@@ -52,6 +52,7 @@ def fetch_references(selected_IDs_path):
     query_op = dbop()
     sql = 'select id,ref_id from wos_references'
     progress=0
+    pid_refs = []
     for pid,ref_id in query_op.query_database(sql):
         progress+=1
         if progress%10000000==0:
@@ -63,13 +64,14 @@ def fetch_references(selected_IDs_path):
             if ref_id is None:
                 continue
 
-            cited_IDs.append(ref_id)
+            # cited_IDs.append(ref_id)
+            pid_refs.append('{:}\t{:}'.format(pid,ref_id))
 
     query_op.close_db()
     cited_IDs = list(set(cited_IDs))
-    saved_si_refs_path = 'data/selected_IDs_references.json'
+    saved_si_refs_path = 'data/selected_IDs_references.txt'
     saved_cited_ids = 'data/cited_ids.txt'
-    open(saved_si_refs_path,'w').write(json.dumps(selected_IDs_references))
+    open(saved_si_refs_path,'w').write('\n'.join(pid_refs))
     open(saved_cited_ids,'w').write('\n'.join(cited_IDs))
     logging.info('{:}/{:} papers has references saved to {:}, and {:} cited IDs saved to {:}.'.format(len(selected_IDs_references.keys()),len(selected_IDs),saved_si_refs_path,len(cited_IDs),saved_cited_ids))
     return selected_IDs_references,cited_IDs
