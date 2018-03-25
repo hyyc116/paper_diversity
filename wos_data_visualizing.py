@@ -37,7 +37,7 @@ def plot_statistics(selected_IDs_path,com_IDs_year_path,com_IDs_cc_path,selected
     # fig,axes = plt.subplots(4,1,figsize = (6,24))
 
     ## t1: number of papers VS. published year
-    ax = axes[0]
+    # ax = axes[0]
 
     year_numbers  = defaultdict(int)
     
