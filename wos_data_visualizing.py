@@ -27,7 +27,12 @@ def plot_statistics(selected_IDs_path,com_IDs_year_path,com_IDs_cc_path,selected
 
     ## ID_references
     logging.info('loads reference list from {:} ...'.format(selected_IDs_references_path))
-    selected_IDs_references = json.loads(open(selected_IDs_references_path).read())
+    # selected_IDs_references = json.loads(open(selected_IDs_references_path).read())
+    selected_IDs_references= defaultdict(list)
+    for line in open(selected_IDs_references_path):
+        line = line.strip()
+        pid,ref_id = line.split("\t")
+        selected_IDs_references[pid].append(ref_id)
 
     ## ID_subjects
     # logging.info('loads subjects from {:} ...'.format(com_IDs_subjects_path))
@@ -122,7 +127,7 @@ if __name__ == '__main__':
     selected_IDs_path = 'data/selected_IDs_from_physics.txt'
     com_IDs_year_path = 'data/com_ids_year.json'
     com_IDs_cc_path = 'data/com_ids_cc.json'
-    selected_IDs_references_path ='data/selected_IDs_references.json'
+    selected_IDs_references_path ='data/selected_IDs_references.txt'
     com_IDs_subjects_path = 'data/com_ids_subjects.json'
     plot_statistics(selected_IDs_path,com_IDs_year_path,com_IDs_cc_path,selected_IDs_references_path,com_IDs_subjects_path)
 
