@@ -56,7 +56,7 @@ def fetch_references(selected_IDs_path):
     for pid,ref_id in query_op.query_database(sql):
         progress+=1
         if progress%10000000==0:
-            logging.info('total progress {:}, sub_progress:{:}/{:}'.format(progress,len(selected_IDs_references.keys()),length))
+            logging.info('total progress {:}, sub_progress:{:}/{:}'.format(progress,len(pid_refs),length))
         if pid in selected_IDs:
 
             # selected_IDs_references[pid].append(ref_id)
@@ -74,7 +74,7 @@ def fetch_references(selected_IDs_path):
     open(saved_si_refs_path,'w').write('\n'.join(pid_refs))
     open(saved_cited_ids,'w').write('\n'.join(cited_IDs))
     logging.info('{:}/{:} papers has references saved to {:}, and {:} cited IDs saved to {:}.'.format(len(pid_refs),len(selected_IDs),saved_si_refs_path,len(cited_IDs),saved_cited_ids))
-    return selected_IDs_references,cited_IDs
+    # return selected_IDs_references,cited_IDs
 
 
 def combine_ids(selected_IDs_path,cited_IDs_path):
