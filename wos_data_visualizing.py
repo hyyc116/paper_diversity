@@ -102,7 +102,7 @@ def statistics_data(selected_IDs_path,com_IDs_year_path,com_IDs_cc_path,selected
 def plot_statistics(cc_count_path,year_numbers_path,year_cc_path,ref_num_count_path):
 
     # fig,axes = plt.subplots(3,1,figsize=(6,12))
-    plt.figure(figsize=(7,4))
+    plt.figure(figsize=(6,4))
 
     logging.info('Plotting number of papers VS. number of citation ...')
     ### number of papers VS. number of citation
@@ -128,7 +128,7 @@ def plot_statistics(cc_count_path,year_numbers_path,year_cc_path,ref_num_count_p
 
     ## t1: number of papers VS. published year
 
-    fig,ax2 = plt.subplots(figsize=(7,4))
+    fig,ax2 = plt.subplots(figsize=(6,4))
     logging.info('Plotting number of papers VS. published year ...')
 
     year_numbers = json.loads(open(year_numbers_path).read())
@@ -171,7 +171,7 @@ def plot_statistics(cc_count_path,year_numbers_path,year_cc_path,ref_num_count_p
 
     # ## t2: number of papers VS. number of references
     # ax4 = axes[2]
-    fig,ax = plt.subplots(figsize=(7,4))
+    fig,ax = plt.subplots(figsize=(6,4))
 
 
     
