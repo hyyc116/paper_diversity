@@ -8,6 +8,12 @@ from basic_config import *
 
 def cal_diversity(com_ids_cc_path,com_ids_subjects_path,selected_IDs_references_path):
 
+    logging.info('loading com_ids_cc ...')
+    com_ids_cc = json.loads(open(com_ids_cc_path).read())
+
+    logging.info('loading com_ids_subjects ...')
+    com_ids_subjects = json.loads(open(com_ids_subjects_path).read())
+
     logging.info('loading papers and references ...')
     selected_IDs_references = defaultdict(list)
     for line in open(selected_IDs_references_path):
@@ -16,28 +22,37 @@ def cal_diversity(com_ids_cc_path,com_ids_subjects_path,selected_IDs_references_
         selected_IDs_references[pid].append(ref_id)
 
 
+    cc_pid_diversity=defaultdict(float)
+    subject_pid_diversity = defaultdict(float)
     for pid in selected_IDs_references.keys():
+
+        cc_list = []
+        subject_list = []
+
         for ref_id in selected_IDs_references[pid].keys():
 
+            if '.' in ref_id:
+                continue
+
+            cc = com_ids_cc.get(ref_id,0)
+
+            subjects = com_ids_subjects.get(ref_id,[])
+
+            cc_list.append(cc)
+            subject_list.extend(subjects)
+
+        cc_gini = gini(cc_list)
+        subject_gini = gini(Counter(subject_list).values())
+
+        cc_pid_diversity[pid] = cc_gini
+        subject_pid_diversity[pid] = subject_gini
 
 
-    year_difference_diversity()
-
-    field_diversity()
-
-    impact_diversity()
-
-
-def impact_diversity():
-
-    pass
-
-
-def field_diversity():
-
-    pass
+    open('data/wos_cc_diversity.json','w').write(json.dumps(cc_pid_diversity))
+    open('data/wos_subject_diversity.json','w').write(json.dumps(subject_pid_diversity))
 
 
 def year_difference_diversity():
 
     pass
+
