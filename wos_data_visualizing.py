@@ -195,7 +195,7 @@ def plot_stats():
     cc_count_path = 'data/statistics/cc_count.json'
     year_cc_path = 'data/statistics/year_cc.json'
     ref_num_count_path = 'data/statistics/ref_num_count.json'
-    plot_statistics(cc_count_path,year_numbers_path,year_cc_path,ref_num_count_path):
+    plot_statistics(cc_count_path,year_numbers_path,year_cc_path,ref_num_count_path)
 
 if __name__ == '__main__':
     # stats()
