@@ -6,7 +6,7 @@
 from basic_config import *
 
 
-def cal_diversity(com_ids_cc_path,com_ids_subjects_path,selected_IDs_references_path):
+def cal_diversity(com_ids_cc_path,com_ids_subjects_path,selected_IDs_references_path,year_differences_path):
 
     logging.info('loading com_ids_cc ...')
     com_ids_cc = json.loads(open(com_ids_cc_path).read())
@@ -48,11 +48,32 @@ def cal_diversity(com_ids_cc_path,com_ids_subjects_path,selected_IDs_references_
         subject_pid_diversity[pid] = subject_gini
 
 
+
     open('data/wos_cc_diversity.json','w').write(json.dumps(cc_pid_diversity))
+    logging.info("saved to data/wos_cc_diversity.json.")
+
     open('data/wos_subject_diversity.json','w').write(json.dumps(subject_pid_diversity))
+    logging.info('saved to data/wos_subject_diversity.json')
+
+    year_differences = json.loads(open(year_differences_path).read())
+
+    yd_pid_diversity = defaultdict(float)
+    for pid in year_differences.keys():
+        yd_pid_diversity[pid]=gini(year_differences[pid])
+
+    open('data/wos_year_differences_diversity.json','w').write(json.dumps(year_differences))
+    logging.info('saved to data/wos_year_differences_diversity.json')
 
 
-def year_difference_diversity():
 
-    pass
+if __name__ == '__main__':
+    
+    com_ids_cc_path = 'data/com_ids_cc.json'
+    selected_ids_references_path ='data/selected_IDs_references.txt'
+    com_ids_subjects_path = 'data/com_ids_subjects.json'
+    year_differences_path = 'data/statistics/year_differences.json'
+    cal_diversity(com_ids_cc_path,com_ids_subjects_path,selected_IDs_references_path)
+
+
+
 

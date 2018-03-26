@@ -222,12 +222,12 @@ def plot_statistics(cc_count_path,year_numbers_path,year_cc_path,ref_num_count_p
         ys.append(subject_count[subject])
 
 
-    print labels
-    print ys
+    # print labels
+    # print ys
     plt.figure(figsize=(10,4))
 
     plt.bar(np.arange(len(labels)),ys)
-    plt.xticks(np.arange(len(labels)),labels,rotation='vertical')
+    plt.xticks(np.arange(len(labels)),labels,rotation=-90)
 
     plt.xlabel('subjects')
     plt.ylabel('number of papers')
