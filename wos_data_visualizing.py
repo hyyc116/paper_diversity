@@ -178,7 +178,7 @@ def plot_statistics(cc_count_path,year_numbers_path,year_cc_path,ref_num_count_p
     ax4.set_xlabel('number of references')
     ax4.set_ylabel('number of papers')
     ax4.set_xscale('log')
-    ax4.set_yscale('log')
+    # ax4.set_yscale('log')
     ax4.set_xlim(0.9,10**4)
     ax4.set_ylim(0.9,10**6)
 
