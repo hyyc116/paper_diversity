@@ -102,7 +102,7 @@ def statistics_data(selected_IDs_path,com_IDs_year_path,com_IDs_cc_path,selected
 def plot_statistics(cc_count_path,year_numbers_path,year_cc_path,ref_num_count_path):
 
     fig,axes = plt.subplots(3,1,figsize=(6,18))
-
+    logging.info('Plotting number of papers VS. number of citation ...')
     ### number of papers VS. number of citation
     ax1 = axes[0]
     cc_count = json.loads(open(cc_count_path).read())
@@ -122,6 +122,8 @@ def plot_statistics(cc_count_path,year_numbers_path,year_cc_path,ref_num_count_p
 
     ## t1: number of papers VS. published year
     ax2 = axes[1]
+    logging.info('Plotting number of papers VS. published year ...')
+
     year_numbers = json.loads(open(year_numbers_path).read())
     xs = []
     ys = []
@@ -156,6 +158,8 @@ def plot_statistics(cc_count_path,year_numbers_path,year_cc_path,ref_num_count_p
 
     # ## t2: number of papers VS. number of references
     ax4 = axes[2]
+    logging.info('Plotting number of papers VS. number of references ...')
+
     ref_num_count = json.loads(open(ref_num_count_path).read())
 
     xs = []
@@ -173,6 +177,7 @@ def plot_statistics(cc_count_path,year_numbers_path,year_cc_path,ref_num_count_p
     
     plt.tight_layout()
     plt.savefig('pdf/wos_statistics.pdf',dpi=200)
+    logging.info('saved to pdf/wos_statistics.pdf ...')
 
 
 
@@ -182,7 +187,7 @@ def stats():
     com_IDs_cc_path = 'data/com_ids_cc.json'
     selected_IDs_references_path ='data/selected_IDs_references.txt'
     com_IDs_subjects_path = 'data/com_ids_subjects.json'
-    plot_statistics(selected_IDs_path,com_IDs_year_path,com_IDs_cc_path,selected_IDs_references_path,com_IDs_subjects_path)
+    statistics_data(selected_IDs_path,com_IDs_year_path,com_IDs_cc_path,selected_IDs_references_path,com_IDs_subjects_path)
 
 
 def plot_stats():
