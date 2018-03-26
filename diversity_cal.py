@@ -24,7 +24,15 @@ def cal_diversity(com_ids_cc_path,com_ids_subjects_path,selected_IDs_references_
 
     cc_pid_diversity=defaultdict(float)
     subject_pid_diversity = defaultdict(float)
-    for pid in selected_IDs_references.keys():
+
+    selected_IDs = selected_IDs_references.keys()
+    length = len(selected_IDs)
+
+    for i,pid in enumerate(selected_IDs):
+
+        if i+1%100000==0:
+            logging.info('progress {:}/{:} ...'.format(i+1,length))
+
 
         cc_list = []
         subject_list = []
