@@ -86,6 +86,7 @@ def plot_diversity(wos_cc_diversity_path,wos_subject_diversity_path,wos_year_dif
     subject_diversity_values = wos_subject_diversity.values()
     year_differences_diversity_values = wos_year_differences_diversity.values()
 
+    logging.info('Size of cc diversity:{:}, Size of subject diversity:{:}, Size year differences diversity:{:} . '.format(len(cc_diversity_values),len(subject_diversity_values),len(year_differences_diversity_values)))
 
     logging.info('plotting figures ...')
     plt.figure(figsize=(6,4))
