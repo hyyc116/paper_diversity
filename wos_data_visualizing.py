@@ -114,7 +114,7 @@ def plot_statistics(cc_count_path,year_numbers_path,year_cc_path,ref_num_count_p
         xs.append(cc)
         ys.append(cc_count[str(cc)])
 
-    ax1.plot(xs,ys,'o',fillstyle='none')
+    ax1.plot(xs,ys,'o',fillstyle='none',c=color_sequence[0])
     ax1.set_xscale('log')
     ax1.set_yscale('log')
     ax1.set_xlabel('number of citations')
@@ -133,7 +133,7 @@ def plot_statistics(cc_count_path,year_numbers_path,year_cc_path,ref_num_count_p
         xs.append(year)
         ys.append(year_numbers[str(year)])
 
-    l2 = ax2.plot(xs,ys,label='number of papers')
+    l2 = ax2.plot(xs,ys,label='number of papers',c=color_sequence[0])
     ax2.set_xlabel('published year')
     ax2.set_ylabel('number of papers')
     ax2.set_yscale('log')
@@ -172,7 +172,7 @@ def plot_statistics(cc_count_path,year_numbers_path,year_cc_path,ref_num_count_p
         xs.append(ref_num)
         ys.append(ref_num_count[str(ref_num)])
 
-    ax4.plot(xs,ys)
+    ax4.plot(xs,ys,c=color_sequence[0])
     ax4.set_xlabel('number of references')
     ax4.set_ylabel('number of papers')
     ax4.set_xscale('log')
