@@ -12,7 +12,7 @@
 
 from basic_config import *
 
-def plot_statistics(selected_IDs_path,com_IDs_year_path,com_IDs_cc_path,selected_IDs_references_path,com_IDs_subjects_path):
+def statistics_data(selected_IDs_path,com_IDs_year_path,com_IDs_cc_path,selected_IDs_references_path,com_IDs_subjects_path):
     ## selected Ids
     logging.info("loads selected IDs from {:} ...".format(selected_IDs_path))
     selected_IDs = list(set([line.strip() for line in open(selected_IDs_path)]))
@@ -41,7 +41,6 @@ def plot_statistics(selected_IDs_path,com_IDs_year_path,com_IDs_cc_path,selected
     logging.info('starting to generate statistics data ...')
     # fig,axes = plt.subplots(4,1,figsize = (6,24))
 
-    ## t1: number of papers VS. published year
     # ax = axes[0]
     uncited_count = 0
     used_paper_count = 0
@@ -99,37 +98,103 @@ def plot_statistics(selected_IDs_path,com_IDs_year_path,com_IDs_cc_path,selected
     open('data/statistics/year_differences.json','w').write(json.dumps(year_differences))
 
 
-    # xs = []
-    # ys = []
 
-    # for year in sorted([int(year) for year in year_numbers.keys()]):
+def plot_statistics(cc_count_path,year_numbers_path,year_cc_path,ref_num_count_path):
 
-    #     xs.append(year)
-    #     ys.append(year_numbers[str(year)])
+    fig,axes = plt.subplots(3,1,figsize=(6,18))
+
+    ### number of papers VS. number of citation
+    ax1 = axes[0]
+    cc_count = json.loads(open(cc_count_path).read())
+
+    xs = []
+    ys = []
+
+    for cc in sorted([int(c) for c in cc_count.keys()]):
+        xs.append(cc)
+        ys.append(cc_count[str(cc)])
+
+    ax1.plot(xs,ys,'o',filltype='None')
+    ax1.set_xscale('log')
+    ax1.set_yscale('log')
+    ax1.set_xlabel('number of citations')
+    ax1.set_ylabel('number of papers')
+
+    ## t1: number of papers VS. published year
+    ax2 = axes[1]
+    year_numbers = json.loads(open(year_numbers_path).read())
+    xs = []
+    ys = []
+
+    for year in sorted([int(year) for year in year_numbers.keys()]):
+
+        xs.append(year)
+        ys.append(year_numbers[str(year)])
+
+    ax2.plot(xs,ys,label='number of papers')
+    ax2.set_xlabel('published year')
+    ax2.set_ylabel('number of papers')
+    ax2.legend()
+
+    ## average citation count VS. published year
+    ax3 = ax2.twinx()
+
+    xs = []
+    ys = []
+
+    year_cc = json.loads(open(year_cc_path).read())
+
+    for year in sorted([int(y) for y in year_cc.keys()]):
+        xs.append(year)
+        ys.append(np.mean(year_cc[str(year)]))
+
+    ax3.plot(xs,ys,label='average citation')
+    ax3.set_ylabel('average citation count')
+    ax3.set_yscale('log')
+    ax3.legend()
 
 
-    # ax.plot(xs,ys,label='number of papers')
-    # ax.set_xlabel('published year')
-    # ax.set_ylabel('number of papers')
-    # ax.legend()
+    # ## t2: number of papers VS. number of references
+    ax4 = axes[2]
+    ref_num_count = json.loads(open(ref_num_count_path).read())
 
-    # ## t2: number of papers VS. number of citations
-    # ax1 = axes[1]
+    xs = []
+    ys = []
+
+    for ref_num in sorted([int(rn) for rn in ref_num_count.keys()]):
+        xs.append(ref_num)
+        ys.append(ref_num_count[str(ref_num)])
+
+    ax4.plot(xs,ys)
+    ax4.set_xlabel('number of references')
+    ax4.set_ylabel('number of papers')
+    ax4.set_xscale('log')
+    ax4.set_yscale('log')
+    
+    plt.tight_layout()
+    plt.savefig('pdf/wos_statistics.pdf',dpi=200)
 
 
-    # xs = []
-    # ys = []
 
-    # for 
-
-if __name__ == '__main__':
-
+def stats():
     selected_IDs_path = 'data/selected_IDs_from_physics.txt'
     com_IDs_year_path = 'data/com_ids_year.json'
     com_IDs_cc_path = 'data/com_ids_cc.json'
     selected_IDs_references_path ='data/selected_IDs_references.txt'
     com_IDs_subjects_path = 'data/com_ids_subjects.json'
     plot_statistics(selected_IDs_path,com_IDs_year_path,com_IDs_cc_path,selected_IDs_references_path,com_IDs_subjects_path)
+
+
+def plot_stats():
+    year_numbers_path = 'data/statistics/year_numbers.json'
+    cc_count_path = 'data/statistics/cc_count.json'
+    year_cc_path = 'data/statistics/year_cc.json'
+    ref_num_count_path = 'data/statistics/ref_num_count.json'
+    plot_statistics(cc_count_path,year_numbers_path,year_cc_path,ref_num_count_path):
+
+if __name__ == '__main__':
+    # stats()
+    plot_stats()
 
 
 
