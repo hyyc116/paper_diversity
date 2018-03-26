@@ -29,7 +29,7 @@ def cal_diversity(com_ids_cc_path,com_ids_subjects_path,selected_IDs_references_
         cc_list = []
         subject_list = []
 
-        for ref_id in selected_IDs_references[pid].keys():
+        for ref_id in selected_IDs_references[pid]:
 
             if '.' in ref_id:
                 continue
