@@ -221,7 +221,10 @@ def plot_statistics(cc_count_path,year_numbers_path,year_cc_path,ref_num_count_p
         labels.append(subject)
         ys.append(subject_count[subject])
 
-    plt.figure(figsize=(100,4))
+
+    print labels
+    print ys
+    plt.figure(figsize=(10,4))
 
     plt.bar(np.arange(len(labels)),ys)
     plt.xticks(np.arange(len(labels)),labels,rotation='vertical')
@@ -229,7 +232,7 @@ def plot_statistics(cc_count_path,year_numbers_path,year_cc_path,ref_num_count_p
     plt.xlabel('subjects')
     plt.ylabel('number of papers')
     plt.yscale("log")
-    # plt.tight_layout()
+    plt.tight_layout()
     plt.savefig('pdf/wos_subjects_cc.pdf',dpi=200)
 
 
