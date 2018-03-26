@@ -173,9 +173,6 @@ def plot_statistics(cc_count_path,year_numbers_path,year_cc_path,ref_num_count_p
     # ax4 = axes[2]
     fig,ax = plt.subplots(figsize=(6,4))
 
-
-    
-
     logging.info('Plotting number of papers VS. number of references ...')
 
     ref_num_count = json.loads(open(ref_num_count_path).read())
