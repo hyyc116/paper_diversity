@@ -101,7 +101,7 @@ def statistics_data(selected_IDs_path,com_IDs_year_path,com_IDs_cc_path,selected
 
 def plot_statistics(cc_count_path,year_numbers_path,year_cc_path,ref_num_count_path):
 
-    fig,axes = plt.subplots(3,1,figsize=(6,18))
+    fig,axes = plt.subplots(3,1,figsize=(6,12))
     logging.info('Plotting number of papers VS. number of citation ...')
     ### number of papers VS. number of citation
     ax1 = axes[0]
@@ -133,10 +133,10 @@ def plot_statistics(cc_count_path,year_numbers_path,year_cc_path,ref_num_count_p
         xs.append(year)
         ys.append(year_numbers[str(year)])
 
-    ax2.plot(xs,ys,label='number of papers')
+    l2 = ax2.plot(xs,ys,label='number of papers')
     ax2.set_xlabel('published year')
     ax2.set_ylabel('number of papers')
-    ax2.legend()
+    ax2.set_xscale('log')
 
     ## average citation count VS. published year
     ax3 = ax2.twinx()
@@ -150,11 +150,14 @@ def plot_statistics(cc_count_path,year_numbers_path,year_cc_path,ref_num_count_p
         xs.append(year)
         ys.append(np.mean(year_cc[str(year)]))
 
-    ax3.plot(xs,ys,label='average citation')
+    l3 = ax3.plot(xs,ys,label='average citation')
     ax3.set_ylabel('average citation count')
     ax3.set_yscale('log')
-    ax3.legend()
 
+    ls = l2+l3
+    labels = [l2.get_label(),l3.get_label()]
+
+    ax2.legend(ls,labels)
 
     # ## t2: number of papers VS. number of references
     ax4 = axes[2]
@@ -169,7 +172,7 @@ def plot_statistics(cc_count_path,year_numbers_path,year_cc_path,ref_num_count_p
         xs.append(ref_num)
         ys.append(ref_num_count[str(ref_num)])
 
-    ax4.plot(xs,ys)
+    ax4.plot(xs,ys,c='r')
     ax4.set_xlabel('number of references')
     ax4.set_ylabel('number of papers')
     ax4.set_xscale('log')
