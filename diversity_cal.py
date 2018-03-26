@@ -30,8 +30,8 @@ def cal_diversity(com_ids_cc_path,com_ids_subjects_path,selected_IDs_references_
 
     for i,pid in enumerate(selected_IDs):
 
-        if i+1%100000==0:
-            logging.info('progress {:}/{:} ...'.format(i+1,length))
+        if (i+1)%100000==0:
+            logging.info('progress {:}/{:} ...'.format((i+1),length))
 
 
         cc_list = []
