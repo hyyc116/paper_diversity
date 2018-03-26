@@ -119,8 +119,8 @@ def plot_statistics(cc_count_path,year_numbers_path,year_cc_path,ref_num_count_p
     ax1.set_yscale('log')
     ax1.set_xlabel('number of citations')
     ax1.set_ylabel('number of papers')
-    ax1.set_xlim(0.1,10**5)
-    ax1.set_ylim(0.1,10**6)
+    ax1.set_xlim(0.9,10**5)
+    ax1.set_ylim(0.9,10**6)
 
     ## t1: number of papers VS. published year
     ax2 = axes[1]
@@ -179,8 +179,8 @@ def plot_statistics(cc_count_path,year_numbers_path,year_cc_path,ref_num_count_p
     ax4.set_ylabel('number of papers')
     ax4.set_xscale('log')
     ax4.set_yscale('log')
-    ax4.set_xlim(0.1,10**5)
-    ax4.set_ylim(0.1,10**6)
+    ax4.set_xlim(0.9,10**4)
+    ax4.set_ylim(0.9,10**6)
 
 
     plt.tight_layout()
