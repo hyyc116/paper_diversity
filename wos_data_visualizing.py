@@ -62,7 +62,7 @@ def statistics_data(selected_IDs_path,com_IDs_year_path,com_IDs_cc_path,selected
     for pid in selected_IDs:
 
         progress+=1
-        if progress%100000:
+        if progress%100000==0:
             logging.info('processing progress {:}/{:} ...'.format(progress,total_num))
 
         published_year = com_IDs_year.get(pid,-1)
@@ -102,7 +102,7 @@ def statistics_data(selected_IDs_path,com_IDs_year_path,com_IDs_cc_path,selected
     com_IDs_subjects = json.loads(open(com_IDs_subjects_path).read())
     subject_statistics = defaultdict(int)
     for pid in com_IDs_subjects.keys():
-        for subject in com_IDs_subjects[pid].keys():
+        for subject in com_IDs_subjects[pid]:
             subject_statistics[subject]+=1
 
     open('data/statistics/subject_count.json','w').write(json.dumps(subject_statistics))
