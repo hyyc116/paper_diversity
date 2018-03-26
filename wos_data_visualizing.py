@@ -101,10 +101,11 @@ def statistics_data(selected_IDs_path,com_IDs_year_path,com_IDs_cc_path,selected
 
 def plot_statistics(cc_count_path,year_numbers_path,year_cc_path,ref_num_count_path):
 
-    fig,axes = plt.subplots(3,1,figsize=(6,12))
+    # fig,axes = plt.subplots(3,1,figsize=(6,12))
+    plt.figure(figsize=(5,4))
+
     logging.info('Plotting number of papers VS. number of citation ...')
     ### number of papers VS. number of citation
-    ax1 = axes[0]
     cc_count = json.loads(open(cc_count_path).read())
 
     xs = []
@@ -114,16 +115,20 @@ def plot_statistics(cc_count_path,year_numbers_path,year_cc_path,ref_num_count_p
         xs.append(cc)
         ys.append(cc_count[str(cc)])
 
-    ax1.plot(xs,ys,'o',fillstyle='none',c=color_sequence[0], linewidth=2)
-    ax1.set_xscale('log')
-    ax1.set_yscale('log')
-    ax1.set_xlabel('number of citations')
-    ax1.set_ylabel('number of papers')
-    ax1.set_xlim(0.9,10**5)
-    ax1.set_ylim(0.9,10**6)
+    plt.plot(xs,ys,'o',fillstyle='none',c=color_sequence[0], linewidth=2)
+    plt.xscale('log')
+    plt.yscale('log')
+    plt.xlabel('number of citations')
+    plt.ylabel('number of papers')
+    plt.xlim(0.9,10**5)
+    plt.ylim(0.9,10**6)
+
+    plt.tight_layout()
+    plt.savefig('pdf/wos_stats_cc.pdf',dpi=200)
 
     ## t1: number of papers VS. published year
-    ax2 = axes[1]
+
+    fig,ax2 = plt.subplots(figsize=(5,4))
     logging.info('Plotting number of papers VS. published year ...')
 
     year_numbers = json.loads(open(year_numbers_path).read())
@@ -161,8 +166,12 @@ def plot_statistics(cc_count_path,year_numbers_path,year_cc_path,ref_num_count_p
 
     ax2.legend(ls,labels)
 
+    plt.tight_layout()
+    plt.savefig('pdf/wos_stats_year.pdf',dpi=200)
+
     # ## t2: number of papers VS. number of references
-    ax4 = axes[2]
+    # ax4 = axes[2]
+    plt.figure(figsize=(5,4))
     logging.info('Plotting number of papers VS. number of references ...')
 
     ref_num_count = json.loads(open(ref_num_count_path).read())
@@ -174,18 +183,17 @@ def plot_statistics(cc_count_path,year_numbers_path,year_cc_path,ref_num_count_p
         xs.append(ref_num)
         ys.append(ref_num_count[str(ref_num)])
 
-    ax4.plot(xs,ys,c=color_sequence[0], linewidth=2)
-    ax4.set_xlabel('number of references')
-    ax4.set_ylabel('number of papers')
-    ax4.set_xscale('log')
-    # ax4.set_yscale('log')
-    ax4.set_xlim(0.9,3*10**2)
+    plt.plot(xs,ys,c=color_sequence[0], linewidth=2)
+    plt.xlabel('number of references')
+    plt.ylabel('number of papers')
+    plt.xscale('log')
+    # plt.set_yscale('log')
+    plt.xlim(0.9,3*10**2)
     # ax4.set_ylim(0.9,10**6)
 
-
     plt.tight_layout()
-    plt.savefig('pdf/wos_statistics.pdf',dpi=200)
-    logging.info('saved to pdf/wos_statistics.pdf ...')
+    plt.savefig('pdf/wos_stats_refs.pdf',dpi=200)
+    # logging.info('saved to pdf/wos_statistics.pdf ...')
 
 
 
