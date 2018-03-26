@@ -72,7 +72,7 @@ if __name__ == '__main__':
     selected_ids_references_path ='data/selected_IDs_references.txt'
     com_ids_subjects_path = 'data/com_ids_subjects.json'
     year_differences_path = 'data/statistics/year_differences.json'
-    cal_diversity(com_ids_cc_path,com_ids_subjects_path,selected_IDs_references_path)
+    cal_diversity(com_ids_cc_path,com_ids_subjects_path,selected_ids_references_path)
 
 
 
