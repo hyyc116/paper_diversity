@@ -114,7 +114,7 @@ def plot_statistics(cc_count_path,year_numbers_path,year_cc_path,ref_num_count_p
         xs.append(cc)
         ys.append(cc_count[str(cc)])
 
-    ax1.plot(xs,ys,'o',filltype='None')
+    ax1.plot(xs,ys,'o',fillstyle='none')
     ax1.set_xscale('log')
     ax1.set_yscale('log')
     ax1.set_xlabel('number of citations')
