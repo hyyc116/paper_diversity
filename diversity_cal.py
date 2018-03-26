@@ -77,6 +77,7 @@ def cal_diversity(com_ids_cc_path,com_ids_subjects_path,selected_IDs_references_
 
 
 def plot_diversity(wos_cc_diversity_path,wos_subject_diversity_path,wos_year_differences_diversity_path):
+    logging.info('loading data from diversity files ...')
     wos_cc_diversity = json.loads(open(wos_cc_diversity_path).read())
     wos_subject_diversity = json.loads(open(wos_subject_diversity_path).read())
     wos_year_differences_diversity = json.loads(open(wos_year_differences_diversity_path).read())
@@ -85,6 +86,8 @@ def plot_diversity(wos_cc_diversity_path,wos_subject_diversity_path,wos_year_dif
     subject_diversity_values = wos_subject_diversity.values()
     year_differences_diversity_values = wos_year_differences_diversity.values()
 
+
+    logging.info('plotting figures ...')
     plt.figure(figsize=(6,4))
     plt.hist(cc_diversity_values,bins=20)
     plt.xlabel('impact diversity')
@@ -108,6 +111,8 @@ def plot_diversity(wos_cc_diversity_path,wos_subject_diversity_path,wos_year_dif
     plt.yscale('log')
     plt.tight_layout()
     plt.savefig('pdf/year_differences_diversity_dis.pdf',dpi=200)
+
+    logging.info('done ...')
 
 
 def diversity_impact():
