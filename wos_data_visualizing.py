@@ -98,8 +98,17 @@ def statistics_data(selected_IDs_path,com_IDs_year_path,com_IDs_cc_path,selected
     open('data/statistics/year_differences.json','w').write(json.dumps(year_differences))
 
 
+    ### generate statistics 
+    com_IDs_subjects = json.loads(open(com_IDs_subjects_path).read())
+    subject_statistics = defaultdict(int)
+    for pid in com_IDs_subjects.keys():
+        for subject in com_IDs_subjects[pid].keys():
+            subject_statistics[subject]+=1
 
-def plot_statistics(cc_count_path,year_numbers_path,year_cc_path,ref_num_count_path):
+    open('data/statistics/subject_count.json','w').write(json.dumps(subject_statistics))
+
+
+def plot_statistics(cc_count_path,year_numbers_path,year_cc_path,ref_num_count_path,subject_count_path):
 
     # fig,axes = plt.subplots(3,1,figsize=(6,12))
     plt.figure(figsize=(6,4))
@@ -202,6 +211,26 @@ def plot_statistics(cc_count_path,year_numbers_path,year_cc_path,ref_num_count_p
     plt.savefig('pdf/wos_stats_refs.pdf',dpi=200)
     # logging.info('saved to pdf/wos_statistics.pdf ...')
 
+    logging.info('plotting subject distribution ...')
+    subject_count = json.loads(open(subject_count_path).read())
+
+    labels = []
+    ys = []
+
+    for subject in sorted(subject_count.keys()):
+        labels.append(subject)
+        ys.append(subject_count[subject])
+
+    plt.figure(figsize=(6,4))
+
+    plt.bar(np.arange(len(labels)),ys)
+    plt.xticks(np.arange(labels),labels,rotation='vertical')
+
+    plt.xlabel('subjects')
+    plt.ylabel('number of papers')
+
+    plt.tight_layout()
+    plt.savefig('pdf/wos_subjects_cc.pdf',dpi=200)
 
 
 def stats():
@@ -218,7 +247,8 @@ def plot_stats():
     cc_count_path = 'data/statistics/cc_count.json'
     year_cc_path = 'data/statistics/year_cc.json'
     ref_num_count_path = 'data/statistics/ref_num_count.json'
-    plot_statistics(cc_count_path,year_numbers_path,year_cc_path,ref_num_count_path)
+    subject_cc_path = 'data/statistics/subject_count.json'
+    plot_statistics(cc_count_path,year_numbers_path,year_cc_path,ref_num_count_path,subject_cc_path)
 
 if __name__ == '__main__':
     stats()
