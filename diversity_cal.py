@@ -42,11 +42,13 @@ def cal_diversity(com_ids_cc_path,com_ids_subjects_path,selected_IDs_references_
             subject_list.extend(subjects)
 
         # print cc_list
-        cc_gini = gini(cc_list)
-        subject_gini = gini(Counter(subject_list).values())
+        if len(cc_list)>0:
+            cc_gini = gini(cc_list)
+            cc_pid_diversity[pid] = cc_gini
 
-        cc_pid_diversity[pid] = cc_gini
-        subject_pid_diversity[pid] = subject_gini
+        if len(subject_list)>0:
+            subject_gini = gini(Counter(subject_list).values())
+            subject_pid_diversity[pid] = subject_gini
 
 
 
