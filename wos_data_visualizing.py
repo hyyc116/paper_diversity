@@ -217,7 +217,7 @@ def plot_statistics(cc_count_path,year_numbers_path,year_cc_path,ref_num_count_p
     labels = []
     ys = []
 
-    for subject in sorted(subject_count.keys()):
+    for subject in sorted(subject_count.keys())[:10]:
         labels.append(subject)
         ys.append(subject_count[subject])
 
