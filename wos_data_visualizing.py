@@ -155,7 +155,7 @@ def plot_statistics(cc_count_path,year_numbers_path,year_cc_path,ref_num_count_p
     ax3.set_yscale('log')
 
     ls = l2+l3
-    labels = [l2.get_label(),l3.get_label()]
+    labels = [l.get_label() for l in ls]
 
     ax2.legend(ls,labels)
 
