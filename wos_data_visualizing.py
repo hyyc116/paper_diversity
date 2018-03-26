@@ -221,7 +221,7 @@ def plot_statistics(cc_count_path,year_numbers_path,year_cc_path,ref_num_count_p
         labels.append(subject)
         ys.append(subject_count[subject])
 
-    plt.figure(figsize=(6,4))
+    plt.figure(figsize=(100,4))
 
     plt.bar(np.arange(len(labels)),ys)
     plt.xticks(np.arange(len(labels)),labels,rotation='vertical')
