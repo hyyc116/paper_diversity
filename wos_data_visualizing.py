@@ -102,7 +102,7 @@ def statistics_data(selected_IDs_path,com_IDs_year_path,com_IDs_cc_path,selected
 def plot_statistics(cc_count_path,year_numbers_path,year_cc_path,ref_num_count_path):
 
     # fig,axes = plt.subplots(3,1,figsize=(6,12))
-    plt.figure(figsize=(5,4))
+    plt.figure(figsize=(7,4))
 
     logging.info('Plotting number of papers VS. number of citation ...')
     ### number of papers VS. number of citation
@@ -128,7 +128,7 @@ def plot_statistics(cc_count_path,year_numbers_path,year_cc_path,ref_num_count_p
 
     ## t1: number of papers VS. published year
 
-    fig,ax2 = plt.subplots(figsize=(5,4))
+    fig,ax2 = plt.subplots(figsize=(7,4))
     logging.info('Plotting number of papers VS. published year ...')
 
     year_numbers = json.loads(open(year_numbers_path).read())
@@ -171,7 +171,11 @@ def plot_statistics(cc_count_path,year_numbers_path,year_cc_path,ref_num_count_p
 
     # ## t2: number of papers VS. number of references
     # ax4 = axes[2]
-    plt.figure(figsize=(5,4))
+    fig,ax = plt.subplots(figsize=(7,4))
+
+
+    
+
     logging.info('Plotting number of papers VS. number of references ...')
 
     ref_num_count = json.loads(open(ref_num_count_path).read())
@@ -183,13 +187,19 @@ def plot_statistics(cc_count_path,year_numbers_path,year_cc_path,ref_num_count_p
         xs.append(ref_num)
         ys.append(ref_num_count[str(ref_num)])
 
-    plt.plot(xs,ys,c=color_sequence[0], linewidth=2)
-    plt.xlabel('number of references')
-    plt.ylabel('number of papers')
-    plt.xscale('log')
-    # plt.set_yscale('log')
-    plt.xlim(0.9,3*10**2)
+    ax.plot(xs,ys,c=color_sequence[0], linewidth=2)
+    ax.set_xlabel('number of references')
+    ax.set_ylabel('number of papers')
+    ax.set_xscale('log')
+    # ax.set_yscale('log')
+    ax.set_xlim(0.9,3*10**2)
     # ax4.set_ylim(0.9,10**6)
+
+    from matplotlib import ticker
+    formatter = ticker.ScalarFormatter(useMathText=True)
+    formatter.set_scientific(True) 
+    formatter.set_powerlimits((-1,1)) 
+    ax.yaxis.set_major_formatter(formatter) 
 
     plt.tight_layout()
     plt.savefig('pdf/wos_stats_refs.pdf',dpi=200)
