@@ -76,14 +76,65 @@ def cal_diversity(com_ids_cc_path,com_ids_subjects_path,selected_IDs_references_
     logging.info('saved to data/wos_year_differences_diversity.json')
 
 
+def plot_diversity(wos_cc_diversity_path,wos_subject_diversity_path,wos_year_differences_diversity_path):
+    wos_cc_diversity = json.loads(open(wos_cc_diversity_path).read())
+    wos_subject_diversity = json.loads(open(wos_subject_diversity_path).read())
+    wos_year_differences_diversity = json.loads(open(wos_year_differences_diversity_path).read())
+
+    cc_diversity_values = wos_cc_diversity.values()
+    subject_diversity_values = wos_subject_diversity.values()
+    year_differences_diversity_values = wos_year_differences_diversity.values()
+
+    plt.figure(figsize=(6,4))
+    plt.hist(cc_diversity_values,bins=20)
+    plt.xlabel('impact diversity')
+    plt.ylabel('number of papers')
+    plt.yscale('log')
+    plt.tight_layout()
+    plt.savefig('pdf/impact_diversity_dis.pdf',dpi=200)
+
+    plt.figure(figsize=(6,4))
+    plt.hist(subject_diversity_values,bins=20)
+    plt.xlabel('subject diversity')
+    plt.ylabel('number of papers')
+    plt.yscale('log')
+    plt.tight_layout()
+    plt.savefig('pdf/subject_diversity_dis.pdf',dpi=200)
+
+    plt.figure(figsize=(6,4))
+    plt.hist(year_differences_diversity_values,bins=20)
+    plt.xlabel('year diversity')
+    plt.ylabel('number of papers')
+    plt.yscale('log')
+    plt.tight_layout()
+    plt.savefig('pdf/year_differences_diversity_dis.pdf',dpi=200)
+
+
+def diversity_impact():
+    pass
+
+
+
+
 
 if __name__ == '__main__':
     
-    com_ids_cc_path = 'data/com_ids_cc.json'
-    selected_ids_references_path ='data/selected_IDs_references.txt'
-    com_ids_subjects_path = 'data/com_ids_subjects.json'
-    year_differences_path = 'data/statistics/year_differences.json'
-    cal_diversity(com_ids_cc_path,com_ids_subjects_path,selected_ids_references_path,year_differences_path)
+    # com_ids_cc_path = 'data/com_ids_cc.json'
+    # selected_ids_references_path ='data/selected_IDs_references.txt'
+    # com_ids_subjects_path = 'data/com_ids_subjects.json'
+    # year_differences_path = 'data/statistics/year_differences.json'
+    # cal_diversity(com_ids_cc_path,com_ids_subjects_path,selected_ids_references_path,year_differences_path)
+
+    wos_cc_diversity_path = 'data/wos_cc_diversity.json'
+    wos_subject_diversity_path = 'data/wos_subject_diversity.json'
+    wos_year_differences_diversity_path = 'data/wos_year_differences_diversity.json'
+
+    plot_diversity(wos_cc_diversity_path,wos_subject_diversity_path,wos_year_differences_diversity_path)
+
+
+
+
+
 
 
 
