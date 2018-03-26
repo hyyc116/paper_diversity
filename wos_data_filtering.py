@@ -64,7 +64,7 @@ def fetch_references(selected_IDs_path):
             if ref_id is None:
                 continue
 
-            # cited_IDs.append(ref_id)
+            cited_IDs.append(ref_id)
             pid_refs.append('{:}\t{:}'.format(pid,ref_id))
 
     query_op.close_db()

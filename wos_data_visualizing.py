@@ -221,7 +221,7 @@ def plot_stats():
     plot_statistics(cc_count_path,year_numbers_path,year_cc_path,ref_num_count_path)
 
 if __name__ == '__main__':
-    # stats()
+    stats()
     plot_stats()
 
 
