@@ -141,13 +141,13 @@ def diversity_impact(wos_cc_diversity_path,wos_subject_diversity_path,wos_year_d
         ys.append(np.mean(cd_cc[cd]))
 
     plt.figure()
-    plt.scatter(xs,ys)
+    plt.scatter(xs,ys,c=color_sequence[0])
 
     plt.xlabel('impact diversity')
     plt.ylabel('average citation count')
 
     plt.tight_layout()
-    plt.savefig('pdf/impact_diversity_impact.png',dpi=200)
+    plt.savefig('pdf/impact_diversity_impact.pdf',dpi=200)
 
 
 
