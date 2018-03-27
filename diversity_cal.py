@@ -35,7 +35,7 @@ def cal_diversity(com_ids_cc_path,com_ids_subjects_path,selected_IDs_references_
             logging.info('progress {:}/{:} ...'.format((i+1),length))
 
         ## published years
-        if com_ids_year.get(pid,9999)>2004:
+        if int(com_ids_year.get(pid,9999))>2004:
             continue
 
         ## the number of references
@@ -81,7 +81,7 @@ def cal_diversity(com_ids_cc_path,com_ids_subjects_path,selected_IDs_references_
     for pid in year_differences.keys():
 
         ## published years
-        if com_ids_year.get(pid,9999)>2004:
+        if int(com_ids_year.get(pid,9999))>2004:
             continue
 
         ## the number of references
