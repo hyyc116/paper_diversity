@@ -179,14 +179,14 @@ def plot_diversity(wos_cc_diversity_path,wos_subject_diversity_path,wos_year_dif
 
 
 
-
-
 def diversity_impact(wos_cc_diversity_path,wos_subject_diversity_path,wos_year_differences_diversity_path,com_ids_cc_path):
 
     logging.info('loading id->citation count')
     com_ids_cc = json.loads(open(com_ids_cc_path).read())
     logging.info('loading wos cc diversity ..')
     wos_cc_diversity = json.loads(open(wos_cc_diversity_path).read())
+    wos_subject_diversity = json.loads(open(wos_subject_diversity_path).read())
+    wos_year_differences_diversity = json.loads(open(wos_year_differences_diversity_path).read())
 
     cc_cd = defaultdict(list)
     for pid in wos_cc_diversity.keys():
@@ -195,7 +195,6 @@ def diversity_impact(wos_cc_diversity_path,wos_subject_diversity_path,wos_year_d
         cc = com_ids_cc.get(pid,0)
 
         cc_cd[cc].append(cc_diversity)
-
 
     xs = []
     ys = []
@@ -207,13 +206,67 @@ def diversity_impact(wos_cc_diversity_path,wos_subject_diversity_path,wos_year_d
     plt.figure()
     plt.plot(xs,ys,c=color_sequence[0])
 
-    plt.xlabel('impact diversity')
-    plt.ylabel('average citation count')
+    plt.xlabel('citation count')
+    plt.ylabel('average impact diversity')
 
     plt.xscale('log')
 
     plt.tight_layout()
     plt.savefig('pdf/impact_diversity_impact.pdf',dpi=200)
+
+
+    cc_sd = defaultdict(list)
+    for pid in wos_subject_diversity.keys():
+        cc_diversity  = wos_subject_diversity[pid]
+
+        cc = com_ids_cc.get(pid,0)
+
+        cc_sd[cc].append(cc_diversity)
+
+    xs = []
+    ys = []
+
+    for cc in sorted(cc_sd.keys()):
+        xs.append(cc)
+        ys.append(np.mean(cc_sd[cc]))
+
+    plt.figure()
+    plt.plot(xs,ys,c=color_sequence[0])
+
+    plt.xlabel('citation count')
+    plt.ylabel('average subject diversity')
+
+    plt.xscale('log')
+
+    plt.tight_layout()
+    plt.savefig('pdf/impact_diversity_subject.pdf',dpi=200)
+
+
+    cc_yd = defaultdict(list)
+    for pid in wos_year_differences_diversity.keys():
+        cc_diversity  = wos_year_differences_diversity[pid]
+
+        cc = com_ids_cc.get(pid,0)
+
+        cc_yd[cc].append(cc_diversity)
+
+    xs = []
+    ys = []
+
+    for cc in sorted(cc_yd.keys()):
+        xs.append(cc)
+        ys.append(np.mean(cc_yd[cc]))
+
+    plt.figure()
+    plt.plot(xs,ys,c=color_sequence[0])
+
+    plt.xlabel('citation count')
+    plt.ylabel('average year diversity')
+
+    plt.xscale('log')
+
+    plt.tight_layout()
+    plt.savefig('pdf/impact_diversity_year.pdf',dpi=200)
 
 
 
