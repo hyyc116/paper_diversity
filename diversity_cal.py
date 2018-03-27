@@ -218,7 +218,7 @@ def diversity_impact(wos_cc_diversity_path,wos_subject_diversity_path,wos_year_d
 if __name__ == '__main__':
     
     com_ids_cc_path = 'data/com_ids_cc.json'
-    # selected_ids_references_path ='data/selected_IDs_references.txt'
+    selected_ids_references_path ='data/selected_IDs_references.txt'
     # com_ids_subjects_path = 'data/com_ids_subjects.json'
     year_differences_path = 'data/statistics/year_differences.json'
     # cal_diversity(com_ids_cc_path,com_ids_subjects_path,selected_ids_references_path,year_differences_path)
@@ -227,7 +227,7 @@ if __name__ == '__main__':
     wos_subject_diversity_path = 'data/wos_subject_diversity.json'
     wos_year_differences_diversity_path = 'data/wos_year_differences_diversity.json'
 
-    plot_diversity(wos_cc_diversity_path,wos_subject_diversity_path,wos_year_differences_diversity_path,year_differences_path)
+    plot_diversity(wos_cc_diversity_path,wos_subject_diversity_path,wos_year_differences_diversity_path,selected_ids_references_path)
 
     diversity_impact(wos_cc_diversity_path,wos_subject_diversity_path,wos_year_differences_diversity_path,com_ids_cc_path)
 
