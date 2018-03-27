@@ -82,9 +82,9 @@ def plot_diversity(wos_cc_diversity_path,wos_subject_diversity_path,wos_year_dif
     wos_subject_diversity = json.loads(open(wos_subject_diversity_path).read())
     wos_year_differences_diversity = json.loads(open(wos_year_differences_diversity_path).read())
 
-    cc_diversity_values = wos_cc_diversity.values()
-    subject_diversity_values = wos_subject_diversity.values()
-    year_differences_diversity_values = wos_year_differences_diversity.values()
+    cc_diversity_values = [i for i in wos_cc_diversity.values() if i==0]
+    subject_diversity_values = [i for i in wos_subject_diversity.values() if i==0]
+    year_differences_diversity_values = [i for i in wos_year_differences_diversity.values() if i ==0]
 
     logging.info('Size of cc diversity:{:}, Size of subject diversity:{:}, Size year differences diversity:{:} . '.format(len(cc_diversity_values),len(subject_diversity_values),len(year_differences_diversity_values)))
 
@@ -118,6 +118,7 @@ def plot_diversity(wos_cc_diversity_path,wos_subject_diversity_path,wos_year_dif
 
 
 def diversity_impact():
+
     pass
 
 
@@ -126,11 +127,11 @@ def diversity_impact():
 
 if __name__ == '__main__':
     
-    com_ids_cc_path = 'data/com_ids_cc.json'
-    selected_ids_references_path ='data/selected_IDs_references.txt'
-    com_ids_subjects_path = 'data/com_ids_subjects.json'
-    year_differences_path = 'data/statistics/year_differences.json'
-    cal_diversity(com_ids_cc_path,com_ids_subjects_path,selected_ids_references_path,year_differences_path)
+    # com_ids_cc_path = 'data/com_ids_cc.json'
+    # selected_ids_references_path ='data/selected_IDs_references.txt'
+    # com_ids_subjects_path = 'data/com_ids_subjects.json'
+    # year_differences_path = 'data/statistics/year_differences.json'
+    # cal_diversity(com_ids_cc_path,com_ids_subjects_path,selected_ids_references_path,year_differences_path)
 
     wos_cc_diversity_path = 'data/wos_cc_diversity.json'
     wos_subject_diversity_path = 'data/wos_subject_diversity.json'
