@@ -162,15 +162,25 @@ def plot_statistics(cc_count_path,year_numbers_path,year_cc_path,ref_num_count_p
 
     year_cc = json.loads(open(year_cc_path).read())
 
+
+    means = []
     for year in sorted([int(y) for y in year_cc.keys()]):
         xs.append(year)
-        ys.append(np.mean(year_cc[str(year)]))
+        mean = np.mean(year_cc[str(year)])
+        means.append(mean)
+        ys.append(mean)
+
+    cc_mean = np.mean(means)
+    logging.info('average citation count {:}  .. '.format(cc_mean))
 
     l3 = ax3.plot(xs,ys,label='average citation',c='r', linewidth=2)
+
+    l4 = ax.plot(xs,cc_mean,'--',c=color_sequence[1],label='average citation count')
+    
     ax3.set_ylabel('average citation count')
     ax3.set_yscale('log')
 
-    ls = l2+l3
+    ls = l2+l3+l4
     labels = [l.get_label() for l in ls]
 
     ax2.legend(ls,labels)
