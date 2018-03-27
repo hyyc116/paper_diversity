@@ -390,7 +390,7 @@ if __name__ == '__main__':
     com_ids_subjects_path = 'data/com_ids_subjects.json'
     year_differences_path = 'data/statistics/year_differences.json'
     com_IDs_year_path = 'data/com_ids_year.json'
-    cal_diversity(com_ids_cc_path,com_ids_subjects_path,selected_ids_references_path,year_differences_path,com_ids_year)
+    cal_diversity(com_ids_cc_path,com_ids_subjects_path,selected_ids_references_path,year_differences_path,com_IDs_year_path)
 
     wos_cc_diversity_path = 'data/wos_cc_diversity.json'
     wos_subject_diversity_path = 'data/wos_subject_diversity.json'
