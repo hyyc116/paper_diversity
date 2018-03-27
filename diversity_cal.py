@@ -124,21 +124,27 @@ def diversity_impact(wos_cc_diversity_path,wos_subject_diversity_path,wos_year_d
     logging.info('loading wos cc diversity ..')
     wos_cc_diversity = json.loads(open(wos_cc_diversity_path).read())
 
-    xs = []
-    ys = []
+    cd_cc = defaultdict(list)
     for pid in wos_cc_diversity.keys():
         cc_diversity  = wos_cc_diversity[pid]
 
         cc = com_ids_cc.get(pid,0)
 
-        ys.append(cc)
-        xs.append(cc_diversity)
+        cd_cc[cc_diversity].append(cc)
+
+
+    xs = []
+    ys = []
+
+    for cd in sortes(cd_cc.keys()):
+        xs.append(cd)
+        ys.append(np.mean(cd_cc[cd]))
 
     plt.figure()
     plt.scatter(xs,ys)
 
     plt.xlabel('impact diversity')
-    plt.ylabel('citation count')
+    plt.ylabel('average citation count')
 
     plt.tight_layout()
     plt.savefig('pdf/impact_diversity_impact.png',dpi=200)
