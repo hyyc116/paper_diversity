@@ -174,7 +174,7 @@ def plot_statistics(cc_count_path,year_numbers_path,year_cc_path,ref_num_count_p
     cc_mean = np.mean(means)
 
     for year in  year_cc.keys():
-        cc = year_cc[year]
+        cc = np.mean(year_cc[year])
         if cc<cc_mean:
             print year
 
