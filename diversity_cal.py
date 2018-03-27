@@ -205,7 +205,7 @@ def diversity_impact(wos_cc_diversity_path,wos_subject_diversity_path,wos_year_d
         ys.append(np.mean(cc_cd[cc]))
 
     plt.figure()
-    plt.scatter(xs,ys,c=color_sequence[0])
+    plt.plot(xs,ys,c=color_sequence[0])
 
     plt.xlabel('impact diversity')
     plt.ylabel('average citation count')
@@ -227,7 +227,7 @@ if __name__ == '__main__':
     wos_subject_diversity_path = 'data/wos_subject_diversity.json'
     wos_year_differences_diversity_path = 'data/wos_year_differences_diversity.json'
 
-    plot_diversity(wos_cc_diversity_path,wos_subject_diversity_path,wos_year_differences_diversity_path,selected_ids_references_path)
+    # plot_diversity(wos_cc_diversity_path,wos_subject_diversity_path,wos_year_differences_diversity_path,selected_ids_references_path)
 
     diversity_impact(wos_cc_diversity_path,wos_subject_diversity_path,wos_year_differences_diversity_path,com_ids_cc_path)
 
