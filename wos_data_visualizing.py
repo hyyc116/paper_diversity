@@ -170,12 +170,20 @@ def plot_statistics(cc_count_path,year_numbers_path,year_cc_path,ref_num_count_p
         means.append(mean)
         ys.append(mean)
 
+
     cc_mean = np.mean(means)
+
+    for year in  year_cc.keys():
+        cc = year_cc[year]
+        if cc<cc_mean:
+            print year
+
+
     logging.info('average citation count {:}  .. '.format(cc_mean))
 
     l3 = ax3.plot(xs,ys,label='average citation',c='r', linewidth=2)
 
-    l4 = ax3.plot(xs,[cc_mean]*len(xs),'--',c=color_sequence[2],label='average citation count:{:}'.format(cc_mean))
+    l4 = ax3.plot(xs,[cc_mean]*len(xs),'--',c=color_sequence[2],label='average citation count:{:.2f}'.format(cc_mean))
     
     ax3.set_ylabel('average citation count')
     ax3.set_yscale('log')
