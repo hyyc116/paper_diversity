@@ -195,6 +195,9 @@ def diversity_impact(wos_cc_diversity_path,wos_subject_diversity_path,wos_year_d
 
         cc = com_ids_cc.get(pid,0)
 
+        if cc==0:
+            continue
+
         cc_bin = int(np.log(cc)/np.log(10))
 
         cc_cd[cc_bin].append(cc_diversity)
@@ -228,6 +231,9 @@ def diversity_impact(wos_cc_diversity_path,wos_subject_diversity_path,wos_year_d
 
         cc = com_ids_cc.get(pid,0)
 
+        if cc==0:
+            continue
+
         cc_bin = int(np.log(cc)/np.log(10))
 
         cc_sd[cc_bin].append(cc_diversity)
@@ -258,6 +264,9 @@ def diversity_impact(wos_cc_diversity_path,wos_subject_diversity_path,wos_year_d
         cc_diversity  = wos_year_differences_diversity[pid]
 
         cc = com_ids_cc.get(pid,0)
+
+        if cc==0:
+            continue
 
         cc_bin = int(np.log(cc)/np.log(10))
 
