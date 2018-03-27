@@ -79,11 +79,12 @@ def cal_diversity(com_ids_cc_path,com_ids_subjects_path,selected_IDs_references_
 def plot_diversity(wos_cc_diversity_path,wos_subject_diversity_path,wos_year_differences_diversity_path,selected_IDs_references_path):
 
     logging.info('loading papers and references ...')
-    selected_IDs_references = defaultdict(list)
+    selected_IDs_references = defaultdict(int)
     for line in open(selected_IDs_references_path):
         line = line.strip()
         pid,ref_id = line.split("\t")
-        selected_IDs_references[pid].append(ref_id)
+        if '.' not in ref_id:
+            selected_IDs_references[pid]+=1
 
 
     logging.info('loading data from diversity files ...')
@@ -126,6 +127,60 @@ def plot_diversity(wos_cc_diversity_path,wos_subject_diversity_path,wos_year_dif
     logging.info('done ...')
 
 
+    cc_diversity_values = []
+
+    for pid in wos_cc_diversity.keys():
+        if selected_IDs_references[pid]==10:
+            cc_diversity_values.append(wos_cc_diversity[pid])
+
+    subject_diversity_values = []
+
+    for pid in wos_subject_diversity.keys():
+        if selected_IDs_references[pid]==10:
+            subject_diversity_values.append(wos_subject_diversity[pid])
+
+
+    year_differences_diversity_values = []
+
+    for pid in wos_year_differences_diversity.keys():
+        if selected_IDs_references[pid]==10:
+            year_differences_diversity_values.append(wos_year_differences_diversity[pid])
+
+
+    logging.info('Constrained Size of cc diversity:{:}, Size of subject diversity:{:}, Size year differences diversity:{:} . '.format(len(cc_diversity_values),len(subject_diversity_values),len(year_differences_diversity_values)))
+
+    logging.info('plotting figures ...')
+    
+    plt.figure(figsize=(6,4))
+    plt.hist(cc_diversity_values,bins=30)   
+    plt.xlabel('impact diversity')
+    plt.ylabel('number of papers')
+    plt.yscale('log')
+    plt.tight_layout()
+    plt.savefig('pdf/impact_diversity_dis_cons.pdf',dpi=200)
+
+    plt.figure(figsize=(6,4))
+    plt.hist(subject_diversity_values,bins=30)    
+    plt.xlabel('subject diversity')
+    plt.ylabel('number of papers')
+    plt.yscale('log')
+    plt.tight_layout()
+    plt.savefig('pdf/subject_diversity_dis_cons.pdf',dpi=200)
+
+    plt.figure(figsize=(6,4))
+    plt.hist(year_differences_diversity_values,bins=30)   
+    plt.xlabel('year diversity')
+    plt.ylabel('number of papers')
+    plt.yscale('log')
+    plt.tight_layout()
+    plt.savefig('pdf/year_differences_diversity_dis_cons.pdf',dpi=200)
+
+    logging.info('done ...')
+
+
+
+
+
 def diversity_impact(wos_cc_diversity_path,wos_subject_diversity_path,wos_year_differences_diversity_path,com_ids_cc_path):
 
     logging.info('loading id->citation count')
@@ -133,21 +188,21 @@ def diversity_impact(wos_cc_diversity_path,wos_subject_diversity_path,wos_year_d
     logging.info('loading wos cc diversity ..')
     wos_cc_diversity = json.loads(open(wos_cc_diversity_path).read())
 
-    cd_cc = defaultdict(list)
+    cc_cd = defaultdict(list)
     for pid in wos_cc_diversity.keys():
         cc_diversity  = wos_cc_diversity[pid]
 
         cc = com_ids_cc.get(pid,0)
 
-        cd_cc[cc_diversity].append(cc)
+        cc_cd[cc].append(cc_diversity)
 
 
     xs = []
     ys = []
 
-    for cd in sorted(cd_cc.keys()):
-        xs.append(cd)
-        ys.append(np.mean(cd_cc[cd]))
+    for cc in sorted(cc_cd.keys()):
+        xs.append(cc)
+        ys.append(np.mean(cc_cd[cc]))
 
     plt.figure()
     plt.scatter(xs,ys,c=color_sequence[0])
@@ -165,14 +220,14 @@ if __name__ == '__main__':
     com_ids_cc_path = 'data/com_ids_cc.json'
     # selected_ids_references_path ='data/selected_IDs_references.txt'
     # com_ids_subjects_path = 'data/com_ids_subjects.json'
-    # year_differences_path = 'data/statistics/year_differences.json'
+    year_differences_path = 'data/statistics/year_differences.json'
     # cal_diversity(com_ids_cc_path,com_ids_subjects_path,selected_ids_references_path,year_differences_path)
 
     wos_cc_diversity_path = 'data/wos_cc_diversity.json'
     wos_subject_diversity_path = 'data/wos_subject_diversity.json'
     wos_year_differences_diversity_path = 'data/wos_year_differences_diversity.json'
 
-    # plot_diversity(wos_cc_diversity_path,wos_subject_diversity_path,wos_year_differences_diversity_path)
+    plot_diversity(wos_cc_diversity_path,wos_subject_diversity_path,wos_year_differences_diversity_path,year_differences_path)
 
     diversity_impact(wos_cc_diversity_path,wos_subject_diversity_path,wos_year_differences_diversity_path,com_ids_cc_path)
 
