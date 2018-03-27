@@ -6,7 +6,7 @@
 from basic_config import *
 
 
-def cal_diversity(com_ids_cc_path,com_ids_subjects_path,selected_IDs_references_path,year_differences_path):
+def cal_diversity(com_ids_cc_path,com_ids_subjects_path,selected_IDs_references_path,year_differences_path,com_IDs_year_path):
 
     logging.info('loading com_ids_cc ...')
     com_ids_cc = json.loads(open(com_ids_cc_path).read())
@@ -21,6 +21,7 @@ def cal_diversity(com_ids_cc_path,com_ids_subjects_path,selected_IDs_references_
         pid,ref_id = line.split("\t")
         selected_IDs_references[pid].append(ref_id)
 
+    com_ids_year = json.loads(open(com_IDs_year_path).read())
 
     cc_pid_diversity=defaultdict(float)
     subject_pid_diversity = defaultdict(float)
@@ -32,6 +33,14 @@ def cal_diversity(com_ids_cc_path,com_ids_subjects_path,selected_IDs_references_
 
         if (i+1)%100000==0:
             logging.info('progress {:}/{:} ...'.format((i+1),length))
+
+        ## published years
+        if com_ids_year.get(pid,9999)>2004:
+            continue
+
+        ## the number of references
+        if len(selected_IDs_references[pid])<3:
+            continue
 
 
         cc_list = []
@@ -378,15 +387,16 @@ if __name__ == '__main__':
     
     com_ids_cc_path = 'data/com_ids_cc.json'
     selected_ids_references_path ='data/selected_IDs_references.txt'
-    # com_ids_subjects_path = 'data/com_ids_subjects.json'
+    com_ids_subjects_path = 'data/com_ids_subjects.json'
     year_differences_path = 'data/statistics/year_differences.json'
-    # cal_diversity(com_ids_cc_path,com_ids_subjects_path,selected_ids_references_path,year_differences_path)
+    com_IDs_year_path = 'data/com_ids_year.json'
+    cal_diversity(com_ids_cc_path,com_ids_subjects_path,selected_ids_references_path,year_differences_path,com_ids_year)
 
     wos_cc_diversity_path = 'data/wos_cc_diversity.json'
     wos_subject_diversity_path = 'data/wos_subject_diversity.json'
     wos_year_differences_diversity_path = 'data/wos_year_differences_diversity.json'
 
-    # plot_diversity(wos_cc_diversity_path,wos_subject_diversity_path,wos_year_differences_diversity_path,selected_ids_references_path)
+    plot_diversity(wos_cc_diversity_path,wos_subject_diversity_path,wos_year_differences_diversity_path,selected_ids_references_path)
 
     diversity_impact(wos_cc_diversity_path,wos_subject_diversity_path,wos_year_differences_diversity_path,com_ids_cc_path)
 
