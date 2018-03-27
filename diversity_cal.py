@@ -89,28 +89,49 @@ def plot_diversity(wos_cc_diversity_path,wos_subject_diversity_path,wos_year_dif
     logging.info('Size of cc diversity:{:}, Size of subject diversity:{:}, Size year differences diversity:{:} . '.format(len(cc_diversity_values),len(subject_diversity_values),len(year_differences_diversity_values)))
 
     logging.info('plotting figures ...')
-    plt.figure(figsize=(6,4))
-    n,bins,patches = plt.hist(cc_diversity_values,bins=20)
-    print n
-    print bins
-    print patches
     
+    cc_counter = Counter(cc_diversity_values)
+
+    xs = []
+    ys = []
+    for x in sorted(cc_counter.keys()):
+        xs.append(x)
+        ys.append(cc_counter[x])
+
+    plt.figure(figsize=(6,4))
+    plt.plot(xs,ys)    
     plt.xlabel('impact diversity')
     plt.ylabel('number of papers')
     plt.yscale('log')
     plt.tight_layout()
     plt.savefig('pdf/impact_diversity_dis.pdf',dpi=200)
 
+    subject_counter = Counter(subject_diversity_values)
+
+    xs = []
+    ys = []
+    for x in sorted(subject_counter.keys()):
+        xs.append(x)
+        ys.append(subject_counter[x])
+
     plt.figure(figsize=(6,4))
-    plt.hist(subject_diversity_values,bins=20)
+    plt.plot(xs,ys)    
     plt.xlabel('subject diversity')
     plt.ylabel('number of papers')
     plt.yscale('log')
     plt.tight_layout()
     plt.savefig('pdf/subject_diversity_dis.pdf',dpi=200)
 
+    yd_counter = Counter(year_differences_diversity_values)
+
+    xs = []
+    ys = []
+    for x in sorted(yd_counter.keys()):
+        xs.append(x)
+        ys.append(yd_counter[x])
+
     plt.figure(figsize=(6,4))
-    plt.hist(year_differences_diversity_values,bins=20)
+    plt.plot(xs,ys)    
     plt.xlabel('year diversity')
     plt.ylabel('number of papers')
     plt.yscale('log')
