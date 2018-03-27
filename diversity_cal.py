@@ -90,7 +90,11 @@ def plot_diversity(wos_cc_diversity_path,wos_subject_diversity_path,wos_year_dif
 
     logging.info('plotting figures ...')
     plt.figure(figsize=(6,4))
-    plt.hist(cc_diversity_values,bins=20)
+    n,bins,patches = plt.hist(cc_diversity_values,bins=20)
+    print n
+    print bins
+    print patches
+    
     plt.xlabel('impact diversity')
     plt.ylabel('number of papers')
     plt.yscale('log')
