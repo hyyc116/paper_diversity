@@ -185,7 +185,7 @@ def plot_statistics(cc_count_path,year_numbers_path,year_cc_path,ref_num_count_p
 
     l4 = ax3.plot(xs,[cc_mean]*len(xs),'--',c=color_sequence[2],label='average citation count:{:.2f}'.format(cc_mean))
 
-    ax3.text(2004,10,'(2004,{:.2f})'.format(np.mean(year_cc['2004'])))
+    ax3.text(1990,10,'(2004,{:.2f})'.format(np.mean(year_cc['2004'])))
     
     ax3.set_ylabel('average citation count')
     ax3.set_yscale('log')
