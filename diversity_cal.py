@@ -194,12 +194,15 @@ def diversity_impact(wos_cc_diversity_path,wos_subject_diversity_path,wos_year_d
 
         cc = com_ids_cc.get(pid,0)
 
-        cc_cd[cc].append(cc_diversity)
+        cc_bin = int(log(cc)/log(10))
+
+        cc_cd[cc_bin].append(cc_diversity)
 
     xs = []
     ys = []
 
     for cc in sorted(cc_cd.keys()):
+
         xs.append(cc)
         ys.append(np.mean(cc_cd[cc]))
 
@@ -221,7 +224,9 @@ def diversity_impact(wos_cc_diversity_path,wos_subject_diversity_path,wos_year_d
 
         cc = com_ids_cc.get(pid,0)
 
-        cc_sd[cc].append(cc_diversity)
+        cc_bin = int(log(cc)/log(10))
+
+        cc_sd[cc_bin].append(cc_diversity)
 
     xs = []
     ys = []
@@ -248,7 +253,9 @@ def diversity_impact(wos_cc_diversity_path,wos_subject_diversity_path,wos_year_d
 
         cc = com_ids_cc.get(pid,0)
 
-        cc_yd[cc].append(cc_diversity)
+        cc_bin = int(log(cc)/log(10))
+
+        cc_yd[cc_bin].append(cc_diversity)
 
     xs = []
     ys = []
