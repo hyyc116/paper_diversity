@@ -141,7 +141,7 @@ def diversity_impact(wos_cc_diversity_path,wos_subject_diversity_path,wos_year_d
     plt.ylabel('citation count')
 
     plt.tight_layout()
-    plt.savefig('pdf/impact_diversity_impact.pdf',dpi=200)
+    plt.savefig('pdf/impact_diversity_impact.png',dpi=200)
 
 
 
