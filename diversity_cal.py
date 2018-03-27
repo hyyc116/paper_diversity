@@ -82,9 +82,9 @@ def plot_diversity(wos_cc_diversity_path,wos_subject_diversity_path,wos_year_dif
     wos_subject_diversity = json.loads(open(wos_subject_diversity_path).read())
     wos_year_differences_diversity = json.loads(open(wos_year_differences_diversity_path).read())
 
-    cc_diversity_values = [i for i in wos_cc_diversity.values() if i==0]
-    subject_diversity_values = [i for i in wos_subject_diversity.values() if i==0]
-    year_differences_diversity_values = [i for i in wos_year_differences_diversity.values() if i ==0]
+    cc_diversity_values = [i for i in wos_cc_diversity.values() if i>0]
+    subject_diversity_values = [i for i in wos_subject_diversity.values() if i>0]
+    year_differences_diversity_values = [i for i in wos_year_differences_diversity.values() if i > 0]
 
     logging.info('Size of cc diversity:{:}, Size of subject diversity:{:}, Size year differences diversity:{:} . '.format(len(cc_diversity_values),len(subject_diversity_values),len(year_differences_diversity_values)))
 
