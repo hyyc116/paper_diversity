@@ -39,7 +39,7 @@ def cal_diversity(com_ids_cc_path,com_ids_subjects_path,selected_IDs_references_
             continue
 
         ## the number of references
-        if len(selected_IDs_references[pid])<3:
+        if len(selected_IDs_references[pid])<10:
             continue
 
 
@@ -85,7 +85,7 @@ def cal_diversity(com_ids_cc_path,com_ids_subjects_path,selected_IDs_references_
             continue
 
         ## the number of references
-        if len(selected_IDs_references[pid])<3:
+        if len(selected_IDs_references[pid])<10:
             continue
 
 
