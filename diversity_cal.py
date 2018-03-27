@@ -76,7 +76,16 @@ def cal_diversity(com_ids_cc_path,com_ids_subjects_path,selected_IDs_references_
     logging.info('saved to data/wos_year_differences_diversity.json')
 
 
-def plot_diversity(wos_cc_diversity_path,wos_subject_diversity_path,wos_year_differences_diversity_path):
+def plot_diversity(wos_cc_diversity_path,wos_subject_diversity_path,wos_year_differences_diversity_path,selected_IDs_references_path):
+
+    logging.info('loading papers and references ...')
+    selected_IDs_references = defaultdict(list)
+    for line in open(selected_IDs_references_path):
+        line = line.strip()
+        pid,ref_id = line.split("\t")
+        selected_IDs_references[pid].append(ref_id)
+
+
     logging.info('loading data from diversity files ...')
     wos_cc_diversity = json.loads(open(wos_cc_diversity_path).read())
     wos_subject_diversity = json.loads(open(wos_subject_diversity_path).read())
@@ -136,7 +145,7 @@ def diversity_impact(wos_cc_diversity_path,wos_subject_diversity_path,wos_year_d
     xs = []
     ys = []
 
-    for cd in sortes(cd_cc.keys()):
+    for cd in sorted(cd_cc.keys()):
         xs.append(cd)
         ys.append(np.mean(cd_cc[cd]))
 
