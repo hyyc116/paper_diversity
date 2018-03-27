@@ -210,7 +210,7 @@ def diversity_impact(wos_cc_diversity_path,wos_subject_diversity_path,wos_year_d
     plt.xlabel('impact diversity')
     plt.ylabel('average citation count')
 
-    plot.xscale('log')
+    plt.xscale('log')
 
     plt.tight_layout()
     plt.savefig('pdf/impact_diversity_impact.pdf',dpi=200)
