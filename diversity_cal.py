@@ -79,6 +79,16 @@ def cal_diversity(com_ids_cc_path,com_ids_subjects_path,selected_IDs_references_
 
     yd_pid_diversity = defaultdict(float)
     for pid in year_differences.keys():
+
+        ## published years
+        if com_ids_year.get(pid,9999)>2004:
+            continue
+
+        ## the number of references
+        if len(selected_IDs_references[pid])<3:
+            continue
+
+
         yd_pid_diversity[pid]=gini(year_differences[pid])
 
     open('data/wos_year_differences_diversity.json','w').write(json.dumps(yd_pid_diversity))
