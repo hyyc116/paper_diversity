@@ -135,7 +135,7 @@ def diversity_impact(wos_cc_diversity_path,wos_subject_diversity_path,wos_year_d
         xs.append(cc_diversity)
 
     plt.figure()
-    plt.scatter(xs,ys,c=color_sequence[0])
+    plt.scatter(xs,ys)
 
     plt.xlabel('impact diversity')
     plt.ylabel('citation count')
