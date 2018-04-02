@@ -291,7 +291,8 @@ def stats():
     com_IDs_cc_path = 'data/com_ids_cc.json'
     selected_IDs_references_path ='data/selected_IDs_references.txt'
     com_IDs_subjects_path = 'data/com_ids_subjects.json'
-    statistics_data(selected_IDs_path,com_IDs_year_path,com_IDs_cc_path,selected_IDs_references_path,com_IDs_subjects_path)
+    cited_IDs_path = 'data/cited_ids.txt'
+    statistics_data(selected_IDs_path,com_IDs_year_path,com_IDs_cc_path,selected_IDs_references_path,com_IDs_subjects_path,cited_IDs_path)
 
 
 def plot_stats():
