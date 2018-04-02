@@ -16,10 +16,15 @@ def cal_diversity(com_ids_cc_path,com_ids_subjects_path,selected_IDs_references_
 
     logging.info('loading papers and references ...')
     selected_IDs_references = defaultdict(list)
+    selected_IDs_references_num = defaultdict(int)
     for line in open(selected_IDs_references_path):
         line = line.strip()
         pid,ref_id = line.split("\t")
         selected_IDs_references[pid].append(ref_id)
+        selected_IDs_references_num[pid]+=1
+
+
+    open('data/selected_IDs_references_num.json','w').write(json.dumps(selected_IDs_references_num))
 
     com_ids_year = json.loads(open(com_IDs_year_path).read())
 
@@ -28,6 +33,8 @@ def cal_diversity(com_ids_cc_path,com_ids_subjects_path,selected_IDs_references_
 
     selected_IDs = selected_IDs_references.keys()
     length = len(selected_IDs)
+
+    selected_IDs_cc = {}
 
     for i,pid in enumerate(selected_IDs):
 
@@ -41,6 +48,8 @@ def cal_diversity(com_ids_cc_path,com_ids_subjects_path,selected_IDs_references_
         ## the number of references
         if len(selected_IDs_references[pid])<10:
             continue
+
+        selected_IDs_cc[pid] = com_ids_cc.get(pid,-1)
 
 
         cc_list = []
@@ -69,6 +78,9 @@ def cal_diversity(com_ids_cc_path,com_ids_subjects_path,selected_IDs_references_
 
 
 
+    open('data/selected_IDs_cc.json','w').write(json.dumps(selected_IDs_cc))
+    # open('data/selected_IDs_references_num.json','w').write(json.dumps(selected_IDs_references_num))
+
     open('data/wos_cc_diversity.json','w').write(json.dumps(cc_pid_diversity))
     logging.info("saved to data/wos_cc_diversity.json.")
 
@@ -95,16 +107,19 @@ def cal_diversity(com_ids_cc_path,com_ids_subjects_path,selected_IDs_references_
     logging.info('saved to data/wos_year_differences_diversity.json')
 
 
-def plot_diversity(wos_cc_diversity_path,wos_subject_diversity_path,wos_year_differences_diversity_path,selected_IDs_references_path):
+def plot_diversity(wos_cc_diversity_path,wos_subject_diversity_path,wos_year_differences_diversity_path,selected_IDs_references_num_path):
 
     logging.info('loading papers and references ...')
-    selected_IDs_references = defaultdict(int)
-    for line in open(selected_IDs_references_path):
-        line = line.strip()
-        pid,ref_id = line.split("\t")
-        if '.' not in ref_id:
-            selected_IDs_references[pid]+=1
+    # selected_IDs_references = defaultdict(int)
+    # for line in open(selected_IDs_references_path):
+    #     line = line.strip()
+    #     pid,ref_id = line.split("\t")
+    #     if '.' not in ref_id:
+    #         selected_IDs_references[pid]+=1
 
+    selected_IDs_references_num = json.loads(open(selected_IDs_references_num_path).read())
+    # logging.info('saving reference count json ...')
+    # open('data/selected_IDs_ref_count.json','w').write(json.dumps(selected_IDs_references_num))
 
     logging.info('loading data from diversity files ...')
     wos_cc_diversity = json.loads(open(wos_cc_diversity_path).read())
@@ -149,20 +164,20 @@ def plot_diversity(wos_cc_diversity_path,wos_subject_diversity_path,wos_year_dif
     cc_diversity_values = []
 
     for pid in wos_cc_diversity.keys():
-        if selected_IDs_references[pid]==10:
+        if selected_IDs_references_num[pid]==10:
             cc_diversity_values.append(wos_cc_diversity[pid])
 
     subject_diversity_values = []
 
     for pid in wos_subject_diversity.keys():
-        if selected_IDs_references[pid]==10:
+        if selected_IDs_references_num[pid]==10:
             subject_diversity_values.append(wos_subject_diversity[pid])
 
 
     year_differences_diversity_values = []
 
     for pid in wos_year_differences_diversity.keys():
-        if selected_IDs_references[pid]==10:
+        if selected_IDs_references_num[pid]==10:
             year_differences_diversity_values.append(wos_year_differences_diversity[pid])
 
 
@@ -198,10 +213,10 @@ def plot_diversity(wos_cc_diversity_path,wos_subject_diversity_path,wos_year_dif
 
 
 
-def diversity_impact(wos_cc_diversity_path,wos_subject_diversity_path,wos_year_differences_diversity_path,com_ids_cc_path):
+def diversity_impact(wos_cc_diversity_path,wos_subject_diversity_path,wos_year_differences_diversity_path,selected_IDs_cc_path):
 
     logging.info('loading id->citation count')
-    com_ids_cc = json.loads(open(com_ids_cc_path).read())
+    com_ids_cc = json.loads(open(selected_IDs_cc_path).read())
     logging.info('loading wos cc diversity ..')
     wos_cc_diversity = json.loads(open(wos_cc_diversity_path).read())
     wos_subject_diversity = json.loads(open(wos_subject_diversity_path).read())
@@ -405,10 +420,11 @@ if __name__ == '__main__':
     wos_cc_diversity_path = 'data/wos_cc_diversity.json'
     wos_subject_diversity_path = 'data/wos_subject_diversity.json'
     wos_year_differences_diversity_path = 'data/wos_year_differences_diversity.json'
+    selected_IDs_references_num_path = 'data/selected_IDs_references_num.json'
+    plot_diversity(wos_cc_diversity_path,wos_subject_diversity_path,wos_year_differences_diversity_path,selected_IDs_references_num_path)
 
-    plot_diversity(wos_cc_diversity_path,wos_subject_diversity_path,wos_year_differences_diversity_path,selected_ids_references_path)
-
-    diversity_impact(wos_cc_diversity_path,wos_subject_diversity_path,wos_year_differences_diversity_path,com_ids_cc_path)
+    selected_IDs_cc_path = 'data/selected_IDs_cc.json'
+    diversity_impact(wos_cc_diversity_path,wos_subject_diversity_path,wos_year_differences_diversity_path,selected_IDs_cc_path)
 
 
 
