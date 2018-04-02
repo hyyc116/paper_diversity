@@ -124,8 +124,8 @@ def statistics_data(selected_IDs_path,com_IDs_year_path,com_IDs_cc_path,selected
         if pid in cited_IDs:
             all_subjects.extend(com_IDs_subjects[pid])
 
-    logging.info('number of subjects:{:}.'.format(len(all_subjects)))
-    logging.info('number of selected subjects {:}'.format(','.join(selected_subjects)))
+    logging.info('number of subjects:{:}.'.format(len(set(all_subjects))))
+    logging.info('number of selected subjects {:}'.format(','.join(set(selected_subjects))))
     open('data/statistics/subject_count.json','w').write(json.dumps(subject_statistics))
 
 
@@ -166,9 +166,9 @@ def plot_statistics(cc_count_path,year_numbers_path,year_cc_path,ref_num_count_p
     ys = []
 
     for year in sorted([int(year) for year in year_numbers.keys()]):
-        xs.append(year)
         if(year_numbers[str(year)])<100:
             continue
+        xs.append(year)
         ys.append(year_numbers[str(year)])
 
     l2 = ax2.plot(xs,ys,label='number of papers',c=color_sequence[0], linewidth=2)
