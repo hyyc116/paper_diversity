@@ -119,10 +119,11 @@ def statistics_data(selected_IDs_path,com_IDs_year_path,com_IDs_cc_path,selected
             subject_statistics[subject]+=1
 
         if pid in selected_IDs:
-            selected_subjects.extend(com_IDs_subjects[pid])
+            if '.' not in pid:
+                selected_subjects.extend(com_IDs_subjects[pid])
 
         if pid in cited_IDs:
-            all_subjects.extend(com_IDs_subjects[pid])
+            all_subjects.extend([ i for i in com_IDs_subjects[pid] if 'physics' in i.lower()])
 
     logging.info('number of subjects:{:}.'.format(len(set(all_subjects))))
     open('data/selected_subjects.txt','w').write('\n'.join(set(selected_subjects)))
@@ -215,7 +216,7 @@ def plot_statistics(cc_count_path,year_numbers_path,year_cc_path,ref_num_count_p
     ls = l2+l3+l4
     labels = [l.get_label() for l in ls]
 
-    ax2.legend(ls,labels,loc=3)
+    ax2.legend(ls,labels,loc=4)
 
     plt.tight_layout()
     plt.savefig('pdf/wos_stats_year.pdf',dpi=200)
@@ -241,7 +242,7 @@ def plot_statistics(cc_count_path,year_numbers_path,year_cc_path,ref_num_count_p
             _max_y = y
 
     ax.plot(xs,ys,c=color_sequence[0], linewidth=2)
-    ax.plot([2]*10,np.linspace(0,_max_y,10),label='x=2')
+    ax.plot([2]*10,np.linspace(0,_max_y,10),'--',label='x=2')
     ax.set_xlabel('number of references')
     ax.set_ylabel('number of publications')
     ax.set_xscale('log')
