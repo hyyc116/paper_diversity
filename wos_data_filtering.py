@@ -151,7 +151,7 @@ def fetch_subjects_of_com_ids(com_IDs_path):
 
     query_op.close_db()
 
-    logging.info('{:} cited ids have citations'.format(len(com_ids_subjects.keys())))
+    logging.info('{:} cited ids have subjects'.format(len(com_ids_subjects.keys())))
     open('data/com_ids_subjects.json','w').write(json.dumps(com_ids_subjects))
     return com_ids_subjects
 

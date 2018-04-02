@@ -12,10 +12,11 @@
 
 from basic_config import *
 
-def statistics_data(selected_IDs_path,com_IDs_year_path,com_IDs_cc_path,selected_IDs_references_path,com_IDs_subjects_path):
+def statistics_data(selected_IDs_path,com_IDs_year_path,com_IDs_cc_path,selected_IDs_references_path,com_IDs_subjects_path,cited_IDs_path):
     ## selected Ids
     logging.info("loads selected IDs from {:} ...".format(selected_IDs_path))
     selected_IDs = list(set([line.strip() for line in open(selected_IDs_path)]))
+    cited_IDs = set([line.strip() for line in open(cited_IDs_path)])
 
     ## ID_year
     logging.info('loads year dict from {:} ...'.format(com_IDs_year_path))
@@ -90,6 +91,15 @@ def statistics_data(selected_IDs_path,com_IDs_year_path,com_IDs_cc_path,selected
             if ref_year!=-1:
                 year_differences[pid].append(int(published_year)-int(ref_year))
 
+    above_0_count = 0
+    for pid in com_IDs_cc.keys():
+        if pid in cited_IDs:
+            above_0_count+=1
+
+    logging.info('Number bigger one is {:}.'.format(above_0_count))
+
+
+
     logging.info('data saved to directory data/statistics ..')
     open('data/statistics/year_numbers.json','w').write(json.dumps(year_numbers))
     open('data/statistics/cc_count.json','w').write(json.dumps(cc_count))
@@ -97,14 +107,25 @@ def statistics_data(selected_IDs_path,com_IDs_year_path,com_IDs_cc_path,selected
     open('data/statistics/ref_num_count.json','w').write(json.dumps(ref_num_count))
     open('data/statistics/year_differences.json','w').write(json.dumps(year_differences))
 
-
     ### generate statistics 
+    selected_IDs = set(selected_IDs)
+
+    all_subjects = []
+    selected_subjects = []
     com_IDs_subjects = json.loads(open(com_IDs_subjects_path).read())
     subject_statistics = defaultdict(int)
     for pid in com_IDs_subjects.keys():
         for subject in com_IDs_subjects[pid]:
             subject_statistics[subject]+=1
 
+        if pid in selected_IDs:
+            selected_subjects.extend(com_IDs_subjects[pid])
+
+        if pid in cited_IDs:
+            all_subjects.extend(com_IDs_subjects[pid])
+
+    logging.info('number of subjects:{:}.'.format(len(all_subjects)))
+    logging.info('number of selected subjects {:}'.format(','.join(selected_subjects)))
     open('data/statistics/subject_count.json','w').write(json.dumps(subject_statistics))
 
 
@@ -128,7 +149,7 @@ def plot_statistics(cc_count_path,year_numbers_path,year_cc_path,ref_num_count_p
     plt.xscale('log')
     plt.yscale('log')
     plt.xlabel('number of citations')
-    plt.ylabel('number of papers')
+    plt.ylabel('number of publications')
     plt.xlim(0.9,10**5)
     plt.ylim(0.9,10**6)
 
@@ -145,13 +166,14 @@ def plot_statistics(cc_count_path,year_numbers_path,year_cc_path,ref_num_count_p
     ys = []
 
     for year in sorted([int(year) for year in year_numbers.keys()]):
-
         xs.append(year)
+        if(year_numbers[str(year)])<100:
+            continue
         ys.append(year_numbers[str(year)])
 
     l2 = ax2.plot(xs,ys,label='number of papers',c=color_sequence[0], linewidth=2)
     ax2.set_xlabel('published year')
-    ax2.set_ylabel('number of papers')
+    ax2.set_ylabel('number of publications')
     ax2.set_yscale('log')
 
     ## average citation count VS. published year
@@ -187,13 +209,13 @@ def plot_statistics(cc_count_path,year_numbers_path,year_cc_path,ref_num_count_p
 
     ax3.text(1990,10,'(2004,{:.2f})'.format(np.mean(year_cc['2004'])))
     
-    ax3.set_ylabel('average citation count')
+    ax3.set_ylabel('average number of citations per publication')
     ax3.set_yscale('log')
 
     ls = l2+l3+l4
     labels = [l.get_label() for l in ls]
 
-    ax2.legend(ls,labels,loc=0)
+    ax2.legend(ls,labels,loc=3)
 
     plt.tight_layout()
     plt.savefig('pdf/wos_stats_year.pdf',dpi=200)
@@ -209,16 +231,23 @@ def plot_statistics(cc_count_path,year_numbers_path,year_cc_path,ref_num_count_p
     xs = []
     ys = []
 
+    _max_y = 0
     for ref_num in sorted([int(rn) for rn in ref_num_count.keys()]):
         xs.append(ref_num)
-        ys.append(ref_num_count[str(ref_num)])
+        y = ref_num_count[str(ref_num)]
+        ys.append(y)
+
+        if _max_y<y:
+            _max_y = y
 
     ax.plot(xs,ys,c=color_sequence[0], linewidth=2)
+    ax.plot([2]*10,np.linspace(0,_max_y,10),label='x=2')
     ax.set_xlabel('number of references')
-    ax.set_ylabel('number of papers')
+    ax.set_ylabel('number of publications')
     ax.set_xscale('log')
     # ax.set_yscale('log')
     ax.set_xlim(0.9,3*10**2)
+    ax.legend()
     # ax4.set_ylim(0.9,10**6)
 
     from matplotlib import ticker
@@ -274,7 +303,7 @@ def plot_stats():
     plot_statistics(cc_count_path,year_numbers_path,year_cc_path,ref_num_count_path,subject_cc_path)
 
 if __name__ == '__main__':
-    # stats()
+    stats()
     plot_stats()
 
 
