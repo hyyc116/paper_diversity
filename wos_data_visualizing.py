@@ -125,7 +125,7 @@ def statistics_data(selected_IDs_path,com_IDs_year_path,com_IDs_cc_path,selected
             all_subjects.extend(com_IDs_subjects[pid])
 
     logging.info('number of subjects:{:}.'.format(len(set(all_subjects))))
-    logging.info('number of selected subjects {:}'.format(','.join(set(selected_subjects))))
+    open('data/selected_subjects.txt','w').write('\n'.join(set(selected_subjects)))
     open('data/statistics/subject_count.json','w').write(json.dumps(subject_statistics))
 
 
