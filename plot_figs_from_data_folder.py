@@ -169,7 +169,7 @@ def plotting_from_data_folder():
     plt.xlabel('impact diversity')
     plt.ylabel('average citation count')
     plt.tight_layout()
-    plt.savefig('pdf/cd_cc.jpg',dpi=400)
+    plt.savefig('pdf/figs/cd_cc.jpg',dpi=400)
 
     logging.info('plot subject diversity vs. impact diversity ...')
     xs,ys = dvs_imp_fig_data['cc_sd']
@@ -178,7 +178,7 @@ def plotting_from_data_folder():
     plt.xlabel('citation count')
     plt.ylabel('average subject diversity')
     plt.tight_layout()
-    plt.savefig('pdf/cc_sd.jpg',dpi=400)
+    plt.savefig('pdf/figs/cc_sd.jpg',dpi=400)
 
     xs,ys = dvs_imp_fig_data['sd_cc']
     plt.figure()
@@ -186,7 +186,7 @@ def plotting_from_data_folder():
     plt.xlabel('subject diversity')
     plt.ylabel('average citation count')
     plt.tight_layout()
-    plt.savefig('pdf/sd_cc.jpg',dpi=400)
+    plt.savefig('pdf/figs/sd_cc.jpg',dpi=400)
 
 
     logging.info('plot year diversity vs. impact diversity ...')
@@ -198,7 +198,7 @@ def plotting_from_data_folder():
     plt.xlabel('citation count')
     plt.ylabel('average year diversity')
     plt.tight_layout()
-    plt.savefig('pdf/cc_yd.jpg',dpi=400)
+    plt.savefig('pdf/figs/cc_yd.jpg',dpi=400)
 
 
     dvs_imp_fig_data['ys_cc'] = [xs,ys]
@@ -207,7 +207,7 @@ def plotting_from_data_folder():
     plt.ylabel('average citation count')
     plt.xlabel('year diversity')
     plt.tight_layout()
-    plt.savefig('pdf/yd_cc.jpg',dpi=400)
+    plt.savefig('pdf/figs/yd_cc.jpg',dpi=400)
 
     logging.info('Done ...')
 
