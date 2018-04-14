@@ -154,6 +154,7 @@ def plot_diversity_over_year(wos_cc_diversity_path,wos_subject_diversity_path,wo
     plt.set_xlabel('published year')
     plt.set_ylable('average citation count diversity')
     plt.tight_layout()
+    plt.savefig('pdf/citation_count_diversity.jpg',dpi=400)
 
 
 
