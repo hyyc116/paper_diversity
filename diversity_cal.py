@@ -153,6 +153,7 @@ def plot_diversity_over_year(wos_cc_diversity_path,wos_subject_diversity_path,wo
 
     plt.xlabel('published year')
     plt.ylabel('average citation count diversity')
+    plt.legend()
     plt.tight_layout()
     plt.savefig('pdf/temporal_citation_count_diversity.jpg',dpi=400)
     logging.info('saved to pdf/temporal_citation_count_diversity.jpg')
@@ -190,7 +191,8 @@ def plot_diversity_over_year(wos_cc_diversity_path,wos_subject_diversity_path,wo
 
 
     plt.xlabel('published year')
-    plt.ylabel('average subject diversity')
+    plt.legend()
+    plt.ylabel('average subject diversity')plt.legend()
     plt.tight_layout()
     plt.savefig('pdf/temporal_subject_diversity.jpg',dpi=400)
     logging.info('saved to pdf/temporal_subject_diversity.jpg')
@@ -229,6 +231,7 @@ def plot_diversity_over_year(wos_cc_diversity_path,wos_subject_diversity_path,wo
 
 
     plt.xlabel('published year')
+    plt.legend()
     plt.ylabel('average year differences diversity')
     plt.tight_layout()
     plt.savefig('pdf/temporal_year_difference_diversity.jpg',dpi=400)
