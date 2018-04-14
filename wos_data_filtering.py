@@ -177,7 +177,7 @@ if __name__ == '__main__':
         combine_ids(sys.argv[2],sys.argv[3])
 
     elif label =='t4':
-        fetch_cc_of_com_ids(sys.argv[2])
+        fetch_cc_of_com_ids(sys.argv[2],sys.argv[3])
 
     elif label =='t5':
         fecth_pubyear_of_com_ids(sys.argv[2])
