@@ -511,7 +511,7 @@ def diversity_impact(wos_cc_diversity_path,wos_subject_diversity_path,wos_year_d
     plt.tight_layout()
     plt.savefig('pdf/yd_cc.pdf',dpi=200)
 
-    open('data/data_of_figs/diversity_impact_data.json','w').write(json.dumps(fig_data))
+    open('data/data_of_figs/diversity_impact_data.json','w').write(json.dumps(dvs_imp_fig_data))
 
     logging.info('Done ...')
 
