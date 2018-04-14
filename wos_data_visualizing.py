@@ -131,7 +131,10 @@ def statistics_data(selected_IDs_path,com_IDs_year_path,com_IDs_cc_path,selected
 
 
 
-def citation_age_of_selectedIds(selected_IDs_citations_path):
+def citation_age_of_selectedIds(selected_IDs_citations_path,com_IDs_year_path):
+    ## ID_year
+    logging.info('loads year dict from {:} ...'.format(com_IDs_year_path))
+    com_IDs_year = json.loads(open(com_IDs_year_path).read())
      ## ID_citations
     logging.info('loads reference list from {:} ...'.format(selected_IDs_citations_path))
     # selected_IDs_references = json.loads(open(selected_IDs_references_path).read())
