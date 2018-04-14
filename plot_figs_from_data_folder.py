@@ -152,6 +152,65 @@ def plotting_from_data_folder():
     ### relation between fields and relations
     # open('data/data_of_figs/diversity_impact_data.json','w').write(json.dumps(fig_data))
 
+    dvs_imp_fig_data = json.loads(open('data/data_of_figs/diversity_impact_data.json').read())
+    logging.info('plot citation count vs. impact diversity ...')
+
+    xs,ys = dvs_imp_fig_data['cc_cd']
+    plt.figure()
+    plt.plot(xs,ys,c=color_sequence[0])
+    plt.xlabel('citation count')
+    plt.ylabel('average impact diversity')
+    plt.tight_layout()
+    plt.savefig('pdf/figs/cc_cd.jpg',dpi=400)
+
+    xs,ys = dvs_imp_fig_data['cd_cc']
+    plt.figure()
+    plt.plot(xs,ys,c=color_sequence[0])
+    plt.xlabel('impact diversity')
+    plt.ylabel('average citation count')
+    plt.tight_layout()
+    plt.savefig('pdf/cd_cc.jpg',dpi=400)
+
+    logging.info('plot subject diversity vs. impact diversity ...')
+    xs,ys = dvs_imp_fig_data['cc_sd']
+    plt.figure()
+    plt.plot(xs,ys,c=color_sequence[0])
+    plt.xlabel('citation count')
+    plt.ylabel('average subject diversity')
+    plt.tight_layout()
+    plt.savefig('pdf/cc_sd.jpg',dpi=400)
+
+    xs,ys = dvs_imp_fig_data['sd_cc']
+    plt.figure()
+    plt.plot(xs,ys,c=color_sequence[0])
+    plt.xlabel('subject diversity')
+    plt.ylabel('average citation count')
+    plt.tight_layout()
+    plt.savefig('pdf/sd_cc.jpg',dpi=400)
+
+
+    logging.info('plot year diversity vs. impact diversity ...')
+
+
+    xs,ys = dvs_imp_fig_data['cc_yd']
+    plt.figure()
+    plt.plot(xs,ys,c=color_sequence[0])
+    plt.xlabel('citation count')
+    plt.ylabel('average year diversity')
+    plt.tight_layout()
+    plt.savefig('pdf/cc_yd.jpg',dpi=400)
+
+
+    dvs_imp_fig_data['ys_cc'] = [xs,ys]
+    plt.figure()
+    plt.plot(xs,ys,c=color_sequence[0])
+    plt.ylabel('average citation count')
+    plt.xlabel('year diversity')
+    plt.tight_layout()
+    plt.savefig('pdf/yd_cc.jpg',dpi=400)
+
+    logging.info('Done ...')
+
 
 if __name__ == '__main__':
 	plotting_from_data_folder()
