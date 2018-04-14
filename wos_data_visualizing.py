@@ -136,7 +136,7 @@ def citation_age_of_selectedIds(selected_IDs_citations_path):
     logging.info('loads reference list from {:} ...'.format(selected_IDs_citations_path))
     # selected_IDs_references = json.loads(open(selected_IDs_references_path).read())
     selected_IDs_citations= defaultdict(list)
-    for line in open(selected_IDs_references_path):
+    for line in open(selected_IDs_citations_path):
         line = line.strip()
         pid,cpid = line.split("\t")
         selected_IDs_citations[pid].append(int(com_IDs_year.get(cpid,-1)))
