@@ -58,7 +58,7 @@ def plotting_from_data_folder():
     xs,ys = stats_fig_data['wos_stats_refs']
     logging.info('Plotting number of papers VS. number of references ...')
     ax.plot(xs,ys,c=color_sequence[0], linewidth=2)
-    ax.plot([2]*10,np.linspace(0,_max_y,10),'--',label='x=2')
+    ax.plot([2]*10,np.linspace(0,np.max(ys),10),'--',label='x=2')
     ax.set_xlabel('number of references')
     ax.set_ylabel('number of publications')
     ax.set_xscale('log')
