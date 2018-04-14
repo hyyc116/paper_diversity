@@ -91,10 +91,12 @@ def combine_ids(selected_IDs_path,cited_IDs_path):
     logging.info('number of combined ids is [{:}], and saved to {:}.'.format(len(com_IDs),saved_path))
 
 
-def fetch_cc_of_com_ids(com_IDs_path):
+def fetch_cc_of_com_ids(com_IDs_path,selected_IDs_path):
     com_IDs = set([line.strip() for line in open(com_IDs_path)])
-    logging.info('fetch citation count of {:} combine ids'.format(len(com_IDs)))
+    selected_IDs = set([line.strip() for line in open(selected_IDs_path)])
+    logging.info('fetch citation count of {:} combine ids, {:} selected IDs.'.format(len(com_IDs),len(selected_IDs)))
     com_ids_cc = defaultdict(int)
+    selected_IDs_citations = []
 
     ##query table wos_refrences
     query_op = dbop()
@@ -107,9 +109,15 @@ def fetch_cc_of_com_ids(com_IDs_path):
         if ref_id in com_IDs:
             com_ids_cc[ref_id]+=1
 
+        if ref_id in selected_IDs:
+            selected_IDs_citations.append('{:}\t{:}'.format(ref_id,pid))
+
     query_op.close_db()
     logging.info('{:} cited ids have citations'.format(len(com_ids_cc.keys())))
     open('data/com_ids_cc.json','w').write(json.dumps(com_ids_cc))
+
+    open('data/selected_IDs_citations.txt','w').write('\n'.join(selected_IDs_citations))
+    logging.info('selected IDs and citations saved to data/selected_IDs_citations.txt.')
     return com_ids_cc
 
 def fecth_pubyear_of_com_ids(com_IDs_path):
