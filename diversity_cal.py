@@ -151,11 +151,11 @@ def plot_diversity_over_year(wos_cc_diversity_path,wos_subject_diversity_path,wo
         plt.plot(xs,ys,c=color_sequence[i],linewidth=2,label=group)
 
 
-    plt.set_xlabel('published year')
-    plt.set_ylable('average citation count diversity')
+    plt.xlabel('published year')
+    plt.ylable('average citation count diversity')
     plt.tight_layout()
-    plt.savefig('pdf/citation_count_diversity.jpg',dpi=400)
-
+    plt.savefig('pdf/temporal_citation_count_diversity.jpg',dpi=400)
+    logging.info('saved to pdf/temporal_citation_count_diversity.jpg')
     ## subject diversity
     group_year_subj = defaultdict(lambda:defaultdict(list))
     for pid in wos_subject_diversity.keys():
@@ -189,10 +189,50 @@ def plot_diversity_over_year(wos_cc_diversity_path,wos_subject_diversity_path,wo
         plt.plot(xs,ys,c=color_sequence[i],linewidth=2,label=group)
 
 
-    plt.set_xlabel('published year')
-    plt.set_ylable('average subject diversity')
+    plt.xlabel('published year')
+    plt.ylable('average subject diversity')
     plt.tight_layout()
     plt.savefig('pdf/temporal_subject_diversity.jpg',dpi=400)
+    logging.info('saved to pdf/temporal_subject_diversity.jpg')
+
+    ## year diversity
+    group_year_year = defaultdict(lambda:defaultdict(list))
+    for pid in wos_year_differences_diversity.keys():
+        cc = com_IDs_cc.get(pid,0)
+        year = int(com_ids_year.get(pid,-1))
+        if year==-1:
+            continue
+
+        if cc< 64:
+            group='low'
+        elif cc<985:
+            group='medium'
+        else:
+            group='high'
+
+
+        year_gini = wos_year_differences_diversity[pid]
+
+        group_year_year[group][year].append(year_gini)
+        group_year_year['all'][year].append(year_gini)
+
+    plt.figure(figsize=(6,4))
+    for i,group in enumerate(group_year_year.keys()):
+        year_year = group_year_year[group]
+        xs = []
+        ys = []
+        for year in sorted(year_year.keys()):
+            xs.append(year)
+            ys.append(np.mean(year_year[year]))
+
+        plt.plot(xs,ys,c=color_sequence[i],linewidth=2,label=group)
+
+
+    plt.xlabel('published year')
+    plt.ylable('average year differences diversity')
+    plt.tight_layout()
+    plt.savefig('pdf/temporal_year_difference_diversity.jpg',dpi=400)
+    logging.info('saved to pdf/temporal_year_difference_diversity.jpg')
 
 
 def plot_diversity(wos_cc_diversity_path,wos_subject_diversity_path,wos_year_differences_diversity_path,selected_IDs_references_num_path):
@@ -503,18 +543,18 @@ if __name__ == '__main__':
     com_ids_subjects_path = 'data/com_ids_subjects.json'
     year_differences_path = 'data/statistics/year_differences.json'
     com_IDs_year_path = 'data/com_ids_year.json'
-    cal_diversity(com_ids_cc_path,com_ids_subjects_path,selected_ids_references_path,year_differences_path,com_IDs_year_path)
+    # cal_diversity(com_ids_cc_path,com_ids_subjects_path,selected_ids_references_path,year_differences_path,com_IDs_year_path)
 
     wos_cc_diversity_path = 'data/wos_cc_diversity.json'
     wos_subject_diversity_path = 'data/wos_subject_diversity.json'
     wos_year_differences_diversity_path = 'data/wos_year_differences_diversity.json'
     selected_IDs_references_num_path = 'data/selected_IDs_references_num.json'
-    plot_diversity(wos_cc_diversity_path,wos_subject_diversity_path,wos_year_differences_diversity_path,selected_IDs_references_num_path)
+    # plot_diversity(wos_cc_diversity_path,wos_subject_diversity_path,wos_year_differences_diversity_path,selected_IDs_references_num_path)
 
     selected_IDs_cc_path = 'data/selected_IDs_cc.json'
-    diversity_impact(wos_cc_diversity_path,wos_subject_diversity_path,wos_year_differences_diversity_path,selected_IDs_cc_path)
+    # diversity_impact(wos_cc_diversity_path,wos_subject_diversity_path,wos_year_differences_diversity_path,selected_IDs_cc_path)
 
-
+    plot_diversity_over_year(wos_cc_diversity_path,wos_subject_diversity_path,wos_year_differences_diversity_path,com_ids_cc_path,com_IDs_year_path)
 
 
 
