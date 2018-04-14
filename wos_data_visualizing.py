@@ -130,6 +130,60 @@ def statistics_data(selected_IDs_path,com_IDs_year_path,com_IDs_cc_path,selected
     open('data/statistics/subject_count.json','w').write(json.dumps(subject_statistics))
 
 
+
+def citation_age_of_selectedIds(selected_IDs_citations_path):
+     ## ID_citations
+    logging.info('loads reference list from {:} ...'.format(selected_IDs_citations_path))
+    # selected_IDs_references = json.loads(open(selected_IDs_references_path).read())
+    selected_IDs_citations= defaultdict(list)
+    for line in open(selected_IDs_references_path):
+        line = line.strip()
+        pid,cpid = line.split("\t")
+        selected_IDs_citations[pid].append(int(com_IDs_year.get(cpid,-1)))
+
+    year_ca = {}
+
+    for pid in selected_IDs_citations.keys():
+        y0 = int(com_IDs_year.get(pid,-1))
+        if y0==-1:
+            continue
+
+        citation_years = selected_IDs_citations[pid]
+        max_year = np.max(citation_years)
+
+        if max_year==-1:
+            continue
+
+        year_ca[y0].append(max_year-y0)
+
+    open('data/year_ca.json','w').write(json.dumps(year_ca))
+
+    xs = []
+    ys = []
+    for year in sorted(year_ca.keys()):
+        ##去掉最后一年
+        if year_ca[year]<50:
+            continue
+
+        aca = np.mean(year_ca[year])
+
+        xs.append(year)
+        ys.append(aca)
+
+    avg_ca = np.mean(ys)
+
+    plt.figure(figsize=(6,4))
+    logging.info('Plotting citation age VS. published year ...')
+
+    plt.plot(xs,ys,label='number of papers',c=color_sequence[0], linewidth=2)
+    plt.plot(xs,[avg_ca]*len(xs),'--',c='r',label='average citation age')
+    plt.set_xlabel('published year')
+    plt.set_ylabel('length of citation age')
+    plt.legend()
+
+    plt.savefig('pdf/year_citation_age.jpg',dpi=400)
+
+
 def plot_statistics(cc_count_path,year_numbers_path,year_cc_path,ref_num_count_path,subject_count_path):
 
     # fig,axes = plt.subplots(3,1,figsize=(6,12))

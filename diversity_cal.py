@@ -46,7 +46,7 @@ def cal_diversity(com_ids_cc_path,com_ids_subjects_path,selected_IDs_references_
             continue
 
         ## the number of references
-        if len(selected_IDs_references[pid])<10:
+        if len(selected_IDs_references[pid])<2:
             continue
 
         selected_IDs_cc[pid] = com_ids_cc.get(pid,-1)
@@ -97,7 +97,7 @@ def cal_diversity(com_ids_cc_path,com_ids_subjects_path,selected_IDs_references_
             continue
 
         ## the number of references
-        if len(selected_IDs_references[pid])<10:
+        if len(selected_IDs_references[pid])<2:
             continue
 
 
@@ -105,6 +105,58 @@ def cal_diversity(com_ids_cc_path,com_ids_subjects_path,selected_IDs_references_
 
     open('data/wos_year_differences_diversity.json','w').write(json.dumps(yd_pid_diversity))
     logging.info('saved to data/wos_year_differences_diversity.json')
+
+### plot line chart of papers at three levels, how three kinds of diversity changes over years
+def plot_diversity_over_year(wos_cc_diversity_path,wos_subject_diversity_path,wos_year_differences_diversity_path,com_ids_cc_path,com_IDs_year_path):
+    ## ID_cc
+    logging.info('loads citation count from {:} ...'.format(com_IDs_cc_path))
+    com_IDs_cc = json.loads(open(com_IDs_cc_path).read())
+    com_ids_year = json.loads(open(com_IDs_year_path).read())
+    ### citation  count 的diversity的计算
+    logging.info('loading data from diversity files ...')
+    wos_cc_diversity = json.loads(open(wos_cc_diversity_path).read())
+    wos_subject_diversity = json.loads(open(wos_subject_diversity_path).read())
+    wos_year_differences_diversity = json.loads(open(wos_year_differences_diversity_path).read())
+
+    #
+    group_year_cc = defaultdict(lambda:defaultdict(list))
+    for pid in wos_cc_diversity.keys():
+        cc = com_IDs_cc.get(pid,0)
+        year = int(com_ids_year.get(pid,-1))
+        if year==-1:
+            continue
+
+        if cc< 64:
+            group='low'
+        elif cc<985:
+            group='medium'
+        else:
+            group='high'
+
+
+        cc_gini = wos_cc_diversity[pid]
+
+        group_year_cc[group][year].append(cc_gini)
+        group_year_cc['all'][year].append(cc_gini)
+
+    plt.figure(figsize=(6,4))
+    for i,group in enumerate(group_year_cc.keys()):
+        year_cc = group_year_cc[group]
+        xs = []
+        ys = []
+        for year in sorted(year_cc.keys()):
+            xs.append(year)
+            ys.append(np.mean(year_cc[year]))
+
+        plt.plot(xs,ys,c=color_sequence[i],linewidth=2,label=group)
+
+
+    plt.set_xlabel('published year')
+    plt.set_ylable('average citation count diversity')
+    plt.tight_layout()
+
+
+
 
 
 def plot_diversity(wos_cc_diversity_path,wos_subject_diversity_path,wos_year_differences_diversity_path,selected_IDs_references_num_path):
@@ -164,21 +216,21 @@ def plot_diversity(wos_cc_diversity_path,wos_subject_diversity_path,wos_year_dif
     cc_diversity_values = []
 
     for pid in wos_cc_diversity.keys():
-        if selected_IDs_references_num[pid]==10:
-            cc_diversity_values.append(wos_cc_diversity[pid])
+        # if selected_IDs_references_num[pid]==10:
+        cc_diversity_values.append(wos_cc_diversity[pid])
 
     subject_diversity_values = []
 
     for pid in wos_subject_diversity.keys():
-        if selected_IDs_references_num[pid]==10:
-            subject_diversity_values.append(wos_subject_diversity[pid])
+        # if selected_IDs_references_num[pid]==10:
+        subject_diversity_values.append(wos_subject_diversity[pid])
 
 
     year_differences_diversity_values = []
 
     for pid in wos_year_differences_diversity.keys():
-        if selected_IDs_references_num[pid]==10:
-            year_differences_diversity_values.append(wos_year_differences_diversity[pid])
+        # if selected_IDs_references_num[pid]==10:
+        year_differences_diversity_values.append(wos_year_differences_diversity[pid])
 
 
     logging.info('Constrained Size of cc diversity:{:}, Size of subject diversity:{:}, Size year differences diversity:{:} . '.format(len(cc_diversity_values),len(subject_diversity_values),len(year_differences_diversity_values)))
