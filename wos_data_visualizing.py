@@ -182,6 +182,7 @@ def citation_age_of_selectedIds(selected_IDs_citations_path):
     plt.legend()
 
     plt.savefig('pdf/year_citation_age.jpg',dpi=400)
+    logging.info('saved to pdf/year_citation_age.jpg.')
 
 
 def plot_statistics(cc_count_path,year_numbers_path,year_cc_path,ref_num_count_path,subject_count_path):
@@ -349,6 +350,10 @@ def stats():
     cited_IDs_path = 'data/cited_ids.txt'
     statistics_data(selected_IDs_path,com_IDs_year_path,com_IDs_cc_path,selected_IDs_references_path,com_IDs_subjects_path,cited_IDs_path)
 
+def plot_citation_age():
+    selected_IDs_citations_path = 'data/selected_IDs_citations.txt'
+    citation_age_of_selectedIds(selected_IDs_citations_path)
+
 
 def plot_stats():
     year_numbers_path = 'data/statistics/year_numbers.json'
@@ -359,8 +364,9 @@ def plot_stats():
     plot_statistics(cc_count_path,year_numbers_path,year_cc_path,ref_num_count_path,subject_cc_path)
 
 if __name__ == '__main__':
-    stats()
-    plot_stats()
+    # stats()
+    # plot_stats()
+    plot_citation_age()
 
 
 
