@@ -180,8 +180,8 @@ def citation_age_of_selectedIds(selected_IDs_citations_path,com_IDs_year_path):
 
     plt.plot(xs,ys,label='number of papers',c=color_sequence[0], linewidth=2)
     plt.plot(xs,[avg_ca]*len(xs),'--',c='r',label='average citation age:{:}'.format(avg_ca))
-    plt.set_xlabel('published year')
-    plt.set_ylabel('length of citation age')
+    plt.xlabel('published year')
+    plt.ylabel('length of citation age')
     plt.legend()
 
     plt.savefig('pdf/year_citation_age.jpg',dpi=400)
