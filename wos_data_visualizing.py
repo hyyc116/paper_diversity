@@ -193,6 +193,8 @@ def plot_statistics(cc_count_path,year_numbers_path,year_cc_path,ref_num_count_p
     # fig,axes = plt.subplots(3,1,figsize=(6,12))
     plt.figure(figsize=(6,4))
 
+    stats_fig_data = {}
+
     logging.info('Plotting number of papers VS. number of citation ...')
     ### number of papers VS. number of citation
     cc_count = json.loads(open(cc_count_path).read())
@@ -203,6 +205,8 @@ def plot_statistics(cc_count_path,year_numbers_path,year_cc_path,ref_num_count_p
     for cc in sorted([int(c) for c in cc_count.keys()]):
         xs.append(cc)
         ys.append(cc_count[str(cc)])
+
+    stats_fig_data['wos_stats_cc'] = [xs,ys]
 
     plt.plot(xs,ys,'o',fillstyle='none',c=color_sequence[0], linewidth=2)
     plt.xscale('log')
@@ -234,6 +238,7 @@ def plot_statistics(cc_count_path,year_numbers_path,year_cc_path,ref_num_count_p
     ax2.set_xlabel('published year')
     ax2.set_ylabel('number of publications')
     ax2.set_yscale('log')
+    stats_fig_data['number_of_papers'] = [xs,ys]
 
     ## average citation count VS. published year
     ax3 = ax2.twinx()
@@ -263,6 +268,7 @@ def plot_statistics(cc_count_path,year_numbers_path,year_cc_path,ref_num_count_p
     logging.info('average citation count {:}  .. '.format(cc_mean))
 
     l3 = ax3.plot(xs,ys,label='average citation',c='r', linewidth=2)
+    stats_fig_data['average_citation'] = [xs,ys]
 
     l4 = ax3.plot([2004]*10,np.linspace(0,np.max(ys),10),'--',c=color_sequence[2],label='year=2004')
 
@@ -308,6 +314,7 @@ def plot_statistics(cc_count_path,year_numbers_path,year_cc_path,ref_num_count_p
     ax.set_xlim(0.9,3*10**2)
     ax.legend()
     # ax4.set_ylim(0.9,10**6)
+    stats_fig_data['wos_stats_refs'] = [xs,ys]
 
     from matplotlib import ticker
     formatter = ticker.ScalarFormatter(useMathText=True)
@@ -342,6 +349,9 @@ def plot_statistics(cc_count_path,year_numbers_path,year_cc_path,ref_num_count_p
     plt.yscale("log")
     # plt.tight_layout()
     plt.savefig('pdf/wos_subjects_cc.pdf',dpi=200)
+    stats_fig_data['number_of_papers'] = [labels,ys]
+
+    open('data/data_of_figs/stats_fig_data.json','w').write(json.dumps(fig_data))
 
 
 def stats():
