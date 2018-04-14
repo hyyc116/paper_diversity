@@ -1,15 +1,16 @@
 #coding:utf-8
 '''
-	ploting all figs from data folder
+    ploting all figs from data folder
 '''
 
 from basic_config import *
 
-	### basic statistic data
-	logging.info('plotting statistics from data folder')
+def plotting_from_data_folder():
+    ### basic statistic data
+    logging.info('plotting statistics from data folder')
     stats_fig_data = json.loads(open('data/data_of_figs/stats_fig_data.json').read())
 
-	xs,ys = stats_fig_data['wos_stats_cc'] 
+    xs,ys = stats_fig_data['wos_stats_cc'] 
     plt.plot(xs,ys,'o',fillstyle='none',c=color_sequence[0], linewidth=2)
     plt.xscale('log')
     plt.yscale('log')
@@ -70,8 +71,7 @@ from basic_config import *
     plt.tight_layout()
     plt.savefig('pdf/figs/wos_stats_refs.jpg',dpi=400)
 
-	### temporal diversity changes 
-    open('data/data_of_figs/temporal_year_differences_diversity_xys.json','w').write(json.dumps(group_xys))
+    ### temporal diversity changes 
 
     # citation count diversity
     group_xys = json.loads(open('data/data_of_figs/temporal_citation_count_diversity_xys.json').read())
@@ -84,8 +84,8 @@ from basic_config import *
     plt.ylabel('average citation count diversity')
     plt.legend(loc=4)
     plt.tight_layout()
-    plt.savefig('pdf/temporal_citation_count_diversity.jpg',dpi=400)
-    logging.info('saved to pdf/temporal_citation_count_diversity.jpg')
+    plt.savefig('pdf/figs/temporal_citation_count_diversity.jpg',dpi=400)
+    logging.info('saved to pdf/figs/temporal_citation_count_diversity.jpg')
 
 
     ## subject diversity
@@ -94,75 +94,85 @@ from basic_config import *
 
     plt.figure(figsize=(6,4))
     for i,group in enumerate(group_xys.keys()):
-        year_subj = group_year_subj[group]
-        xs = []
-        ys = []
-        for year in sorted(year_subj.keys()):
-            xs.append(year)
-            ys.append(np.mean(year_subj[year]))
-
+        xs,ys = group_xys[group]
         plt.plot(xs,ys,c=color_sequence[i],linewidth=2,label=group)
-
-        group_xys[group] = [xs,ys]
-
-    open('data/data_of_figs/temporal_subject_diversity_xys.json','w').write(json.dumps(group_xys))
-
     plt.xlabel('published year')
     plt.ylabel('average subject diversity')
     plt.legend(loc=4)
-    
     plt.tight_layout()
-    plt.savefig('pdf/temporal_subject_diversity.jpg',dpi=400)
-    logging.info('saved to pdf/temporal_subject_diversity.jpg')
+    plt.savefig('pdf/figs/temporal_subject_diversity.jpg',dpi=400)
+    logging.info('saved to pdf/figs/temporal_subject_diversity.jpg')
 
     ## year diversity
-    group_year_year = defaultdict(lambda:defaultdict(list))
-    for pid in wos_year_differences_diversity.keys():
-        cc = com_IDs_cc.get(pid,0)
-        year = int(com_ids_year.get(pid,-1))
-        if year==-1:
-            continue
-
-        if cc< 64:
-            group='low'
-        elif cc<985:
-            group='medium'
-        else:
-            group='high'
-
-
-        year_gini = wos_year_differences_diversity[pid]
-
-        group_year_year[group][year].append(year_gini)
-        group_year_year['all'][year].append(year_gini)
-
+    group_xys = json.loads(open('data/data_of_figs/temporal_year_differences_diversity_xys.json'))
     plt.figure(figsize=(6,4))
-    group_xys= {}
-    for i,group in enumerate(group_year_year.keys()):
-        year_year = group_year_year[group]
-        xs = []
-        ys = []
-        for year in sorted(year_year.keys()):
-            xs.append(year)
-            ys.append(np.mean(year_year[year]))
-
+    for i,group in enumerate(group_xys.keys()):
+        xs,ys = group_xys[group]
         plt.plot(xs,ys,c=color_sequence[i],linewidth=2,label=group)
-
-        group_xys[group] =[xs,ys]
-
-    open('data/data_of_figs/temporal_year_differences_diversity_xys.json','w').write(json.dumps(group_xys))
-
 
     plt.xlabel('published year')
     plt.legend(loc=4)
     plt.ylabel('average year differences diversity')
     plt.tight_layout()
-    plt.savefig('pdf/temporal_year_difference_diversity.jpg',dpi=400)
-    logging.info('saved to pdf/temporal_year_difference_diversity.jpg')
+    plt.savefig('pdf/figs/temporal_year_difference_diversity.jpg',dpi=400)
+    logging.info('saved to pdf/figs/temporal_year_difference_diversity.jpg')
 
 
     ### basic diversity distribution
-    open('data/data_of_figs/three_diversity_values.json','w').write(json.dumps(fig_data))
+    fig_data = json.loads(open('data/data_of_figs/three_diversity_values.json').read())
+    cc_diversity_values = fig_data['cc']
+    subject_diversity_values = fig_data['subject']
+    year_differences_diversity_values = fig_data['year']
+
+    plt.figure(figsize=(6,4))
+    plt.hist(cc_diversity_values,bins=30)   
+    plt.xlabel('impact diversity')
+    plt.ylabel('number of papers')
+    plt.yscale('log')
+    plt.tight_layout()
+    plt.savefig('pdf/figs/impact_diversity_dis.jpg',dpi=400)
+
+    plt.figure(figsize=(6,4))
+    plt.hist(subject_diversity_values,bins=30)    
+    plt.xlabel('subject diversity')
+    plt.ylabel('number of papers')
+    plt.yscale('log')
+    plt.tight_layout()
+    plt.savefig('pdf/figs/subject_diversity_dis.jpg',dpi=400)
+
+    plt.figure(figsize=(6,4))
+    plt.hist(year_differences_diversity_values,bins=30)   
+    plt.xlabel('year diversity')
+    plt.ylabel('number of papers')
+    plt.yscale('log')
+    plt.tight_layout()
+    plt.savefig('pdf/figs/year_differences_diversity_dis.jpg',dpi=400)
 
     ### relation between fields and relations
-    open('data/data_of_figs/diversity_impact_data.json','w').write(json.dumps(fig_data))
+    # open('data/data_of_figs/diversity_impact_data.json','w').write(json.dumps(fig_data))
+
+
+if __name__ == '__main__':
+	plotting_from_data_folder()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

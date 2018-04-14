@@ -383,9 +383,6 @@ def diversity_impact(wos_cc_diversity_path,wos_subject_diversity_path,wos_year_d
     plt.tight_layout()
     plt.savefig('pdf/cd_cc.pdf',dpi=200)
 
-
-
-
     logging.info('plot subject diversity vs. impact diversity ...')
 
     cc_sd = defaultdict(list)
