@@ -366,7 +366,7 @@ def diversity_impact(wos_cc_diversity_path,wos_subject_diversity_path,wos_year_d
 
         if cc==0:
             continue
-
+        print cc
         cc_bin = int(np.log(cc)/np.log(10))
 
         cc_cd[cc_bin].append(cc_diversity)
@@ -547,13 +547,13 @@ if __name__ == '__main__':
     com_ids_subjects_path = 'data/com_ids_subjects.json'
     year_differences_path = 'data/statistics/year_differences.json'
     com_IDs_year_path = 'data/com_ids_year.json'
-    cal_diversity(com_ids_cc_path,com_ids_subjects_path,selected_ids_references_path,year_differences_path,com_IDs_year_path)
+    # cal_diversity(com_ids_cc_path,com_ids_subjects_path,selected_ids_references_path,year_differences_path,com_IDs_year_path)
 
     wos_cc_diversity_path = 'data/wos_cc_diversity.json'
     wos_subject_diversity_path = 'data/wos_subject_diversity.json'
     wos_year_differences_diversity_path = 'data/wos_year_differences_diversity.json'
     selected_IDs_references_num_path = 'data/selected_IDs_references_num.json'
-    plot_diversity(wos_cc_diversity_path,wos_subject_diversity_path,wos_year_differences_diversity_path,selected_IDs_references_num_path)
+    # plot_diversity(wos_cc_diversity_path,wos_subject_diversity_path,wos_year_differences_diversity_path,selected_IDs_references_num_path)
 
     selected_IDs_cc_path = 'data/selected_IDs_cc.json'
     diversity_impact(wos_cc_diversity_path,wos_subject_diversity_path,wos_year_differences_diversity_path,selected_IDs_cc_path)
