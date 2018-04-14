@@ -349,7 +349,7 @@ def plot_statistics(cc_count_path,year_numbers_path,year_cc_path,ref_num_count_p
     plt.yscale("log")
     # plt.tight_layout()
     plt.savefig('pdf/wos_subjects_cc.pdf',dpi=200)
-    stats_fig_data['number_of_papers'] = [labels,ys]
+    stats_fig_data['wos_subjects_cc'] = [labels,ys]
 
     open('data/data_of_figs/stats_fig_data.json','w').write(json.dumps(stats_fig_data))
 
