@@ -22,7 +22,7 @@ def plotting_from_data_folder():
     plt.tight_layout()
     plt.savefig('pdf/figs/wos_stats_cc.jpg',dpi=400)
 
-    logging.info('Plotting number of papers VS. published year ...')
+    logging.info('Plotting number of publications VS. published year ...')
     fig,ax2 = plt.subplots(figsize=(6,4))
 
     xs,ys = stats_fig_data['number_of_papers'] 
@@ -52,7 +52,7 @@ def plotting_from_data_folder():
     plt.tight_layout()
     plt.savefig('pdf/figs/wos_stats_year.jpg',dpi=400)
 
-    # ## t2: number of papers VS. number of references
+    # ## t2: number of publications VS. number of references
     # ax4 = axes[2]
     fig,ax = plt.subplots(figsize=(6,4))
     xs,ys = stats_fig_data['wos_stats_refs']
@@ -128,7 +128,7 @@ def plotting_from_data_folder():
     plt.figure(figsize=(6,4))
     plt.hist(cc_diversity_values,bins=30)   
     plt.xlabel('impact diversity')
-    plt.ylabel('number of papers')
+    plt.ylabel('number of publications')
     plt.yscale('log')
     plt.tight_layout()
     plt.savefig('pdf/figs/impact_diversity_dis.jpg',dpi=400)
@@ -136,7 +136,7 @@ def plotting_from_data_folder():
     plt.figure(figsize=(6,4))
     plt.hist(subject_diversity_values,bins=30)    
     plt.xlabel('subject diversity')
-    plt.ylabel('number of papers')
+    plt.ylabel('number of publications')
     plt.yscale('log')
     plt.tight_layout()
     plt.savefig('pdf/figs/subject_diversity_dis.jpg',dpi=400)
@@ -144,7 +144,7 @@ def plotting_from_data_folder():
     plt.figure(figsize=(6,4))
     plt.hist(year_differences_diversity_values,bins=30)   
     plt.xlabel('year diversity')
-    plt.ylabel('number of papers')
+    plt.ylabel('number of publications')
     plt.yscale('log')
     plt.tight_layout()
     plt.savefig('pdf/figs/year_differences_diversity_dis.jpg',dpi=400)
