@@ -25,7 +25,6 @@ def plotting_from_data_folder():
     logging.info('Plotting number of papers VS. published year ...')
     fig,ax2 = plt.subplots(figsize=(6,4))
 
-    year_numbers = json.loads(open(year_numbers_path).read())
     xs,ys = stats_fig_data['number_of_papers'] 
     l2 = ax2.plot(xs,ys,label='number of publications',c=color_sequence[0], linewidth=2)
     ax2.set_xlabel('published year')
