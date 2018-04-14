@@ -264,11 +264,11 @@ def plot_statistics(cc_count_path,year_numbers_path,year_cc_path,ref_num_count_p
 
     l3 = ax3.plot(xs,ys,label='average citation',c='r', linewidth=2)
 
-    l4 = ax3.plot(xs,[cc_mean]*len(xs),'--',c=color_sequence[2],label='average citation count:{:.2f}'.format(cc_mean))
+    l4 = ax3.plot([2004]*10,np.linspace(0,np.max(ys),10),'--',c=color_sequence[2],label='year=2004')
 
-    ax3.text(1990,10,'(2004,{:.2f})'.format(np.mean(year_cc['2004'])))
+    # ax3.text(1990,10,'(2004,{:.2f})'.format(np.mean(year_cc['2004'])))
     
-    ax3.set_ylabel('average number of citations per publication')
+    ax3.set_ylabel('average number of citations\n per publication')
     ax3.set_yscale('log')
 
     ls = l2+l3+l4
@@ -369,8 +369,8 @@ def plot_stats():
 
 if __name__ == '__main__':
     # stats()
-    # plot_stats()
-    plot_citation_age()
+    plot_stats()
+    # plot_citation_age()
 
 
 
