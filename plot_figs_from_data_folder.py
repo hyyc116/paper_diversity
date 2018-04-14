@@ -26,8 +26,8 @@ def plotting_from_data_folder():
     fig,ax2 = plt.subplots(figsize=(6,4))
 
     xs,ys = stats_fig_data['number_of_papers'] 
-    print xs
-    print ys
+    # print xs
+    # print ys
     l2 = ax2.plot(xs,ys,label='number of publications',c=color_sequence[0], linewidth=2)
     ax2.set_xlabel('published year')
     ax2.set_ylabel('number of publications')
@@ -90,7 +90,7 @@ def plotting_from_data_folder():
 
 
     ## subject diversity
-    group_xys = json.loads(open('data/data_of_figs/temporal_subject_diversity_xys.json'))
+    group_xys = json.loads(open('data/data_of_figs/temporal_subject_diversity_xys.json').read())
 
 
     plt.figure(figsize=(6,4))
