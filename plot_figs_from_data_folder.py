@@ -105,7 +105,7 @@ def plotting_from_data_folder():
     logging.info('saved to pdf/figs/temporal_subject_diversity.jpg')
 
     ## year diversity
-    group_xys = json.loads(open('data/data_of_figs/temporal_year_differences_diversity_xys.json'))
+    group_xys = json.loads(open('data/data_of_figs/temporal_year_differences_diversity_xys.json').read())
     plt.figure(figsize=(6,4))
     for i,group in enumerate(group_xys.keys()):
         xs,ys = group_xys[group]
