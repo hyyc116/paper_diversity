@@ -109,8 +109,8 @@ def cal_diversity(com_ids_cc_path,com_ids_subjects_path,selected_IDs_references_
 ### plot line chart of papers at three levels, how three kinds of diversity changes over years
 def plot_diversity_over_year(wos_cc_diversity_path,wos_subject_diversity_path,wos_year_differences_diversity_path,com_ids_cc_path,com_IDs_year_path):
     ## ID_cc
-    logging.info('loads citation count from {:} ...'.format(com_IDs_cc_path))
-    com_IDs_cc = json.loads(open(com_IDs_cc_path).read())
+    logging.info('loads citation count from {:} ...'.format(com_ids_cc_path))
+    com_IDs_cc = json.loads(open(com_ids_cc_path).read())
     com_ids_year = json.loads(open(com_IDs_year_path).read())
     ### citation  count 的diversity的计算
     logging.info('loading data from diversity files ...')
