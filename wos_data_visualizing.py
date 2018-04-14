@@ -144,7 +144,7 @@ def citation_age_of_selectedIds(selected_IDs_citations_path,com_IDs_year_path):
         pid,cpid = line.split("\t")
         selected_IDs_citations[pid].append(int(com_IDs_year.get(cpid,-1)))
 
-    year_ca = {}
+    year_ca = defaultdict(list)
 
     for pid in selected_IDs_citations.keys():
         y0 = int(com_IDs_year.get(pid,-1))
