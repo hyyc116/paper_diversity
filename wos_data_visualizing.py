@@ -355,7 +355,8 @@ def stats():
 
 def plot_citation_age():
     selected_IDs_citations_path = 'data/selected_IDs_citations.txt'
-    citation_age_of_selectedIds(selected_IDs_citations_path)
+    com_IDs_year_path = 'data/com_ids_year.json'
+    citation_age_of_selectedIds(selected_IDs_citations_path,com_IDs_year_path)
 
 
 def plot_stats():
