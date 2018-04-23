@@ -125,7 +125,7 @@ def plotting_from_data_folder():
     subject_diversity_values = fig_data['subject']
     year_differences_diversity_values = fig_data['year']
 
-    three_diversity_values = {}
+    three_diversity_values = defaultdict(dict)
 
     plt.figure(figsize=(6,4))
     n,bins,patches = plt.hist(cc_diversity_values,bins=30) 
@@ -135,7 +135,8 @@ def plotting_from_data_folder():
     plt.yscale('log')
     plt.tight_layout()
 
-    three_diversity_values['cc'] = [n,bins]
+    three_diversity_values['cc']['n'] = n
+    three_diversity_values['cc']['bins'] = bins
 
     plt.figure(figsize=(6,4))
     n,bins,patches = plt.hist(subject_diversity_values,bins=30)    
@@ -145,7 +146,8 @@ def plotting_from_data_folder():
     plt.tight_layout()
     plt.savefig('pdf/figs/subject_diversity_dis.jpg',dpi=400)
 
-    three_diversity_values['subject'] = [n,bins]
+    three_diversity_values['cc']['n'] = n
+    three_diversity_values['cc']['bins'] = bins
 
 
     plt.figure(figsize=(6,4))
@@ -156,7 +158,8 @@ def plotting_from_data_folder():
     plt.tight_layout()
     plt.savefig('pdf/figs/year_differences_diversity_dis.jpg',dpi=400)
 
-    three_diversity_values['year'] = [n,bins]
+    three_diversity_values['cc']['n'] = n
+    three_diversity_values['cc']['bins'] = bins
 
     open('data/data_of_figs/three_diversity.json','w').write(json.dumps(three_diversity_values))
     
