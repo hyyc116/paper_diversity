@@ -125,30 +125,40 @@ def plotting_from_data_folder():
     subject_diversity_values = fig_data['subject']
     year_differences_diversity_values = fig_data['year']
 
+    three_diversity_values = {}
+
     plt.figure(figsize=(6,4))
-    plt.hist(cc_diversity_values,bins=30)   
+    n,bins,patches = plt.hist(cc_diversity_values,bins=30)   
     plt.xlabel('impact diversity')
     plt.ylabel('number of publications')
     plt.yscale('log')
     plt.tight_layout()
-    plt.savefig('pdf/figs/impact_diversity_dis.jpg',dpi=400)
+
+    three_diversity_values['cc'] = [n,bins,patches]
 
     plt.figure(figsize=(6,4))
-    plt.hist(subject_diversity_values,bins=30)    
+    n,bins,patches = plt.hist(subject_diversity_values,bins=30)    
     plt.xlabel('subject diversity')
     plt.ylabel('number of publications')
     plt.yscale('log')
     plt.tight_layout()
     plt.savefig('pdf/figs/subject_diversity_dis.jpg',dpi=400)
 
+    three_diversity_values['subject'] = [n,bins,patches]
+
+
     plt.figure(figsize=(6,4))
-    plt.hist(year_differences_diversity_values,bins=30)   
+    n,bins,patches = plt.hist(year_differences_diversity_values,bins=30)   
     plt.xlabel('year diversity')
     plt.ylabel('number of publications')
     plt.yscale('log')
     plt.tight_layout()
     plt.savefig('pdf/figs/year_differences_diversity_dis.jpg',dpi=400)
 
+    three_diversity_values['year'] = [n,bins,patches]
+
+    open('data/data_of_figs/three_diversity.json','w').write(json.dumps(three_diversity_values))
+    
     ### relation between fields and relations
     # open('data/data_of_figs/diversity_impact_data.json','w').write(json.dumps(fig_data))
 
