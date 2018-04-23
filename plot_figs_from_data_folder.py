@@ -128,7 +128,10 @@ def plotting_from_data_folder():
     three_diversity_values = {}
 
     plt.figure(figsize=(6,4))
-    n,bins,patches = plt.hist(cc_diversity_values,bins=30)   
+    n,bins,patches = plt.hist(cc_diversity_values,bins=30) 
+    print n
+    print bins
+    print patches  
     plt.xlabel('impact diversity')
     plt.ylabel('number of publications')
     plt.yscale('log')
