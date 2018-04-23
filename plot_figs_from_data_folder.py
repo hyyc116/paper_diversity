@@ -201,7 +201,7 @@ def plotting_from_data_folder():
     plt.savefig('pdf/figs/cc_yd.jpg',dpi=400)
 
 
-    dvs_imp_fig_data['ys_cc'] = [xs,ys]
+    xs,ys = dvs_imp_fig_data['yd_cc']
     plt.figure()
     plt.plot(xs,ys,c=color_sequence[0])
     plt.ylabel('average citation count')
