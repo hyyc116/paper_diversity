@@ -135,6 +135,8 @@ def plotting_from_data_folder():
     plt.yscale('log')
     plt.tight_layout()
 
+    n = [num for num in n]
+    bins = [num for num in bins]
     three_diversity_values['cc']['n'] = n
     three_diversity_values['cc']['bins'] = bins
 
@@ -146,6 +148,8 @@ def plotting_from_data_folder():
     plt.tight_layout()
     plt.savefig('pdf/figs/subject_diversity_dis.jpg',dpi=400)
 
+    n = [num for num in n]
+    bins = [num for num in bins]
     three_diversity_values['cc']['n'] = n
     three_diversity_values['cc']['bins'] = bins
 
@@ -158,6 +162,8 @@ def plotting_from_data_folder():
     plt.tight_layout()
     plt.savefig('pdf/figs/year_differences_diversity_dis.jpg',dpi=400)
 
+    n = [num for num in n]
+    bins = [num for num in bins]
     three_diversity_values['cc']['n'] = n
     three_diversity_values['cc']['bins'] = bins
 
