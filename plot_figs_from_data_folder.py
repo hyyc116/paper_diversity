@@ -150,8 +150,8 @@ def plotting_from_data_folder():
 
     n = [num for num in n]
     bins = [num for num in bins]
-    three_diversity_values['cc']['n'] = n
-    three_diversity_values['cc']['bins'] = bins
+    three_diversity_values['sd']['n'] = n
+    three_diversity_values['sd']['bins'] = bins
 
 
     plt.figure(figsize=(6,4))
@@ -164,8 +164,8 @@ def plotting_from_data_folder():
 
     n = [num for num in n]
     bins = [num for num in bins]
-    three_diversity_values['cc']['n'] = n
-    three_diversity_values['cc']['bins'] = bins
+    three_diversity_values['yd']['n'] = n
+    three_diversity_values['yd']['bins'] = bins
 
     open('data/data_of_figs/three_diversity.json','w').write(json.dumps(three_diversity_values))
     
