@@ -120,54 +120,48 @@ def plotting_from_data_folder():
 
 
     ### basic diversity distribution
-    fig_data = json.loads(open('data/data_of_figs/three_diversity_values.json').read())
-    cc_diversity_values = fig_data['cc']
-    subject_diversity_values = fig_data['subject']
-    year_differences_diversity_values = fig_data['year']
-
-    three_diversity_values = defaultdict(dict)
+    three_diversity_values = json.loads(open('data/data_of_figs/three_diversity.json').read())
+    n = three_diversity_values['cc']['n']
+    bins = three_diversity_values['cc']['bins']
+    bins = [float('{:2f}'.format(l)) for l in bins]
+    width = np.max(bins)/(len(n)+5)
 
     plt.figure(figsize=(6,4))
-    n,bins,patches = plt.hist(cc_diversity_values,bins=30) 
- 
+    plt.bar(bins[:-1],n,width=width,align='edge') 
     plt.xlabel('impact diversity')
     plt.ylabel('number of publications')
     plt.yscale('log')
     plt.tight_layout()
-
-    n = [num for num in n]
-    bins = [num for num in bins]
-    three_diversity_values['cc']['n'] = n
-    three_diversity_values['cc']['bins'] = bins
+    plt.savefig('pdf/figs/cc_diversity_dis.jpg',dpi=400)
 
     plt.figure(figsize=(6,4))
-    n,bins,patches = plt.hist(subject_diversity_values,bins=30)    
+    n = three_diversity_values['sd']['n']
+    bins = three_diversity_values['sd']['bins']
+    bins = [float('{:2f}'.format(l)) for l in bins]
+    width = np.max(bins)/(len(n)+5)
+
+    plt.bar(bins[:-1],n,width=width,align='edge') 
     plt.xlabel('subject diversity')
     plt.ylabel('number of publications')
     plt.yscale('log')
     plt.tight_layout()
     plt.savefig('pdf/figs/subject_diversity_dis.jpg',dpi=400)
 
-    n = [num for num in n]
-    bins = [num for num in bins]
-    three_diversity_values['sd']['n'] = n
-    three_diversity_values['sd']['bins'] = bins
-
 
     plt.figure(figsize=(6,4))
-    n,bins,patches = plt.hist(year_differences_diversity_values,bins=30)   
+    n = three_diversity_values['yd']['n']
+    bins = three_diversity_values['yd']['bins']
+    bins = [float('{:2f}'.format(l)) for l in bins]
+    width = np.max(bins)/(len(n)+5)
+
+
+    plt.bar(bins[:-1],n,width=width,align='edge') 
     plt.xlabel('year diversity')
     plt.ylabel('number of publications')
     plt.yscale('log')
     plt.tight_layout()
     plt.savefig('pdf/figs/year_differences_diversity_dis.jpg',dpi=400)
 
-    n = [num for num in n]
-    bins = [num for num in bins]
-    three_diversity_values['yd']['n'] = n
-    three_diversity_values['yd']['bins'] = bins
-
-    open('data/data_of_figs/three_diversity.json','w').write(json.dumps(three_diversity_values))
     
     ### relation between fields and relations
     # open('data/data_of_figs/diversity_impact_data.json','w').write(json.dumps(fig_data))
