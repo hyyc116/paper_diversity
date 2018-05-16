@@ -6,7 +6,7 @@ from basic_config import *
 
 def subject_sim():
 
-	logging.info('load subject of papers.')
+    logging.info('load subject of papers.')
     # selected_IDs = []
     
     ## query database 
