@@ -57,6 +57,7 @@ def subject_sim():
 
 
 
-
+if __name__ == '__main__':
+	subject_sim()
 
 
