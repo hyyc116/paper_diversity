@@ -52,7 +52,7 @@ def subject_sim():
         	for ref_subject in pid_subjects[ref_id]:
         		subjects_mat[subject][ref_subject]+=1
 
-    open('data/subjects_mat.json','w').write(subjects_mat)
+    open('data/subjects_mat.json','w').write(json.dumps(subjects_mat))
     logging.info('saved to data/subjects_mat.json.')
 
 
