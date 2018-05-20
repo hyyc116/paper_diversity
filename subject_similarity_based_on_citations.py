@@ -60,10 +60,27 @@ def subject_similarity(subject_count_path,subject_coocur_mat_path):
     subject_count = json.loads(open(subject_count_path).read())
     subject_coocur_mat = json.loads(open(subject_coocur_mat_path).read())
 
+    subjectkey_count = defaultdict(int)
     for subject in sorted(subject_coocur_mat.keys()):
         for ref_subject in sorted(subject_coocur_mat[subject].keys()):
+            key = '\t'.join(sorted([subject,ref_subject]))
             num = subject_coocur_mat[subject][ref_subject]
-            print '{:}\t{:}\t{:}'.format(subject,ref_subject,num)
+            # print '{:}\t{:}\t{:}'.format(subject,ref_subject,num)
+            subjectkey_count[key]+=num
+
+    for key in sorted(subjectkey_count.keys()):
+        s1,s2 = ket.split("\t")
+
+        c_s1 = subject_count[s1]
+        c_s2 = subject_count[s2]
+
+        sim = (c_s1+c_s2)/float(subject_count[key])
+
+        print '{:}\t{:}\t{:}'.format(s1,s2,sim)
+
+
+
+
 
 
 
