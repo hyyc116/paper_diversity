@@ -69,7 +69,7 @@ def subject_similarity(subject_count_path,subject_coocur_mat_path):
             subjectkey_count[key]+=num
 
     for key in sorted(subjectkey_count.keys()):
-        s1,s2 = ket.split("\t")
+        s1,s2 = key.split("\t")
 
         c_s1 = subject_count[s1]
         c_s2 = subject_count[s2]
