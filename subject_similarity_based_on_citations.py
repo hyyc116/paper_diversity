@@ -56,8 +56,21 @@ def subject_sim():
     logging.info('saved to data/subjects_mat.json.')
 
 
+def subject_similarity(subject_count_path,subject_coocur_mat_path):
+    subject_count = json.loads(open(subject_count_path).read())
+    subject_coocur_mat = json.loads(open(subject_coocur_mat_path).read())
+
+    for subject in sorted(subject_coocur_mat.keys()):
+        for ref_subject in sorted(subject_coocur_mat[subject].keys()):
+            num = subject_coocur_mat[subject][ref_subject]
+            print '{:}\t{:}\t{:}'.format(subject,ref_subject,num)
+
+
 
 if __name__ == '__main__':
-	subject_sim()
+	# subject_sim()
+    subject_count_path = 'data/subject_count.json'
+    subject_coocur_mat_path = 'data/subjects_mat.json'
+    subject_similarity(subject_count_path,subject_coocur_mat_path)
 
 
