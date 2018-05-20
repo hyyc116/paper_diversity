@@ -74,7 +74,7 @@ def subject_similarity(subject_count_path,subject_coocur_mat_path):
         c_s1 = subject_count[s1]
         c_s2 = subject_count[s2]
 
-        sim = (c_s1+c_s2)/float(subject_count[key])
+        sim = (c_s1+c_s2)/float(subjectkey_count[key])
 
         print '{:}\t{:}\t{:}'.format(s1,s2,sim)
 
