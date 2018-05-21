@@ -74,7 +74,7 @@ def cal_diversity(com_ids_cc_path,com_ids_subjects_path,selected_IDs_references_
             s_sim = 0
             for ps in pid_subjects:
                 for rs in ref_subjects:
-                    key = '\t'.join([ps,rs])
+                    key = '\t'.join(sorted([ps,rs]))
                     ss = subject_sim[key]
                     if ss>s_sim:
                         s_sim = ss
