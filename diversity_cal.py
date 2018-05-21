@@ -6,7 +6,7 @@
 from basic_config import *
 
 
-def cal_diversity(com_ids_cc_path,com_ids_subjects_path,selected_IDs_references_path,year_differences_path,com_IDs_year_path):
+def cal_diversity(com_ids_cc_path,com_ids_subjects_path,selected_IDs_references_path,year_differences_path,com_IDs_year_path,subject_sim_path):
 
     logging.info('loading com_ids_cc ...')
     com_ids_cc = json.loads(open(com_ids_cc_path).read())
@@ -27,6 +27,8 @@ def cal_diversity(com_ids_cc_path,com_ids_subjects_path,selected_IDs_references_
     open('data/selected_IDs_references_num.json','w').write(json.dumps(selected_IDs_references_num))
 
     com_ids_year = json.loads(open(com_IDs_year_path).read())
+
+    subject_sim = json.loads(open(subject_sim_path).read())
 
     cc_pid_diversity=defaultdict(float)
     subject_pid_diversity = defaultdict(float)
@@ -51,9 +53,12 @@ def cal_diversity(com_ids_cc_path,com_ids_subjects_path,selected_IDs_references_
 
         selected_IDs_cc[pid] = com_ids_cc.get(pid,-1)
 
+        subject = 
 
         cc_list = []
         subject_list = []
+
+        pid_subjects = com_ids_subjects.get(pid,[])
 
         for ref_id in selected_IDs_references[pid]:
 
@@ -62,10 +67,19 @@ def cal_diversity(com_ids_cc_path,com_ids_subjects_path,selected_IDs_references_
 
             cc = com_ids_cc.get(ref_id,0)
 
-            subjects = com_ids_subjects.get(ref_id,[])
+            ref_subjects = com_ids_subjects.get(ref_id,[])
 
             cc_list.append(cc)
-            subject_list.extend(subjects)
+
+            s_sim = 0
+            for ps in pid_subjects:
+                for rs in ref_subjects:
+                    key = '\t'.join([ps,rs])
+                    ss = subject_sim[key]
+                    if ss>s_sim:
+                        s_sim = ss
+
+            subject_list.extend(float('{:.10f}'.format(s_sim)))
 
         # print cc_list
         if len(cc_list)>0:
@@ -73,7 +87,7 @@ def cal_diversity(com_ids_cc_path,com_ids_subjects_path,selected_IDs_references_
             cc_pid_diversity[pid] = cc_gini
 
         if len(subject_list)>0:
-            subject_gini = gini(Counter(subject_list).values())
+            subject_gini = gini(subject_list)
             subject_pid_diversity[pid] = subject_gini
 
 
