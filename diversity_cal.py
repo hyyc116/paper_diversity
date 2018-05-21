@@ -79,7 +79,7 @@ def cal_diversity(com_ids_cc_path,com_ids_subjects_path,selected_IDs_references_
                     if ss>s_sim:
                         s_sim = ss
 
-            subject_list.add(float('{:.10f}'.format(s_sim)))
+            subject_list.append(float('{:.10f}'.format(s_sim)))
 
         # print cc_list
         if len(cc_list)>0:
