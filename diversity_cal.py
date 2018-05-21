@@ -53,7 +53,7 @@ def cal_diversity(com_ids_cc_path,com_ids_subjects_path,selected_IDs_references_
 
         selected_IDs_cc[pid] = com_ids_cc.get(pid,-1)
 
-        subject = 
+        # subject = 
 
         cc_list = []
         subject_list = []
