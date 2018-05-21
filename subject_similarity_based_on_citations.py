@@ -69,9 +69,12 @@ def subject_similarity(subject_coocur_mat_path):
             # print '{:}\t{:}\t{:}'.format(subject,ref_subject,num)
             subjectkey_count[key] += num
 
+            # if subject == ref_subject:
+            #     continue
+
             subject_cits[subject] += num
 
-
+    subjectkey_sim = {}
     for key in sorted(subjectkey_count.keys()):
         s1,s2 = key.split("\t")
 
@@ -80,11 +83,11 @@ def subject_similarity(subject_coocur_mat_path):
 
         sim = float(subjectkey_count[key])/(c_s1+c_s2)
 
-        print '{:}\t{:}\t{:}'.format(s1,s2,sim)
+        subjectkey_sim[key] = sim
 
+        # print '{:}\t{:}\t{:}'.format(s1,s2,sim)
 
-
-
+    open('data/subject_sim.json','w').write(json.dumps(subjectkey_sim))
 
 
 
