@@ -69,14 +69,17 @@ def subject_similarity(subject_coocur_mat_path):
             # print '{:}\t{:}\t{:}'.format(subject,ref_subject,num)
             subjectkey_count[key] += num
 
-            # if subject == ref_subject:
-            #     continue
+            if subject == ref_subject:
+                continue
 
             subject_cits[subject] += num
 
     subjectkey_sim = {}
     for key in sorted(subjectkey_count.keys()):
         s1,s2 = key.split("\t")
+
+        if s1==s2:
+            continue
 
         c_s1 = subject_cits[s1]
         c_s2 = subject_cits[s2]
