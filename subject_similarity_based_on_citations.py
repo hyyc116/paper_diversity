@@ -112,12 +112,11 @@ def out_sim_mat(subject_sim_json):
             if s1==s2:
                 sim=1
             else:
-                sim = subject_sim.(get,0) 
+                sim = subject_sim.get(sim,0) 
 
             print '{:}\t{:}\t{:.10f}'.format(i,j,sim)
 
     open('subjects.txt').format('\n'.join(set(subjects)))
-
 
 
 
