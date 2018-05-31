@@ -100,7 +100,7 @@ def out_sim_mat(subject_sim_json):
     print 'day\thour\tvalue'
     for s1 in subjects:
         for s2 in subjects:
-            print '{:}\t{:}\t{:}'.format(day,hour,value)
+            print '{:}\t{:}\t{:}'.format(s1,s2,subject_sim[s1].get(s2,0))
 
 
 
