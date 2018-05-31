@@ -96,11 +96,27 @@ def subject_similarity(subject_coocur_mat_path):
 def out_sim_mat(subject_sim_json):
     subject_sim = json.loads(open(subject_sim_json).read())
 
-    subjects = sorted(subject_sim.keys())
     print 'day\thour\tvalue'
-    for s1 in subjects:
-        for s2 in subjects:
-            print '{:}\t{:}\t{:}'.format(s1,s2,subject_sim[s1].get(s2,0))
+    subjects =[]
+    for key in subject_sim.keys():
+        # for s2 in subjects:
+        # key = '\t'.join(sorted([,rs]))
+        subjects.extend(key.split('\t'))
+    
+    subjects = sorted(list(set(subjects)))
+
+    # print '{:}\t{:}'.format(key,subject_sim[s1])
+    for i,s1 in enumerate(subjects):
+        for j,s2 in enumerate(subjects):
+            key = '\t'.join(sorted([s1,s2]))
+            if s1==s2:
+                sim=1
+            else:
+                sim = subject_sim.(get,0) 
+
+            print '{:}\t{:}\t{:.10f}'.format(i,j,sim)
+
+    open('subjects.txt').format('\n'.join(set(subjects)))
 
 
 
