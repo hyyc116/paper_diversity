@@ -116,7 +116,10 @@ def out_sim_mat(subject_sim_json):
 
             print '{:}\t{:}\t{:.10f}'.format(i,j,sim)
 
-    open('subjects.txt','w').write('\n'.join(subjects))
+    lines = ['subjects,num']
+    for line in subjects:
+        lines.append('{:},{:}'.format(line,1))
+    open('subjects.csv','w').write('\n'.join(lines))
 
 
 
