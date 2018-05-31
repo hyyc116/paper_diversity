@@ -93,11 +93,30 @@ def subject_similarity(subject_coocur_mat_path):
     open('data/subject_sim.json','w').write(json.dumps(subjectkey_sim))
 
 
+def out_sim_mat(subject_sim_json):
+    subject_sim = json.loads(open(subject_sim_json).read())
+
+    subjects = sorted(subject_sim.keys())
+    print 'day\thour\tvalue'
+    for s1 in subjects:
+        for s2 in subjects:
+            print '{:}\t{:}\t{:}'.format(day,hour,value)
+
+
+
 
 if __name__ == '__main__':
 	# subject_sim()
     subject_count_path = 'data/subject_count.json'
     subject_coocur_mat_path = 'data/subjects_mat.json'
-    subject_similarity(subject_coocur_mat_path)
+    # subject_similarity(subject_coocur_mat_path)
+
+    subject_sim_path = 'data/subject_sim.json'
+    out_sim_mat(subject_sim_path)
+
+
+
+
+
 
 
