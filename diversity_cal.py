@@ -371,7 +371,7 @@ def diversity_impact(wos_cc_diversity_path,wos_subject_diversity_path,wos_year_d
     plt.xlabel('citation count')
     plt.ylabel('average impact diversity')
 
-    # plt.xscale('log')
+    plt.xscale('log')
 
     plt.tight_layout()
     plt.savefig('pdf/citation_diversity_impact.pdf',dpi=200)
@@ -436,7 +436,7 @@ def diversity_impact(wos_cc_diversity_path,wos_subject_diversity_path,wos_year_d
     plt.xlabel('citation count')
     plt.ylabel('average subject diversity')
 
-    # plt.xscale('log')
+    plt.xscale('log')
 
     plt.tight_layout()
     plt.savefig('pdf/impact_diversity_subject.pdf',dpi=200)
@@ -498,7 +498,7 @@ def diversity_impact(wos_cc_diversity_path,wos_subject_diversity_path,wos_year_d
     plt.xlabel('citation count')
     plt.ylabel('average year diversity')
 
-    # plt.xscale('log')
+    plt.xscale('log')
 
     plt.tight_layout()
     plt.savefig('pdf/impact_diversity_year.pdf',dpi=200)
