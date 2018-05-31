@@ -116,7 +116,7 @@ def out_sim_mat(subject_sim_json):
 
             print '{:}\t{:}\t{:.10f}'.format(i,j,sim)
 
-    open('subjects.txt','w').write('\n'.join(set(subjects)))
+    open('subjects.txt','w').write(str(set(subjects)))
 
 
 
