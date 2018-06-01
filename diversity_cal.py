@@ -537,7 +537,8 @@ def diversity_impact(wos_cc_diversity_path,wos_subject_diversity_path,wos_year_d
 
     plt.figure()
     plt.plot(xs,ys,c=color_sequence[0])
-
+    zs = [i for i in zip(*lowess(ys,np.log(xs),frac= 0.2))[1]]
+    plt.plot(xs,zs,'--',c='r')
     plt.xlabel('citation count')
     plt.ylabel('average year diversity')
 
@@ -556,8 +557,7 @@ def diversity_impact(wos_cc_diversity_path,wos_subject_diversity_path,wos_year_d
 
     plt.figure()
     plt.plot(xs,ys,c=color_sequence[0])
-    zs = [i for i in zip(*lowess(ys,np.log(xs),frac= 0.2))[1]]
-    plt.plot(xs,zs,'--',c='r')
+    
     plt.ylabel('average citation count')
     plt.xlabel('year diversity')
 
