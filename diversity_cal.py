@@ -348,7 +348,7 @@ def diversity_impact(wos_cc_diversity_path,wos_subject_diversity_path,wos_year_d
             continue
 
         # cc_bin = int(np.log(cc)/np.log(10))
-        # cc_bin = cc
+        cc_bin = cc
 
         ccbin_cd[cc_bin].append(cc_diversity)
 
