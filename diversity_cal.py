@@ -224,7 +224,7 @@ def plot_diversity_over_year(wos_cc_diversity_path,wos_subject_diversity_path,wo
     plt.savefig('pdf/temporal_subject_diversity.jpg',dpi=400)
     logging.info('saved to pdf/temporal_subject_diversity.jpg')
 
-    ## year diversity
+    ## published year diversity
     group_year_year = defaultdict(lambda:defaultdict(list))
     for pid in wos_year_differences_diversity.keys():
         cc = com_IDs_cc.get(pid,0)
@@ -312,7 +312,7 @@ def plot_diversity(wos_cc_diversity_path,wos_subject_diversity_path,wos_year_dif
 
     plt.figure(figsize=(6,4))
     plt.hist(year_differences_diversity_values,bins=30)   
-    plt.xlabel('year diversity')
+    plt.xlabel('published year diversity')
     plt.ylabel('number of papers')
     plt.yscale('log')
     plt.tight_layout()
@@ -494,7 +494,7 @@ def diversity_impact(wos_cc_diversity_path,wos_subject_diversity_path,wos_year_d
     plt.savefig('pdf/sd_cc.pdf',dpi=200)
 
 
-    logging.info('plot year diversity vs. impact diversity ...')
+    logging.info('plot published year diversity vs. impact diversity ...')
 
     ccbin_yd = defaultdict(list)
     yd_cc = defaultdict(list)
@@ -540,7 +540,7 @@ def diversity_impact(wos_cc_diversity_path,wos_subject_diversity_path,wos_year_d
     zs = [i for i in zip(*lowess(ys,np.log(xs),frac= 0.2))[1]]
     plt.plot(xs,zs,'--',c='r')
     plt.xlabel('citation count')
-    plt.ylabel('average year diversity')
+    plt.ylabel('average published year diversity')
 
     plt.xscale('log')
 
@@ -559,7 +559,7 @@ def diversity_impact(wos_cc_diversity_path,wos_subject_diversity_path,wos_year_d
     plt.plot(xs,ys,c=color_sequence[0])
     
     plt.ylabel('average citation count')
-    plt.xlabel('year diversity')
+    plt.xlabel('published year diversity')
 
     # plt.xscale('log')
     dvs_imp_fig_data['ys_cc'] = [xs,ys]

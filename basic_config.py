@@ -38,7 +38,7 @@ import pandas as pd
 import statsmodels.api as sm
 lowess = sm.nonparametric.lowess
 
-import seanborn as sn
+import seaborn as sn
 
 from gini import gini
 
