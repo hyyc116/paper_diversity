@@ -104,7 +104,7 @@ def out_sim_mat(subject_sim_json):
         subs  = key.split('\t')
         subjects.extend(subs)
     
-    subjects = sorted(list(set(subjects)))[:5]
+    subjects = sorted(list(set(subjects)))[:2]
 
     # subject_dict = {}
 
@@ -123,6 +123,7 @@ def out_sim_mat(subject_sim_json):
 
             if sim is None:
                 sim = 0
+
             row.append(sim)
 
         data.append(row)
