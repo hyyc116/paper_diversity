@@ -123,8 +123,8 @@ def out_sim_mat(subject_sim_json):
 
         data.append(row)
 
-    df = pd.DataFrame({'col':list_region,
-                  'row': list_kind,
+    df = pd.DataFrame({'col':subjects,
+                  'row': subjects,
                   'values':data})
 
     print df.head()
