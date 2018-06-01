@@ -356,29 +356,34 @@ def diversity_impact(wos_cc_diversity_path,wos_subject_diversity_path,wos_year_d
 
         cd_cc[cc_diversity].append(cc)
 
-    cc_bins = []
-    cc_cd = defaultdict(list)
-    for cc in sorted(ccbin_cd.keys()):
-        if len(cc_bins)>10:
-            cc_bins = []
+    # cc_bins = []
+    # cc_cd = defaultdict(list)
+    # for cc in sorted(ccbin_cd.keys()):
+    #     if len(cc_bins)>10:
+    #         cc_bins = []
         
-        cc_bins.append(cc)
+    #     cc_bins.append(cc)
 
-        cc_cd[cc_bins[0]].extend(ccbin_cd[cc])
+    #     cc_cd[cc_bins[0]].extend(ccbin_cd[cc])
 
 
     xs = []
     ys = []
 
-    for cc in sorted(cc_cd.keys()):
+    for cc in sorted(ccbin_cd.keys()):
 
         xs.append(cc)
-        ys.append(np.mean(cc_cd[cc]))
+        ys.append(np.mean(ccbin_cd[cc]))
 
+
+    avg_ys = movingaverage(ys,20)
+
+    t_ys = ys[:len(ys)-len(avg_ys)]
+    t_ys.extend(avg_ys)
 
     dvs_imp_fig_data['cc_cd'] = [xs,ys]
     plt.figure()
-    plt.plot(xs,ys,c=color_sequence[0])
+    plt.plot(xs,t_ys,c=color_sequence[0])
 
     plt.xlabel('citation count')
     plt.ylabel('average impact diversity')
@@ -560,6 +565,11 @@ def diversity_impact(wos_cc_diversity_path,wos_subject_diversity_path,wos_year_d
 
     logging.info('Done ...')
 
+
+def movingaverage (values, window):
+    weights = np.repeat(1.0, window)/window
+    sma = np.convolve(values, weights, 'valid')
+    return sma
 
 
 if __name__ == '__main__':
