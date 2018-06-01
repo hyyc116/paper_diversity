@@ -101,25 +101,46 @@ def out_sim_mat(subject_sim_json):
     for key in subject_sim.keys():
         # for s2 in subjects:
         # key = '\t'.join(sorted([,rs]))
-        subjects.extend(key.split('\t'))
+        subs  = key.split('\t')
+        subjects.extend(subs)
     
     subjects = sorted(list(set(subjects)))
 
+    # subject_dict = {}
+
+    # for i,sub in enumerate(subjects):
+        # subject_dict[sub] = i
+
     # print '{:}\t{:}'.format(key,subject_sim[s1])
+
+    data = []
     for i,s1 in enumerate(subjects):
+        row = []
         for j,s2 in enumerate(subjects):
             key = '\t'.join(sorted([s1,s2]))
-            if s1==s2:
-                sim=0
-            else:
-                sim = subject_sim.get(sim,0) 
+            sim = subject_sim.get(key,0)
+            row.append(sim)
 
-            print '{:}\t{:}\t{:.10f}'.format(i,j,sim)
+        data.append(row)
 
-    lines = ['subjects,num']
-    for line in subjects:
-        lines.append('{:},{:}'.format(line,1))
-    open('subjects.csv','w').write('\n'.join(lines))
+    df = pd.DataFrame({'col':list_region,
+                  'row': list_kind,
+                  'values':data})
+
+    print df.head()
+
+    pt = df.pivot_table(index='row', columns='col', values='values', aggfunc=np.sum)
+    print pt.head()
+
+    f, ax = plt.subplots(figsize = (100, 100))
+    cmap = sns.cubehelix_palette(start = 1, rot = 3, gamma=0.8, as_cmap = True)
+    sns.heatmap(pt, cmap = cmap, linewidths = 0.05, ax = ax)
+    # ax.set_title('Amounts per kind and region')
+    # ax.set_xlabel('subjects')
+    # ax.set_ylabel('s')
+
+    f.savefig('pdf/heatmap.png', bbox_inches='tight')
+
 
 
 

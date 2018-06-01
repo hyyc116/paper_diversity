@@ -34,8 +34,11 @@ from networkx.algorithms.core import core_number
 from networkx.algorithms.core import k_core
 import psycopg2
 
+import pandas as pd
 import statsmodels.api as sm
 lowess = sm.nonparametric.lowess
+
+import seanborn as sn
 
 from gini import gini
 

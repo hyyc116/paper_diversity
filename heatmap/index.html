@@ -39,7 +39,7 @@
           
           datasets = ["subjects.tsv"];
 
-      var subjects = new Array();
+      var subjects = new Array(0);
       d3.csv("subjects.csv", function(d) {
           subjects.push(d.subjects)
       });
