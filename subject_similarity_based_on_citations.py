@@ -119,6 +119,7 @@ def out_sim_mat(subject_sim_json):
         for j,s2 in enumerate(subjects):
             key = '\t'.join(sorted([s1,s2]))
             sim = subject_sim.get(key,0)
+            sim = float('{:.10f}'.format(sim))
             row.append(sim)
 
         data.append(row)
