@@ -120,6 +120,9 @@ def out_sim_mat(subject_sim_json):
             key = '\t'.join(sorted([s1,s2]))
             sim = subject_sim.get(key,0)
             sim = float('{:.10f}'.format(sim))
+
+            if sim is None:
+                sim = 0
             row.append(sim)
 
         data.append(row)
