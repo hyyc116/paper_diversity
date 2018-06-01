@@ -381,7 +381,7 @@ def diversity_impact(wos_cc_diversity_path,wos_subject_diversity_path,wos_year_d
     t_ys = ys[:len(ys)-len(avg_ys)]
     t_ys.extend(avg_ys)
 
-    t_zs = [i for i in zip(*lowess(t_ys,np.log(xs),frac= 0.08))[1]]
+    t_zs = [i for i in zip(*lowess(t_ys,np.log(xs),frac= 0.2))[1]]
 
     dvs_imp_fig_data['cc_cd'] = [xs,ys]
     plt.figure()
