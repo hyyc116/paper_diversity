@@ -104,7 +104,7 @@ def out_sim_mat(subject_sim_json):
         subs  = key.split('\t')
         subjects.extend(subs)
     
-    subjects = sorted(list(set(subjects)))
+    subjects = sorted(list(set(subjects)))[:5]
 
     # subject_dict = {}
 
@@ -133,7 +133,7 @@ def out_sim_mat(subject_sim_json):
     pt = df.pivot_table(index='row', columns='col', values='values', aggfunc=np.sum)
     print pt.head()
 
-    f, ax = plt.subplots(figsize = (100, 100))
+    f, ax = plt.subplots(figsize = (5, 5))
     cmap = sn.cubehelix_palette(start = 1, rot = 3, gamma=0.8, as_cmap = True)
     sn.heatmap(pt, cmap = cmap, linewidths = 0.05, ax = ax)
     # ax.set_title('Amounts per kind and region')
