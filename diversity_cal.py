@@ -356,37 +356,37 @@ def diversity_impact(wos_cc_diversity_path,wos_subject_diversity_path,wos_year_d
 
         cd_cc[cc_diversity].append(cc)
 
-    # cc_bins = []
-    # cc_cd = defaultdict(list)
-    # for cc in sorted(ccbin_cd.keys()):
-    #     if len(cc_bins)>10:
-    #         cc_bins = []
+    cc_bins = []
+    cc_cd = defaultdict(list)
+    for cc in sorted(ccbin_cd.keys()):
+        if len(cc_bins)>10:
+            cc_bins = []
         
-    #     cc_bins.append(cc)
+        cc_bins.append(cc)
 
-    #     cc_cd[cc_bins[0]].extend(ccbin_cd[cc])
+        cc_cd[cc_bins[0]].extend(ccbin_cd[cc])
 
 
     xs = []
     ys = []
 
-    for cc in sorted(ccbin_cd.keys()):
+    for cc in sorted(cc_cd.keys()):
 
         xs.append(cc)
-        ys.append(np.mean(ccbin_cd[cc]))
+        ys.append(np.mean(cc_cd[cc]))
 
 
-    avg_ys = movingaverage(ys,20)
+    # avg_ys = movingaverage(ys,20)
 
-    t_ys = ys[:len(ys)-len(avg_ys)]
-    t_ys.extend(avg_ys)
+    # t_ys = ys[:len(ys)-len(avg_ys)]
+    # t_ys.extend(avg_ys)
 
-    t_zs = [i for i in zip(*lowess(t_ys,np.log(xs),frac= 0.2))[1]]
 
     dvs_imp_fig_data['cc_cd'] = [xs,ys]
     plt.figure()
-    plt.plot(xs,t_ys,c=color_sequence[0])
-    plt.plot(xs,t_zs,'--',c='r')
+    plt.plot(xs,ys,c=color_sequence[0])
+    zs = [i for i in zip(*lowess(ys,np.log(xs),frac= 0.2))[1]]
+    plt.plot(xs,zs,'--',c='r')
 
     plt.xlabel('citation count')
     plt.ylabel('average impact diversity')
@@ -462,6 +462,8 @@ def diversity_impact(wos_cc_diversity_path,wos_subject_diversity_path,wos_year_d
 
     plt.figure()
     plt.plot(xs,ys,c=color_sequence[0])
+    zs = [i for i in zip(*lowess(ys,np.log(xs),frac= 0.2))[1]]
+    plt.plot(xs,zs,'--',c='r')
 
     plt.xlabel('citation count')
     plt.ylabel('average subject diversity')
@@ -554,7 +556,8 @@ def diversity_impact(wos_cc_diversity_path,wos_subject_diversity_path,wos_year_d
 
     plt.figure()
     plt.plot(xs,ys,c=color_sequence[0])
-
+    zs = [i for i in zip(*lowess(ys,np.log(xs),frac= 0.2))[1]]
+    plt.plot(xs,zs,'--',c='r')
     plt.ylabel('average citation count')
     plt.xlabel('year diversity')
 
