@@ -133,8 +133,8 @@ def out_sim_mat(subject_sim_json):
     print pt.head()
 
     f, ax = plt.subplots(figsize = (100, 100))
-    cmap = sns.cubehelix_palette(start = 1, rot = 3, gamma=0.8, as_cmap = True)
-    sns.heatmap(pt, cmap = cmap, linewidths = 0.05, ax = ax)
+    cmap = sn.cubehelix_palette(start = 1, rot = 3, gamma=0.8, as_cmap = True)
+    sn.heatmap(pt, cmap = cmap, linewidths = 0.05, ax = ax)
     # ax.set_title('Amounts per kind and region')
     # ax.set_xlabel('subjects')
     # ax.set_ylabel('s')
