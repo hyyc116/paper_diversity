@@ -333,9 +333,11 @@ def diversity_impact(wos_cc_diversity_path,wos_subject_diversity_path,wos_year_d
 
     dvs_imp_fig_data = {}
     logging.info('plot citation count vs. impact diversity ...')
-    cc_cd = defaultdict(list)
+    ccbin_cd = defaultdict(list)
 
     cd_cc = defaultdict(list)
+
+    cc_bins = []
 
     for pid in wos_cc_diversity.keys():
         cc_diversity  = wos_cc_diversity[pid]
@@ -346,13 +348,23 @@ def diversity_impact(wos_cc_diversity_path,wos_subject_diversity_path,wos_year_d
             continue
 
         # cc_bin = int(np.log(cc)/np.log(10))
-        cc_bin = cc
+        # cc_bin = cc
 
-        cc_cd[cc_bin].append(cc_diversity)
+        ccbin_cd[cc_bin].append(cc_diversity)
 
         cc_diversity = float('{:.1f}'.format(cc_diversity))
 
         cd_cc[cc_diversity].append(cc)
+
+    cc_bins = []
+    cc_cd = defaultdict(list)
+    for cc in sorted(ccbin_cd.keys()):
+        if len(cc_bins)>10:
+            cc_bins = []
+        
+        cc_bins.append(cc)
+
+        cc_cd[cc_bins[0]].extend(ccbin_cd[cc])
 
 
     xs = []
@@ -400,7 +412,7 @@ def diversity_impact(wos_cc_diversity_path,wos_subject_diversity_path,wos_year_d
 
     logging.info('plot subject diversity vs. impact diversity ...')
 
-    cc_sd = defaultdict(list)
+    ccbin_sd = defaultdict(list)
     sd_cc = defaultdict(list)
     for pid in wos_subject_diversity.keys():
         cc_diversity  = wos_subject_diversity[pid]
@@ -413,13 +425,22 @@ def diversity_impact(wos_cc_diversity_path,wos_subject_diversity_path,wos_year_d
         # cc_bin = int(np.log(cc)/np.log(10))
         cc_bin = cc
         
-        cc_sd[cc_bin].append(cc_diversity)
+        ccbin_sd[cc_bin].append(cc_diversity)
 
         cc_diversity = float('{:.1f}'.format(cc_diversity))
 
         sd_cc[cc_diversity].append(cc)
 
 
+    cc_bins = []
+    cc_sd = defaultdict(list)
+    for cc in sorted(ccbin_sd.keys()):
+        if len(cc_bins)>10:
+            cc_bins = []
+        
+        cc_bins.append(cc)
+
+        cc_sd[cc_bins[0]].extend(ccbin_sd[cc])
 
 
     xs = []
@@ -465,7 +486,7 @@ def diversity_impact(wos_cc_diversity_path,wos_subject_diversity_path,wos_year_d
 
     logging.info('plot year diversity vs. impact diversity ...')
 
-    cc_yd = defaultdict(list)
+    ccbin_yd = defaultdict(list)
     yd_cc = defaultdict(list)
     for pid in wos_year_differences_diversity.keys():
         cc_diversity  = wos_year_differences_diversity[pid]
@@ -478,12 +499,22 @@ def diversity_impact(wos_cc_diversity_path,wos_subject_diversity_path,wos_year_d
         # cc_bin = int(np.log(cc)/np.log(10))
         cc_bin = cc
 
-        cc_yd[cc_bin].append(cc_diversity)
+        ccbin_yd[cc_bin].append(cc_diversity)
 
         cc_diversity = float('{:.1f}'.format(cc_diversity))
 
         yd_cc[cc_diversity].append(cc)
 
+
+    cc_bins = []
+    cc_yd = defaultdict(list)
+    for cc in sorted(ccbin_yd.keys()):
+        if len(cc_bins)>10:
+            cc_bins = []
+        
+        cc_bins.append(cc)
+
+        cc_yd[cc_bins[0]].extend(ccbin_yd[cc])
 
     xs = []
     ys = []
