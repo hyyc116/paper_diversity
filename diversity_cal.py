@@ -385,8 +385,8 @@ def diversity_impact(wos_cc_diversity_path,wos_subject_diversity_path,wos_year_d
 
     dvs_imp_fig_data['cc_cd'] = [xs,ys]
     plt.figure()
-    plt.plot(xs,t_zs,c=color_sequence[0])
-    plt.plt(xs,t_ys,'--',c='r')
+    plt.plot(xs,t_ys,c=color_sequence[0])
+    plt.plot(xs,t_zs,'--',c='r')
 
     plt.xlabel('citation count')
     plt.ylabel('average impact diversity')
