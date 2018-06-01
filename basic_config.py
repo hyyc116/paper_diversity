@@ -34,6 +34,9 @@ from networkx.algorithms.core import core_number
 from networkx.algorithms.core import k_core
 import psycopg2
 
+import statsmodels.api as sm
+lowess = sm.nonparametric.lowess
+
 from gini import gini
 
 
