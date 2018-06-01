@@ -110,7 +110,7 @@ def out_sim_mat(subject_sim_json):
         for j,s2 in enumerate(subjects):
             key = '\t'.join(sorted([s1,s2]))
             if s1==s2:
-                sim=1
+                sim=0
             else:
                 sim = subject_sim.get(sim,0) 
 
