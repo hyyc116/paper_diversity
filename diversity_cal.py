@@ -299,27 +299,27 @@ def plot_diversity(wos_cc_diversity_path,wos_subject_diversity_path,wos_year_dif
     ax1 = axes[0]
     # ax1.figure(figsize=(6,4))
     ax1.hist(cc_diversity_values,bins=30)   
-    ax1.xlabel('impact diversity\n(a)')
-    ax1.ylabel('number of papers')
-    ax1.yscale('log')
+    ax1.set_xlabel('impact diversity\n(a)')
+    ax1.set_ylabel('number of papers')
+    ax1.set_yscale('log')
     # ax1.tight_layout()
     # ax1.savefig('pdf/impact_diversity_dis.pdf',dpi=200)
 
     ax2 = axes[1]
     # ax2.figure(figsize=(6,4))
     ax2.hist(subject_diversity_values,bins=30)    
-    ax2.xlabel('subject diversity\n(c)')
-    ax2.ylabel('number of papers')
-    ax2.yscale('log')
+    ax2.set_xlabel('subject diversity\n(c)')
+    ax2.set_ylabel('number of papers')
+    ax2.set_yscale('log')
     ax2.tight_layout()
     # ax2.savefig('pdf/subject_diversity_dis.pdf',dpi=200)
 
     ax3 = axes[2]
     # ax3.figure(figsize=(6,4))
     ax3.hist(year_differences_diversity_values,bins=30)   
-    ax3.xlabel('published year diversity\n(b)')
-    ax3.ylabel('number of papers')
-    ax3.yscale('log')
+    ax3.set_xlabel('published year diversity\n(b)')
+    ax3.set_ylabel('number of papers')
+    ax3.set_yscale('log')
 
     plt.tight_layout()
     # plt.savefig('pdf/year_differences_diversity_dis.pdf',dpi=200)
