@@ -308,7 +308,7 @@ def plot_diversity(wos_cc_diversity_path,wos_subject_diversity_path,wos_year_dif
     ax2 = axes[1]
     ax2.figure(figsize=(6,4))
     ax2.hist(subject_diversity_values,bins=30)    
-    ax2.xlabel('subject diversity\n(b)')
+    ax2.xlabel('subject diversity\n(c)')
     ax2.ylabel('number of papers')
     ax2.yscale('log')
     ax2.tight_layout()
@@ -317,7 +317,7 @@ def plot_diversity(wos_cc_diversity_path,wos_subject_diversity_path,wos_year_dif
     ax3 = axes[2]
     ax3.figure(figsize=(6,4))
     ax3.hist(year_differences_diversity_values,bins=30)   
-    ax3.xlabel('published year diversity\n(c)')
+    ax3.xlabel('published year diversity\n(b)')
     ax3.ylabel('number of papers')
     ax3.yscale('log')
 
@@ -471,7 +471,7 @@ def diversity_impact(wos_cc_diversity_path,wos_subject_diversity_path,wos_year_d
     zs = [i for i in zip(*lowess(ys,np.log(xs),frac= 0.2))[1]]
     plt.plot(xs,zs,'--',c='r')
 
-    plt.xlabel('citation count\n(b)')
+    plt.xlabel('citation count\n(c)')
     plt.ylabel('average subject diversity')
 
     plt.xscale('log')
@@ -545,7 +545,7 @@ def diversity_impact(wos_cc_diversity_path,wos_subject_diversity_path,wos_year_d
     plt.plot(xs,ys,c=color_sequence[0])
     zs = [i for i in zip(*lowess(ys,np.log(xs),frac= 0.2))[1]]
     plt.plot(xs,zs,'--',c='r')
-    plt.xlabel('citation count\n(c)')
+    plt.xlabel('citation count\n(b)')
     plt.ylabel('average published year diversity')
 
     plt.xscale('log')
