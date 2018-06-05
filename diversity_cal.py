@@ -305,16 +305,16 @@ def plot_diversity(wos_cc_diversity_path,wos_subject_diversity_path,wos_year_dif
     # ax1.tight_layout()
     # ax1.savefig('pdf/impact_diversity_dis.pdf',dpi=200)
 
-    ax2 = axes[1]
+    ax2 = axes[2]
     # ax2.figure(figsize=(6,4))
     ax2.hist(subject_diversity_values,bins=30)    
     ax2.set_xlabel('subject diversity\n(c)')
     ax2.set_ylabel('number of papers')
     ax2.set_yscale('log')
-    ax2.tight_layout()
+    # ax2.tight_layout()
     # ax2.savefig('pdf/subject_diversity_dis.pdf',dpi=200)
 
-    ax3 = axes[2]
+    ax3 = axes[1]
     # ax3.figure(figsize=(6,4))
     ax3.hist(year_differences_diversity_values,bins=30)   
     ax3.set_xlabel('published year diversity\n(b)')
