@@ -128,7 +128,7 @@ def plotting_from_data_folder():
 
     plt.figure(figsize=(6,4))
     plt.bar(bins[:-1],n,width=width,align='edge') 
-    plt.xlabel('impact diversity')
+    plt.xlabel('impact diversity\n(a)')
     plt.ylabel('number of publications')
     plt.yscale('log')
     plt.tight_layout()
@@ -141,7 +141,7 @@ def plotting_from_data_folder():
     width = np.max(bins)/(len(n)+5)
 
     plt.bar(bins[:-1],n,width=width,align='edge') 
-    plt.xlabel('subject diversity')
+    plt.xlabel('subject diversity\n(c)')
     plt.ylabel('number of publications')
     plt.yscale('log')
     plt.tight_layout()
@@ -156,7 +156,7 @@ def plotting_from_data_folder():
 
 
     plt.bar(bins[:-1],n,width=width,align='edge') 
-    plt.xlabel('year diversity')
+    plt.xlabel('published year diversity\n(b)')
     plt.ylabel('number of publications')
     plt.yscale('log')
     plt.tight_layout()
