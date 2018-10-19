@@ -12,6 +12,35 @@ def plotting_from_data_folder():
 
     xs,ys = stats_fig_data['wos_stats_cc'] 
     plt.plot(xs,ys,'o',fillstyle='none',c=color_sequence[0], linewidth=2)
+
+
+    total = np.sum(ys)
+
+    low_sum = 0
+    medium_sum = 0
+    high_sum = 0
+
+    for i,x in enumerate(xs):
+
+        if x < 64:
+            low_sum+=ys[i]
+
+        elif x < 985:
+
+            medium_sum += ys[i]
+
+        else:
+
+            high_sum +=ys[i]
+
+    print 'total:',total
+    print 'low:',low_sum
+    print 'medium:',medium_sum
+    print 'high:',high_sum
+    print 'other:', low_sum-medium_sum-high_sum
+
+
+
     plt.xscale('log')
     plt.yscale('log')
     plt.xlabel('number of citations')
@@ -29,6 +58,8 @@ def plotting_from_data_folder():
     # print xs
     # print ys
     l2 = ax2.plot(xs,ys,label='number of publications',c=color_sequence[0], linewidth=2)
+    
+    print 'total number of publications:',np.sum(ys)
     ax2.set_xlabel('published year')
     ax2.set_ylabel('number of publications')
     ax2.set_yscale('log')
@@ -75,92 +106,101 @@ def plotting_from_data_folder():
     ### temporal diversity changes 
 
     # citation count diversity
+    fig,axes = plt.subplots(3,1,figsize=(6,12))
     group_xys = json.loads(open('data/data_of_figs/temporal_citation_count_diversity_xys.json').read())
-    plt.figure(figsize=(6,4))
+    # plt.figure(figsize=(6,4))
+    ax = axes[0]
     for i,group in enumerate(group_xys.keys()):
         xs,ys = group_xys[group]
-        plt.plot(xs,ys,c=color_sequence[i],linewidth=2,label=group)
+        ax.plot(xs,ys,c=color_sequence[i],linewidth=2,label=group)
 
-    plt.xlabel('published year')
-    plt.ylabel('average citation count diversity')
-    plt.legend(loc=4)
-    plt.tight_layout()
-    plt.savefig('pdf/figs/temporal_citation_count_diversity.jpg',dpi=400)
-    logging.info('saved to pdf/figs/temporal_citation_count_diversity.jpg')
+    ax.set_xlabel('published year\n(a)')
+    ax.set_ylabel('average impact diversity')
+    ax.legend(loc=4)
+    # plt.tight_layout()
+    # plt.savefig('pdf/figs/temporal_citation_count_diversity.jpg',dpi=400)
+    # logging.info('saved to pdf/figs/temporal_citation_count_diversity.jpg')
 
 
     ## subject diversity
     group_xys = json.loads(open('data/data_of_figs/temporal_subject_diversity_xys.json').read())
 
-
-    plt.figure(figsize=(6,4))
+    ax1 = axes[2]
+    # plt.figure(figsize=(6,4))
     for i,group in enumerate(group_xys.keys()):
         xs,ys = group_xys[group]
-        plt.plot(xs,ys,c=color_sequence[i],linewidth=2,label=group)
-    plt.xlabel('published year')
-    plt.ylabel('average subject diversity')
-    plt.legend(loc=4)
-    plt.tight_layout()
-    plt.savefig('pdf/figs/temporal_subject_diversity.jpg',dpi=400)
-    logging.info('saved to pdf/figs/temporal_subject_diversity.jpg')
+        ax1.plot(xs,ys,c=color_sequence[i],linewidth=2,label=group)
+    ax1.set_xlabel('published year\n(c)')
+    ax1.set_ylabel('average subject diversity')
+    ax1.legend(loc=4)
+    # plt.tight_layout()
+    # plt.savefig('pdf/figs/temporal_subject_diversity.jpg',dpi=400)
+    # logging.info('saved to pdf/figs/temporal_subject_diversity.jpg')
 
     ## year diversity
     group_xys = json.loads(open('data/data_of_figs/temporal_year_differences_diversity_xys.json').read())
-    plt.figure(figsize=(6,4))
+    # plt.figure(figsize=(6,4))
+    ax2 = axes[1]
     for i,group in enumerate(group_xys.keys()):
         xs,ys = group_xys[group]
-        plt.plot(xs,ys,c=color_sequence[i],linewidth=2,label=group)
+        ax2.plot(xs,ys,c=color_sequence[i],linewidth=2,label=group)
 
-    plt.xlabel('published year')
-    plt.legend(loc=4)
-    plt.ylabel('average year differences diversity')
+    ax2.set_xlabel('published year')
+    ax2.legend(loc=4)
+    ax2.set_ylabel('average published year diversity')
+    
     plt.tight_layout()
-    plt.savefig('pdf/figs/temporal_year_difference_diversity.jpg',dpi=400)
-    logging.info('saved to pdf/figs/temporal_year_difference_diversity.jpg')
+    plt.savefig('pdf/figs/temporal_diversity.jpg',dpi=400)
+    logging.info('saved to pdf/figs/temporal_diversity.jpg')
 
 
     ### basic diversity distribution
+    fig,axes = plt.subplots(3,1,figsize=(6,12))
     three_diversity_values = json.loads(open('data/data_of_figs/three_diversity.json').read())
     n = three_diversity_values['cc']['n']
     bins = three_diversity_values['cc']['bins']
     bins = [float('{:2f}'.format(l)) for l in bins]
     width = np.max(bins)/(len(n)+5)
 
-    plt.figure(figsize=(6,4))
-    plt.bar(bins[:-1],n,width=width,align='edge') 
-    plt.xlabel('impact diversity\n(a)')
-    plt.ylabel('number of publications')
-    plt.yscale('log')
-    plt.tight_layout()
-    plt.savefig('pdf/figs/cc_diversity_dis.jpg',dpi=400)
+    # plt.figure(figsize=(6,4))
+    ax = axes[0]
+    ax.bar(bins[:-1],n,width=width,align='edge') 
+    ax.set_xlabel('impact diversity\n(a)')
+    ax.set_ylabel('number of publications')
+    ax.set_yscale('log')
+    # plt.tight_layout()
+    # plt.savefig('pdf/figs/cc_diversity_dis.jpg',dpi=400)
 
-    plt.figure(figsize=(6,4))
+    # plt.figure(figsize=(6,4))
+    ax1 = axes[2]
     n = three_diversity_values['sd']['n']
     bins = three_diversity_values['sd']['bins']
     bins = [float('{:2f}'.format(l)) for l in bins]
     width = np.max(bins)/(len(n)+5)
 
-    plt.bar(bins[:-1],n,width=width,align='edge') 
-    plt.xlabel('subject diversity\n(c)')
-    plt.ylabel('number of publications')
-    plt.yscale('log')
-    plt.tight_layout()
-    plt.savefig('pdf/figs/subject_diversity_dis.jpg',dpi=400)
+    ax1.bar(bins[:-1],n,width=width,align='edge') 
+    ax1.set_xlabel('subject diversity\n(c)')
+    ax1.set_ylabel('number of publications')
+    ax1.set_yscale('log')
+    # plt.tight_layout()
+    # plt.savefig('pdf/figs/subject_diversity_dis.jpg',dpi=400)
 
 
-    plt.figure(figsize=(6,4))
+    # plt.figure(figsize=(6,4))
+    ax2 = axes[1]
     n = three_diversity_values['yd']['n']
     bins = three_diversity_values['yd']['bins']
     bins = [float('{:2f}'.format(l)) for l in bins]
     width = np.max(bins)/(len(n)+5)
 
 
-    plt.bar(bins[:-1],n,width=width,align='edge') 
-    plt.xlabel('published year diversity\n(b)')
-    plt.ylabel('number of publications')
-    plt.yscale('log')
+    ax2.bar(bins[:-1],n,width=width,align='edge') 
+    ax2.set_xlabel('published year diversity\n(b)')
+    ax2.set_ylabel('number of publications')
+    ax2.set_yscale('log')
+
     plt.tight_layout()
-    plt.savefig('pdf/figs/year_differences_diversity_dis.jpg',dpi=400)
+    plt.savefig('pdf/figs/diversity_dis.jpg',dpi=400)
 
     
     ### relation between fields and relations
