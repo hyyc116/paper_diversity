@@ -635,9 +635,9 @@ if __name__ == '__main__':
     wos_year_differences_diversity_path = 'data/wos_year_differences_diversity.json'
     selected_IDs_references_num_path = 'data/selected_IDs_references_num.json'
     # plot_diversity(wos_cc_diversity_path,wos_subject_diversity_path,wos_year_differences_diversity_path,selected_IDs_references_num_path)
-
+    year_cc_path = 'data/statistics/year_cc.json'
     selected_IDs_cc_path = 'data/selected_IDs_cc.json'
-    diversity_impact(wos_cc_diversity_path,wos_subject_diversity_path,wos_year_differences_diversity_path,selected_IDs_cc_path)
+    diversity_impact(wos_cc_diversity_path,wos_subject_diversity_path,wos_year_differences_diversity_path,selected_IDs_cc_path,com_IDs_year_path,year_cc_path)
 
     # plot_diversity_over_year(wos_cc_diversity_path,wos_subject_diversity_path,wos_year_differences_diversity_path,com_ids_cc_path,com_IDs_year_path)
 
