@@ -372,6 +372,8 @@ def diversity_impact(wos_cc_diversity_path,wos_subject_diversity_path,wos_year_d
         mean = np.mean(year_cc[str(year)])
         year_cc_mean[year] = mean
 
+    print year_cc_mean
+
 
     dvs_imp_fig_data = {}
     logging.info('plot citation count vs. impact diversity ...')
@@ -390,7 +392,7 @@ def diversity_impact(wos_cc_diversity_path,wos_subject_diversity_path,wos_year_d
             continue
 
         # cc_bin = int(np.log(cc)/np.log(10))
-        cc_bin = float('{:.2f}'.format(cc/float(year_cc_mean[com_ids_year[pid]])))
+        cc_bin = float('{:.2f}'.format(cc/float(year_cc_mean[str(com_ids_year[pid])])))
 
         ccbin_cd[cc_bin].append(cc_diversity)
 
