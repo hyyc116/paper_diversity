@@ -364,7 +364,7 @@ def diversity_impact(wos_cc_diversity_path,wos_subject_diversity_path,wos_year_d
     ## com id year
     com_ids_year = json.loads(open(com_IDs_year_path).read())
     ## load year cc
-    year_cc_list = json.loads(open(year_cc_path).read())
+    year_cc = json.loads(open(year_cc_path).read())
 
 
     year_cc_mean  = {}
@@ -430,13 +430,13 @@ def diversity_impact(wos_cc_diversity_path,wos_subject_diversity_path,wos_year_d
     zs = [i for i in zip(*lowess(ys,np.log(xs),frac= 0.2))[1]]
     plt.plot(xs,zs,'--',c='r')
 
-    plt.xlabel('citation count\n(a)')
+    plt.xlabel('normlized citation count\n(a)')
     plt.ylabel('average impact diversity')
 
     plt.xscale('log')
 
     plt.tight_layout()
-    plt.savefig('pdf/citation_diversity_impact.pdf',dpi=200)
+    plt.savefig('pdf/normed_citation_diversity_impact.pdf',dpi=200)
 
     xs = []
     ys = []
@@ -453,12 +453,12 @@ def diversity_impact(wos_cc_diversity_path,wos_subject_diversity_path,wos_year_d
     plt.plot(xs,ys,c=color_sequence[0])
 
     plt.xlabel('impact diversity')
-    plt.ylabel('average citation count')
+    plt.ylabel('average normlized citation count')
 
     # plt.xscale('log')
 
     plt.tight_layout()
-    plt.savefig('pdf/cd_cc.pdf',dpi=200)
+    plt.savefig('pdf/normed_cd_cc.pdf',dpi=200)
 
     logging.info('plot subject diversity vs. impact diversity ...')
 
@@ -507,13 +507,13 @@ def diversity_impact(wos_cc_diversity_path,wos_subject_diversity_path,wos_year_d
     zs = [i for i in zip(*lowess(ys,np.log(xs),frac= 0.2))[1]]
     plt.plot(xs,zs,'--',c='r')
 
-    plt.xlabel('citation count\n(c)')
+    plt.xlabel('normlized citation count\n(c)')
     plt.ylabel('average subject diversity')
 
     plt.xscale('log')
 
     plt.tight_layout()
-    plt.savefig('pdf/impact_diversity_subject.pdf',dpi=200)
+    plt.savefig('pdf/normed_impact_diversity_subject.pdf',dpi=200)
 
 
     xs = []
@@ -533,7 +533,7 @@ def diversity_impact(wos_cc_diversity_path,wos_subject_diversity_path,wos_year_d
     dvs_imp_fig_data['sd_cc'] = [xs,ys]
 
     plt.tight_layout()
-    plt.savefig('pdf/sd_cc.pdf',dpi=200)
+    plt.savefig('pdf/normed_sd_cc.pdf',dpi=200)
 
 
     logging.info('plot published year diversity vs. impact diversity ...')
@@ -587,7 +587,7 @@ def diversity_impact(wos_cc_diversity_path,wos_subject_diversity_path,wos_year_d
     plt.xscale('log')
 
     plt.tight_layout()
-    plt.savefig('pdf/impact_diversity_year.pdf',dpi=200)
+    plt.savefig('pdf/normed_impact_diversity_year.pdf',dpi=200)
 
 
     xs = []
@@ -607,7 +607,7 @@ def diversity_impact(wos_cc_diversity_path,wos_subject_diversity_path,wos_year_d
     dvs_imp_fig_data['ys_cc'] = [xs,ys]
 
     plt.tight_layout()
-    plt.savefig('pdf/yd_cc.pdf',dpi=200)
+    plt.savefig('pdf/normed_yd_cc.pdf',dpi=200)
 
     open('data/data_of_figs/diversity_impact_data.json','w').write(json.dumps(dvs_imp_fig_data))
 
