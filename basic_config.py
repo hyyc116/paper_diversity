@@ -33,36 +33,39 @@ from matplotlib.colors import LinearSegmentedColormap
 from networkx.algorithms.core import core_number
 from networkx.algorithms.core import k_core
 import psycopg2
-
-import pandas as pd
+from cycler import cycler
 import statsmodels.api as sm
 lowess = sm.nonparametric.lowess
+import scipy
 
-import seaborn as sn
+# from gini import gini
 
-from gini import gini
-
+logging.basicConfig(format='%(asctime)s : %(levelname)s : %(message)s',level=logging.INFO)
 
 mpl.rcParams['agg.path.chunksize'] = 10000
 
-
-color_sequence = ['#1f77b4', '#aec7e8', '#ff7f0e', '#ffbb78', '#2ca02c',
+color_sequence = ['#1f77b4',   '#ffbb78', '#2ca02c',
                   '#98df8a', '#d62728', '#ff9896', '#9467bd', '#c5b0d5',
                   '#8c564b', '#c49c94', '#e377c2', '#f7b6d2', '#7f7f7f',
-                  '#c7c7c7', '#bcbd22', '#dbdb8d', '#17becf', '#9edae5']
+                  '#c7c7c7', '#bcbd22', '#dbdb8d', '#17becf','#ff7f0e', '#aec7e8','#9edae5']
+mpl.rcParams['axes.prop_cycle'] = cycler('color', color_sequence)
 
-logging.basicConfig(format='%(asctime)s : %(levelname)s : %(message)s',level=logging.DEBUG)
-PREFIX='all'
-PROGRAM_ID='cascade'
-FIGDIR='pdf'
-DATADIR='data'
+# color = plt.cm.viridis(np.linspace(0.01,0.99,6)) # This returns RGBA; convert:
+# hexcolor = map(lambda rgb:'#%02x%02x%02x' % (rgb[0]*255,rgb[1]*255,rgb[2]*255),
+#                tuple(color[:,0:-1]))
 
-params = {'legend.fontsize': 8,
+# mpl.rcParams['axes.prop_cycle'] = cycler('color', hexcolor)
+
+
+params = {'legend.fontsize': 10,
          'axes.labelsize': 15,
          'axes.titlesize':20,
          'xtick.labelsize':15,
          'ytick.labelsize':15}
 pylab.rcParams.update(params)
+
+
+from paths import *
 
 
 def circle(ax,x,y,radius=0.15):
@@ -102,11 +105,11 @@ def autolabel(rects,ax,total_count=None,step=1,):
 class dbop:
 
     def __init__(self,insert_index=0):
-        
+
         self._insert_index=insert_index
         self._insert_values=[]
         logging.debug("connect database with normal cursor.")
-        self._db = psycopg2.connect(database='wos_core_2',user="huanyong",password = "pendulum_wist_estival")    
+        self._db = psycopg2.connect(database='core_data',user="buyi",password = "ruth_hardtop_isthmus_bubbly")
         self._cursor = self._db.cursor()
 
 
@@ -124,7 +127,7 @@ class dbop:
         self._cursor.executemany(sql,values)
         logging.debug("insert data to database with sql {:}".format(sql))
         self._db.commit()
-        
+
 
     def batch_insert(self,sql,row,step,is_auto=True,end=False):
         if end:
@@ -156,3 +159,184 @@ class dbop:
 
     def close_db(self):
         self._db.close()
+
+
+
+def plot_line_from_data(fig_data,ax=None):
+
+    xs = fig_data['x']
+    ys = fig_data['y']
+    title = fig_data['title']
+    xlabel = fig_data['xlabel']
+    ylabel = fig_data['ylabel']
+    marker = fig_data['marker']
+    xscale = fig_data.get('xscale','linear')
+    yscale = fig_data.get('yscale','linear')
+
+
+    if ax is None:
+
+        plt.plot(xs,ys,marker)
+        plt.xlabel(xlabel)
+        plt.ylabel(ylabel)
+        plt.xscale(xscale)
+        plt.yscale(yscale)
+        plt.title(title)
+        plt.tight_layout()
+
+    else:
+
+        ax.plot(xs,ys,marker)
+        ax.set_xlabel(xlabel)
+        ax.set_ylabel(ylabel)
+        ax.set_title(title)
+        ax.set_xscale(xscale)
+        ax.set_yscale(yscale)
+
+def plot_bar_from_data(fig_data,ax=None):
+
+    xs = fig_data['x']
+    ys = fig_data['y']
+    title = fig_data['title']
+    xlabel = fig_data['xlabel']
+    ylabel = fig_data['ylabel']
+    xscale = fig_data.get('xscale','linear')
+    yscale = fig_data.get('yscale','linear')
+
+
+    if ax is None:
+
+        plt.bar(xs,ys,align='center')
+        plt.xlabel(xlabel)
+        plt.ylabel(ylabel)
+        plt.xscale(xscale)
+        plt.yscale(yscale)
+        plt.title(title)
+        plt.tight_layout()
+
+    else:
+
+        ax.bar(xs,ys,align='center')
+        ax.set_xlabel(xlabel)
+        ax.set_ylabel(ylabel)
+        ax.set_title(title)
+        ax.set_xscale(xscale)
+        ax.set_yscale(yscale)
+
+
+
+def plot_multi_lines_from_data(fig_data,ax=None):
+
+    xs = fig_data['x']
+    yses = fig_data['ys']
+    title = fig_data['title']
+    xlabel = fig_data['xlabel']
+    ylabel = fig_data['ylabel']
+    markers = fig_data['markers']
+    labels = fig_data['labels']
+    xscale = fig_data.get('xscale','linear')
+    yscale = fig_data.get('yscale','linear')
+
+
+    if ax is None:
+        for i,ys in enumerate(yses):
+            plt.plot(xs,ys,markers[i],label=labels[i])
+
+        plt.xlabel(xlabel)
+        plt.ylabel(ylabel)
+        plt.xscale(xscale)
+        plt.yscale(yscale)
+        plt.title(title)
+        plt.legend()
+        plt.tight_layout()
+
+    else:
+        for i,ys in enumerate(yses):
+            ax.plot(xs,ys,markers[i],label=labels[i])
+
+        ax.set_xlabel(xlabel)
+        ax.set_ylabel(ylabel)
+        ax.set_title(title)
+        ax.set_xscale(xscale)
+        ax.set_yscale(yscale)
+        ax.legend()
+
+
+def plot_multi_lines_from_two_data(fig_data,ax=None):
+
+    xses = fig_data['xs']
+    yses = fig_data['ys']
+    title = fig_data['title']
+    xlabel = fig_data['xlabel']
+    ylabel = fig_data['ylabel']
+    markers = fig_data['markers']
+    labels = fig_data['labels']
+    xscale = fig_data.get('xscale','linear')
+    yscale = fig_data.get('yscale','linear')
+
+    if ax is None:
+        for i,ys in enumerate(yses):
+            plt.plot(xses[i],ys,markers[i],label=labels[i])
+
+        plt.xlabel(xlabel)
+        plt.ylabel(ylabel)
+        plt.xscale(xscale)
+        plt.yscale(yscale)
+        plt.title(title)
+        plt.legend()
+        plt.tight_layout()
+
+    else:
+        for i,ys in enumerate(yses):
+            ax.plot(xses[i],ys,markers[i],label=labels[i])
+
+        ax.set_xlabel(xlabel)
+        ax.set_ylabel(ylabel)
+        ax.set_title(title)
+        ax.set_xscale(xscale)
+        ax.set_yscale(yscale)
+        ax.legend()
+
+
+def hist_2_bar(data,bins=50):
+    n,bins,patches = plt.hist(data,bins=bins)
+    return [x for x in bins[:-1]],[x for x in n]
+
+def gini(array):
+    """Calculate the Gini coefficient of a numpy array."""
+    # based on bottom eq:
+    # http://www.statsdirect.com/help/generatedimages/equations/equation154.svg
+    # from:
+    # http://www.statsdirect.com/help/default.htm#nonparametric_methods/gini.htm
+    # All values are treated equally, arrays must be 1d:
+    array = array.flatten()
+    if np.amin(array) < 0:
+        # Values cannot be negative:
+        array -= np.amin(array)
+    # Values cannot be 0:
+    array += 0.0000001
+    # Values must be sorted:
+    array = np.sort(array)
+    # Index per array element:
+    index = np.arange(1,array.shape[0]+1)
+    # Number of array elements:
+    n = array.shape[0]
+    # Gini coefficient:
+    return ((np.sum((2 * index - n  - 1) * array)) / (n * np.sum(array)))
+
+if __name__ == '__main__':
+    # test color theme
+
+    xs = range(5)
+    ys = np.random.random((5, 5))
+
+    plt.figure()
+    plt.plot(xs,ys)
+
+    plt.tight_layout()
+
+    plt.savefig('fig/test_color.jpg')
+
+
+
+
