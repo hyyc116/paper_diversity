@@ -26,24 +26,24 @@ def read_dataset():
 
 	query_op = dbop()
 
-	sql = 'select paper_id,year from mag_core.papers'
-	year_process  = 0	
-	for paper_id,year in query_op.query_database(sql):
-		year_process +=1
+	# sql = 'select paper_id,year from mag_core.papers'
+	# year_process  = 0	
+	# for paper_id,year in query_op.query_database(sql):
+	# 	year_process +=1
 
-		if year_process%100000==0:
+	# 	if year_process%100000==0:
 
-			logging.info('read year progress :{} ...'.format(year_process))
+	# 		logging.info('read year progress :{} ...'.format(year_process))
 
-		paper_year[paper_id] = year
+	# 	paper_year[paper_id] = year
 
 
-	open('data/paper_year.json','w').write(json.dumps(paper_year))
-	logging.info('paper year saved to data/paper_year.json')
+	# open('data/paper_year.json','w').write(json.dumps(paper_year))
+	# logging.info('paper year saved to data/paper_year.json')
 
 
 	## 文章对应的subject
-	sql = 'select paper_id,field_of_study from mag_core.paper_fields_of_study'
+	sql = 'select paper_id,field_of_study_id from mag_core.paper_fields_of_study'
 	field_progress =  0
 	for paper_id,field_of_study in query_op.query_database(sql):
 
