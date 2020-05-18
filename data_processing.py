@@ -61,8 +61,11 @@ def read_dataset():
 	# open('data/paper_field1.json','w').write(json.dumps(paper_fields))
 	# logging.info('paper fields saved to data/paper_field1.json')
 
+	paper_field = json.loads(open('data/paper_field1.json').read())
 
 	paper_refnum = defaultdict(int)
+
+	subj12_num = defaultdict(lambda:defaultdict(int))
 
 	### paper references
 	sql = 'select paper_id,paper_reference_id from mag_core.paper_references'
@@ -75,6 +78,14 @@ def read_dataset():
 		paper_refnum[paper_id]+=1
 
 		paper_citnum[paper_reference_id]+=1
+
+
+		subj1 = paper_field.get(paper_id,[])
+		subj2 = paper_field.get(paper_reference_id,[])
+		##统计学科之间的引用次数，计算学科的相似性
+		for s1 in subj1:
+			for s2 in subj2:
+				subj12_num[s1][s2]+=1
 
 		if int(pyear)-int(ref_year)<=5:
 			paper_c5[paper_reference_id]+=1
@@ -99,6 +110,8 @@ def read_dataset():
 
 	open("data/paper_c10.json",'w').write(json.dumps(paper_c10))
 	logging.info("paper citnum saved to data/paper_c10.json")
+
+	open('data/subj_refnum.json','w').write(json.dumps(subj12_num))
 
 	query_op.close_db()
 
