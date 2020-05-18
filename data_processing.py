@@ -46,7 +46,7 @@ def read_dataset():
 	## 文章对应的field
 	paper_fields = defaultdict(list)
 	# 文章对应的subject
-	sql = 'select paper_id,A.field_of_study_id from mag_core.paper_fields_of_study as A, mag_core.fields_of_study as B where A.field_of_study_id = B.field_of_study_id and B.level=0 limit 10'
+	sql = 'select paper_id,A.field_of_study_id from mag_core.paper_fields_of_study as A, mag_core.fields_of_study as B where A.field_of_study_id = B.field_of_study_id and B.level=1'
 	field_progress =  0
 	for paper_id,field_of_study in query_op.query_database(sql):
 
@@ -58,8 +58,8 @@ def read_dataset():
 
 		paper_fields[paper_id].append(field_of_study)
 
-	open('data/paper_field0.json','w').write(json.dumps(paper_fields))
-	logging.info('paper fields saved to data/paper_field0.json')
+	open('data/paper_field1.json','w').write(json.dumps(paper_fields))
+	logging.info('paper fields saved to data/paper_field1.json')
 
 
 	paper_refnum = {}
