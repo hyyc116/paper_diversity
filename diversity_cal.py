@@ -37,19 +37,61 @@ def plot_refnum_dis():
 	plt.savefig('fig/paper_refnum_dis.png',dpi=400)
 
 
-## 计算refnum在N以上的论文
-def cal_diversity(N):
+## 计算每篇论文需要的diversity的attr
+def ref_attr():
 
 	## 加载统计数据
 
 	paper_year = json.loads(open('data/paper_year.json').read())
 
-	paper_field = json.loads(open('data/paper_field0.json').read())
+	paper_field = json.loads(open('data/paper_field1.json').read())
 
+	paper_c5 = json.loads(open('data/paper_c5.json').read())
+
+	paper_c10 = json.loads(open('data/paper_c10.json').read())
 
 	query_op  = dbop()
 
-	sql = ' '
+
+	paper_ref_attrs = defaultdict(list)
+
+	sql = 'select paper_id,paper_reference_id from mag_core.paper_references'
+	reference_progress= 0 
+	for paper_id,paper_reference_id in query_op.query_database(sql):
+
+		reference_progress+=1
+
+		if reference_progress%10000000==0:
+
+			logging.info('reference progress {} ...'.format(reference_progress))
+
+
+		##第一个属性是year
+		year = paper_year[paper_reference_id]
+
+		## 第二、三个属性是c5,c10
+		c5 = paper_c5[paper_reference_id]
+		c10 = paper_c10[paper_reference_id]
+
+		##第四个属性是subjects
+		subjs = paper_field[paper_reference_id]
+
+		paper_ref_attrs[paper_id] = [year,c5,c10,subjs]
+
+
+	open("data/paper_ref_attrs.json",'w').write(json.dumps(paper_ref_attrs))
+	logging.info('data saved to data/paper_ref_attrs.json')
+
+
+
+
+
+
+if __name__ == '__main__':
+	cal_diversity()
+
+
+
 
 
 
