@@ -88,7 +88,8 @@ def ref_attr():
 
 
 if __name__ == '__main__':
-	cal_diversity()
+	plot_refnum_dis()
+	ref_attr()
 
 
 
