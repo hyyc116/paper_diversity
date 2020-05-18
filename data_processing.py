@@ -21,8 +21,7 @@ def read_dataset():
 
 
 
-	## 文章对应的field
-	paper_fields = defaultdict(list)
+	
 
 	query_op = dbop()
 
@@ -44,22 +43,26 @@ def read_dataset():
 	paper_year = json.loads(open('data/paper_year.json').read())
 
 
-	## 文章对应的subject
-	# sql = 'select paper_id,field_of_study_id from mag_core.paper_fields_of_study'
-	# field_progress =  0
-	# for paper_id,field_of_study in query_op.query_database(sql):
+	## 文章对应的field
+	paper_fields = defaultdict(list)
+	# 文章对应的subject
+	sql = 'select paper_id,A.field_of_study_id from mag_core.paper_fields_of_study as A, mag_core.fields_of_study as B where A.field_of_study_id = B.field_of_study_id and B.level=0 limit 10'
+	field_progress =  0
+	for paper_id,field_of_study in query_op.query_database(sql):
 
-	# 	field_progress+=1
+		field_progress+=1
 
-	# 	if field_progress%100000==0:
+		if field_progress%100000==0:
 
-	# 		logging.info('paper field progress:{} ...'.format(field_progress))
+			logging.info('paper field progress:{} ...'.format(field_progress))
 
-	# 	paper_fields[paper_id].append(field_of_study)
+		paper_fields[paper_id].append(field_of_study)
 
-	# open('data/paper_fields.json','w').write(json.dumps(paper_fields))
-	# logging.info('paper fields saved to data/paper_fields.json')
+	open('data/paper_field0.json','w').write(json.dumps(paper_fields))
+	logging.info('paper fields saved to data/paper_field0.json')
 
+
+	paper_refnum = {}
 
 	### paper references
 	sql = 'select paper_id,paper_reference_id from mag_core.paper_references'
@@ -69,13 +72,15 @@ def read_dataset():
 		pyear = paper_year[paper_id]
 		ref_year = paper_year[paper_reference_id]
 
+		paper_refnum[paper_id]+=1
+
 		paper_citnum[paper_reference_id]+=1
 
 		if int(pyear)-int(ref_year)<=5:
 			paper_c5[paper_reference_id]+=1
 
 		if int(pyear) - int(ref_year)<=10:
-			paper_c10[paper_id]+=1
+			paper_c10[paper_reference_id]+=1
 
 		reference_progress+=1
 
@@ -85,6 +90,9 @@ def read_dataset():
 
 	open("data/paper_citnum.json",'w').write(json.dumps(paper_citnum))
 	logging.info("paper citnum saved to data/paper_citnum.json")
+
+	open("data/paper_refnum.json",'w').write(json.dumps(paper_refnum))
+	logging.info("paper citnum saved to data/paper_refnum.json")
 
 	open("data/paper_c5.json",'w').write(json.dumps(paper_c5))
 	logging.info("paper citnum saved to data/paper_c5.json")
