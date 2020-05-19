@@ -70,8 +70,8 @@ def ref_attr():
 		year = paper_year[paper_reference_id]
 
 		## 第二、三个属性是c5,c10
-		c5 = paper_c5[paper_reference_id]
-		c10 = paper_c10[paper_reference_id]
+		c5 = paper_c5.get(paper_reference_id,0)
+		c10 = paper_c10.get(paper_reference_id,0)
 
 		##第四个属性是subjects
 		subjs = paper_field[paper_reference_id]
@@ -81,9 +81,6 @@ def ref_attr():
 
 	open("data/paper_ref_attrs.json",'w').write(json.dumps(paper_ref_attrs))
 	logging.info('data saved to data/paper_ref_attrs.json')
-
-
-
 
 
 
