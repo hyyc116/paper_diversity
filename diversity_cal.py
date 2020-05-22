@@ -67,14 +67,20 @@ def ref_attr():
 
 
 		##第一个属性是year
-		year = paper_year[paper_reference_id]
+		year = paper_year.get(paper_reference_id,None)
+
+		if year is None:
+			continue
 
 		## 第二、三个属性是c5,c10
 		c5 = paper_c5.get(paper_reference_id,0)
 		c10 = paper_c10.get(paper_reference_id,0)
 
 		##第四个属性是subjects
-		subjs = paper_field[paper_reference_id]
+		subjs = paper_field.get(paper_reference_id,None)
+
+		if subjs is None:
+			continue
 
 		paper_ref_attrs[paper_id] = [year,c5,c10,subjs]
 
