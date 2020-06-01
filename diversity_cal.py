@@ -82,16 +82,22 @@ def ref_attr():
 		if subjs is None:
 			continue
 
-		paper_ref_attrs[paper_id] = [year,c5,c10,subjs]
+		paper_ref_attrs[paper_id].append([year,c5,c10,subjs])
 
 
 	open("data/paper_ref_attrs.json",'w').write(json.dumps(paper_ref_attrs))
 	logging.info('data saved to data/paper_ref_attrs.json')
 
 
+##计算所有论文的各种diversity
+def cal_diversity():
+
+
+	pass
+
 
 if __name__ == '__main__':
-	plot_refnum_dis()
+	# plot_refnum_dis()
 	ref_attr()
 
 
