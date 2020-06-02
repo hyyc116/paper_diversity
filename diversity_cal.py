@@ -119,11 +119,4 @@ def cal_diversity():
 
 if __name__ == '__main__':
 	# plot_refnum_dis()
-	# ref_attr()
-
-
-
-
-
-
-
+	ref_attr()
