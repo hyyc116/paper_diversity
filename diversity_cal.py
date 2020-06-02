@@ -84,8 +84,29 @@ def ref_attr():
 
 		paper_ref_attrs[paper_id].append([year,c5,c10,subjs])
 
+	logging.info('{} paper ref done, slicing dict'.format(len(paper_ref_attrs)))
 
-	open("data/paper_ref_attrs.json",'w').write(json.dumps(paper_ref_attrs))
+
+	total = len(paper_ref_attrs)
+	keys = paper_ref_attrs.keys()
+	of = open("data/paper_ref_attrs.json",'w')
+	sub_dict = {}
+	progress = 0
+	for i in range(total):
+		key = keys[i]
+		sub_dict[key] = paper_ref_attrs[key]
+
+		if i!=0 and i%1000000==0:
+
+			of.write(json.dumps(sub_dict)+'\n')
+			sub_dict={}
+
+			logging.info("writting progress {}/{} ...".format(i,total))
+
+	if sub_dict!={}:
+		of.write(json.dumps(sub_dict)+'\n')
+		logging.info("writting progress {}/{} ...".format(i,total))
+	
 	logging.info('data saved to data/paper_ref_attrs.json')
 
 
@@ -98,7 +119,7 @@ def cal_diversity():
 
 if __name__ == '__main__':
 	# plot_refnum_dis()
-	ref_attr()
+	# ref_attr()
 
 
 
