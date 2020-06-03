@@ -148,6 +148,9 @@ def cal_diversity():
 
 			all_subjs = []
 
+
+
+
 			for ref_attr in paper_ref_attrs[pid]:
 
 				year,c5,c10,subjs = ref_attr
@@ -157,6 +160,9 @@ def cal_diversity():
 				c10s.append(c10)
 
 				all_subjs.append(subjs)
+
+			if len(years)<5:
+				continue
 
 			year_div = gini(years)
 			c5_div = gini(c5s)
