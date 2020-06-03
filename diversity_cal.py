@@ -124,7 +124,7 @@ def cal_diversity():
 
 
 
-	of = open('data/pid_divs.txt',w)
+	of = open('data/pid_divs.txt','w')
 	progress = 0
 
 	for line in open('data/paper_ref_attrs.json'):
