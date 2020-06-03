@@ -115,7 +115,7 @@ def ref_attr():
 def cal_diversity():
 
 	subj_refnum = json.loads(open('data/subj_refnum.json').read())
-	subj_totalnum = subj_refnum.keys()
+	subj_totalnum = len(subj_refnum.keys())
 
 	citnum_total = defaultdict(int)
 	for subj in subj_refnum.keys():
