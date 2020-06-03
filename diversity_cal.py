@@ -7,6 +7,7 @@
 '''
 
 from basic_config import *
+from gini import gini
 
 ## 画出reference num的数量分布
 
@@ -113,10 +114,132 @@ def ref_attr():
 ##计算所有论文的各种diversity
 def cal_diversity():
 
+	subj_refnum = json.loads(open('data/subj_refnum.json').read())
+	subj_totalnum = subj_refnum.keys()
 
-	pass
+	citnum_total = defaultdict(int)
+	for subj in subj_refnum.keys():
+		for subj2 in subj_refnum[subj].keys():
+			citnum_total[subj2]+=subj_refnum[subj][subj2]
+
+
+
+	of = open('data/pid_divs.txt',w)
+	progress = 0
+
+	for line in open('data/paper_ref_attrs.json'):
+
+		progress+=1
+
+		logging.info('progress {} ...'.format(progress))
+		
+		pid_div_vs = {}
+
+
+		line = line.strip()
+
+		paper_ref_attrs = json.loads(line)
+
+		for pid in paper_ref_attrs.keys():
+
+			years = []
+			c5s = []
+			c10s = []
+
+			all_subjs = []
+
+			for ref_attr in paper_ref_attrs[pid]:
+
+				year,c5,c10,subjs = ref_attr
+
+				years.append(year)
+				c5s.append(c5)
+				c10s.append(c10)
+
+				all_subjs.append(subjs)
+
+			year_div = gini(years)
+			c5_div = gini(c5s)
+			c10_div = gini(c10s)
+			subj_div = cal_subj_div(all_subjs,subj_refnum,subj_totalnum,citnum_total)
+
+			pid_div_vs[pid] = [year_div,c5_div,c10_div,subj_div]
+
+		of.write(json.dumps(pid_div_vs)+"\n")
+
+	logging.info('paper attr done.')
+
+
+## 计算subject的diversity
+def cal_subj_div(all_subjs,subj_refnum,subj_totalnum,citnum_total):
+	subj_set = []
+	subj_num = []
+	for subjs in all_subjs:
+		subj_num.append(len(subjs))
+
+		subj_set.extend(subjs)
+
+	subj_set = list(set(subj_set))
+
+	## nc/N
+	variety = len(subj_set)/subj_totalnum
+
+	balance = gini(subj_num)
+
+	dispasity = cal_dispasity(subj_set,subj_refnum,citnum_total)
+
+	return variety*balance*dispasity
+
+
+def cal_dispasity(subj_set,subj_refnum,citnum_total):
+
+	all_dij = []
+	for i in range(len(subj_set)):
+
+		for j in range(i+1,len(subj_set)):
+
+			if i==j:
+				continue
+
+			subj1 = subj_set[i]
+			subj2 = subj_set[j]
+
+			dij = 1-Sij(subj1,subj2,subj_refnum,citnum_total)
+
+			all_dij.append(dij)
+
+	return np.mean(all_dij)
+
+
+
+
+def Rij(subj1,subj2,subj_refnum):
+
+	return int(subj_refnum[subj1].get(subj2,0))
+
+def Sij(subj1,subj2,subj_refnum,citnum_total):
+
+	return (Rij(subj1,subj2,subj_refnum)+Rij(subj2,subj1,subj_refnum))/
+			np.sqrt((total_refnum_of_subj(subj1,subj_refnum)+total_citnum_of_subj(subj1,citnum_total))*(total_refnum_of_subj(subj2,subj_refnum)+total_citnum_of_subj(subj2,citnum_total)))
+
+
+def total_refnum_of_subj(subj,subj_refnum):
+
+	return np.sum([int(i) for i in subj_refnum[subj].values()])
+
+def total_citnum_of_subj(subj,citnum_total):
+	return citnum_total[subj]
+
+
+
+
+
+
+
+
 
 
 if __name__ == '__main__':
 	# plot_refnum_dis()
-	ref_attr()
+	# ref_attr()
+	cal_diversity()
