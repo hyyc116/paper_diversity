@@ -219,8 +219,7 @@ def Rij(subj1,subj2,subj_refnum):
 
 def Sij(subj1,subj2,subj_refnum,citnum_total):
 
-	return (Rij(subj1,subj2,subj_refnum)+Rij(subj2,subj1,subj_refnum))/
-			np.sqrt((total_refnum_of_subj(subj1,subj_refnum)+total_citnum_of_subj(subj1,citnum_total))*(total_refnum_of_subj(subj2,subj_refnum)+total_citnum_of_subj(subj2,citnum_total)))
+	return (Rij(subj1,subj2,subj_refnum)+Rij(subj2,subj1,subj_refnum))/np.sqrt((total_refnum_of_subj(subj1,subj_refnum)+total_citnum_of_subj(subj1,citnum_total))*(total_refnum_of_subj(subj2,subj_refnum)+total_citnum_of_subj(subj2,citnum_total)))
 
 
 def total_refnum_of_subj(subj,subj_refnum):
