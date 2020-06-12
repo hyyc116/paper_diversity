@@ -95,8 +95,8 @@ def plot_dis_over_attr(attrName,data):
 		ys_median.append(np.median(year_div_dis[year]))
 
 
-	ax.plot(xs,ys_mean,label = 'mean')
-	ax.plot(xs,ys_median,label ='median')
+	ax.plot(xs,ys_mean,'-.',label = 'mean')
+	ax.plot(xs,ys_median,'-.',label ='median')
 
 	ax.set_xlabel('{}'.format(attrName))
 	ax.set_ylabel('year diversity')
@@ -114,8 +114,8 @@ def plot_dis_over_attr(attrName,data):
 		ys_median.append(np.median(subj_div_dis[year]))
 
 
-	ax.plot(xs,ys_mean,label = 'mean')
-	ax.plot(xs,ys_median,label = 'median')
+	ax.plot(xs,ys_mean,'-.',label = 'mean')
+	ax.plot(xs,ys_median,'-.',label = 'median')
 
 	ax.set_xlabel('{}'.format(attrName))
 	ax.set_ylabel('subject diversity')
@@ -133,8 +133,8 @@ def plot_dis_over_attr(attrName,data):
 		ys_median.append(np.median(c10_div_dis[year]))
 
 
-	ax.plot(xs,ys_mean,label = 'mean')
-	ax.plot(xs,ys_median,label = 'median')
+	ax.plot(xs,ys_mean,'-.',label = 'mean')
+	ax.plot(xs,ys_median,'-.',label = 'median')
 
 	ax.set_xlabel('{}'.format(attrName))
 	ax.set_ylabel('impact diversity')
