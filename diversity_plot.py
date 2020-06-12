@@ -48,9 +48,9 @@ def year_div():
 
 			ts = int(paper_ts.get(pid,-1))
 
-			subj = paper_fos.get(pid,None)
+			subjs = paper_fos.get(pid,None)
 
-			if year>2005 or ts==-1 or subj is None:
+			if year>2005 or ts==-1 or subjs is None:
 				continue
 
 			year_div,c5_div,c10_div,subj_div = pid_div_vs[pid]
@@ -63,9 +63,10 @@ def year_div():
 			ts_subj_dis[ts].append(subj_div)
 			ts_c10_dis[ts].append(c10_div)
 
-			fos_year_dis[subj].append(year_div)
-			fos_subj_dis[subj].append(subj_div)
-			fos_c10_dis[subj].append(c10_div)
+			for subj in subjs:
+				fos_year_dis[subj].append(year_div)
+				fos_subj_dis[subj].append(subj_div)
+				fos_c10_dis[subj].append(c10_div)
 
 
 	plot_dis_over_attr('publication year',(year_div_dis,subj_div_dis,c10_div_dis))
