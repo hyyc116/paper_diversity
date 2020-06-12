@@ -7,6 +7,7 @@ from basic_config import *
 def year_div():
 
 	paper_year= json.loads(open('data/paper_year.json').read())
+	logging.info('year data loaded ....')
 
 	year_div_dis = defaultdict(list)
 	c10_div_dis = defaultdict(list)
@@ -102,6 +103,10 @@ def year_div():
 
 	plt.savefig('fig/diversity_over_year.png',dpi=400)
 	logging.info("fig saved to fig/diversity_over_year.png.")
+
+
+
+	
 
 
 ## 随team size的分布

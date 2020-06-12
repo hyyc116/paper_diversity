@@ -236,15 +236,26 @@ def total_citnum_of_subj(subj,citnum_total):
 	return citnum_total[subj]
 
 
+def paper_teamsize():
 
 
+	paper_authors = defaultdict(int)
+
+	query_op  = dbop()
+
+	sql = 'select paper_id,author_id from mag_core.paper_author_affiliations'
+	reference_progress= 0 
+	for paper_id,author_id in query_op.query_database(sql):
+
+		paper_authors[paper_id]+=1
 
 
-
-
+	open('data/paper_teamsize.json','w').write(json.dumps(paper_authors))
+	logging.info('data saved to data/paper_teamsize.json.')
 
 
 if __name__ == '__main__':
 	# plot_refnum_dis()
 	# ref_attr()
-	cal_diversity()
+	# cal_diversity()
+	paper_teamsize()
