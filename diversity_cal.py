@@ -155,7 +155,7 @@ def cal_diversity():
 
 				year,c5,c10,subjs = ref_attr
 
-				years.append(year)
+				years.append(int(year))
 				c5s.append(c5)
 				c10s.append(c10)
 
@@ -188,16 +188,16 @@ def cal_subj_div(all_subjs,subj_refnum,subj_totalnum,citnum_total):
 	subj_set = list(set(subj_set))
 
 	## nc/N
-	variety = len(subj_set)/subj_totalnum
+	variety = len(subj_set)/float(subj_totalnum)
 
 	balance = gini(subj_num)
 
-	dispasity = cal_dispasity(subj_set,subj_refnum,citnum_total)
+	disparsity = cal_disparsity(subj_set,subj_refnum,citnum_total)
 
-	return variety*balance*dispasity
+	return variety*balance*disparsity
 
 
-def cal_dispasity(subj_set,subj_refnum,citnum_total):
+def cal_disparsity(subj_set,subj_refnum,citnum_total):
 
 	all_dij = []
 	for i in range(len(subj_set)):
