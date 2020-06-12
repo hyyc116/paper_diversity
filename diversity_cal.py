@@ -257,5 +257,5 @@ def paper_teamsize():
 if __name__ == '__main__':
 	# plot_refnum_dis()
 	# ref_attr()
-	# cal_diversity()
-	paper_teamsize()
+	cal_diversity()
+	# paper_teamsize()
