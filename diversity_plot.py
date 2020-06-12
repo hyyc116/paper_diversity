@@ -42,7 +42,7 @@ def year_div():
 
 	fig,axes = plt.subplots(3,1,figsize=(5,12))
 
-	ax0 = axes[0]
+	ax = axes[0]
 	xs = []
 	ys_mean = []
 	ys_median = []
@@ -61,7 +61,7 @@ def year_div():
 	ax.set_title('year diversity')
 
 
-	ax0 = axes[1]
+	ax = axes[1]
 	xs = []
 	ys_mean = []
 	ys_median = []
@@ -80,7 +80,7 @@ def year_div():
 	ax.set_title('subject diversity')
 
 
-	ax0 = axes[2]
+	ax = axes[2]
 	xs = []
 	ys_mean = []
 	ys_median = []
@@ -106,7 +106,7 @@ def year_div():
 
 
 
-	
+
 
 
 ## 随team size的分布
