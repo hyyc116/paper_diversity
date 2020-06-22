@@ -73,13 +73,13 @@ def year_div():
 
 	plot_dis_over_attr('team size',(ts_year_dis,ts_subj_dis,ts_c10_dis))
 
-	plot_dis_over_attr('field',(fos_year_dis,fos_subj_dis,fos_c10_dis))
+	# plot_dis_over_attr('field',(fos_year_dis,fos_subj_dis,fos_c10_dis))
 
 
 
 def plot_dis_over_attr(attrName,data):
 
-	logging.info("start to plotting {} ....".format(attrName))
+	logging.info("start to plotting {}, length of data {} ....".format(attrName,len(data)))
 
 	year_div_dis,subj_div_dis,c10_div_dis = data
 
@@ -242,7 +242,6 @@ def team_div():
 	ax.set_ylabel('impact diversity')
 
 	ax.set_title('impact diversity')
-
 
 	plt.tight_layout()
 
