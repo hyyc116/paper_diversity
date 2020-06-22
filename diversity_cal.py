@@ -164,7 +164,7 @@ def cal_diversity():
 			if len(years)<5:
 				continue
 
-			year_div = gini(years)
+			year_div = gini(np.array(years)-np.min(years))
 			c5_div = gini(c5s)
 			c10_div = gini(c10s)
 			subj_div = cal_subj_div(all_subjs,subj_refnum,subj_totalnum,citnum_total)
