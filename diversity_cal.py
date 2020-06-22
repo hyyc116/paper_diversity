@@ -117,6 +117,9 @@ def cal_diversity():
 	subj_refnum = json.loads(open('data/subj_refnum.json').read())
 	subj_totalnum = len(subj_refnum.keys())
 
+	paper_year= json.loads(open('data/paper_year.json').read())
+	logging.info('year data loaded ....')
+
 	citnum_total = defaultdict(int)
 	for subj in subj_refnum.keys():
 		for subj2 in subj_refnum[subj].keys():
@@ -155,7 +158,7 @@ def cal_diversity():
 
 				year,c5,c10,subjs = ref_attr
 
-				years.append(int(year))
+				years.append(int(year)-int(paper_year[pid]))
 				c5s.append(c5)
 				c10s.append(c10)
 
@@ -164,7 +167,7 @@ def cal_diversity():
 			if len(years)<5:
 				continue
 
-			year_div = gini(np.array(years)-np.min(years))
+			year_div = gini(np.array(years))
 			c5_div = gini(c5s)
 			c10_div = gini(c10s)
 			subj_div = cal_subj_div(all_subjs,subj_refnum,subj_totalnum,citnum_total)
