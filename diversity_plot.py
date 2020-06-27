@@ -63,7 +63,7 @@ def year_div():
 			ts_subj_dis[ts].append(subj_div)
 			ts_c10_dis[ts].append(c10_div)
 
-			if subj is None:
+			if subjs is None:
 				continue
 
 			for subj in subjs:
