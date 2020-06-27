@@ -31,11 +31,12 @@ def year_div():
 
 
 	progress = 0 
+	total_papers = 0
 	for line in open('data/pid_divs.txt'):
 
 		progress+=1
 
-		logging.info("progress {} ....".format(progress))
+		logging.info("progress {}, total papers {} ....".format(progress,total_papers))
 
 		
 		line = line.strip()
@@ -50,8 +51,10 @@ def year_div():
 
 			subjs = paper_fos.get(pid,None)
 
-			if year>2005 or ts==-1 or subjs is None:
+			if year>2008 or ts==-1:
 				continue
+
+			total_papers+=1
 
 			year_div,c5_div,c10_div,subj_div = pid_div_vs[pid]
 
@@ -80,6 +83,8 @@ def year_div():
 def plot_dis_over_attr(attrName,data):
 
 	logging.info("start to plotting {}, length of data {} ....".format(attrName,len(data)))
+
+	print(data.keys())
 
 	year_div_dis,subj_div_dis,c10_div_dis = data
 
