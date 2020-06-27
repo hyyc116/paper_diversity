@@ -38,11 +38,8 @@ def year_div():
 
 		logging.info("progress {}, total papers {} ....".format(progress,total_papers))
 
-		
 		line = line.strip()
-
 		pid_div_vs = json.loads(line)
-
 		for pid in pid_div_vs.keys():
 
 			year = int(paper_year.get(pid,9999))
@@ -66,6 +63,9 @@ def year_div():
 			ts_subj_dis[ts].append(subj_div)
 			ts_c10_dis[ts].append(c10_div)
 
+			if subj is None:
+				continue
+
 			for subj in subjs:
 				fos_year_dis[subj].append(year_div)
 				fos_subj_dis[subj].append(subj_div)
@@ -77,8 +77,6 @@ def year_div():
 	plot_dis_over_attr('team size',(ts_year_dis,ts_subj_dis,ts_c10_dis))
 
 	# plot_dis_over_attr('field',(fos_year_dis,fos_subj_dis,fos_c10_dis))
-
-
 
 def plot_dis_over_attr(attrName,data):
 
@@ -99,13 +97,11 @@ def plot_dis_over_attr(attrName,data):
 		ys_mean.append(np.mean(year_div_dis[year]))
 		ys_median.append(np.median(year_div_dis[year]))
 
-
 	ax.plot(xs,ys_mean,'-.',label = 'mean')
 	ax.plot(xs,ys_median,'-.',label ='median')
 
 	ax.set_xlabel('{}'.format(attrName))
 	ax.set_ylabel('year diversity')
-
 	ax.set_title('year diversity')
 
 
