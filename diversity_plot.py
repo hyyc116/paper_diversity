@@ -80,9 +80,9 @@ def year_div():
 
 def plot_dis_over_attr(attrName,data):
 
-	logging.info("start to plotting {}, length of data {} ....".format(attrName,len(data)))
+	# logging.info("start to plotting {}, length of data {} ....".format(attrName,len(data)))
 
-	print(data.keys())
+	# print(data.keys())
 
 	year_div_dis,subj_div_dis,c10_div_dis = data
 
