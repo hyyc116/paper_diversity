@@ -63,7 +63,7 @@ def cal_wos_paper_divs():
 
                 continue
 
-            puyear = int(paper.get(pid,9999))
+            puyear = int(pid_pubyear.get(pid,9999))
 
             ## 1950年 到 如果年份大于2004则舍弃
             if pubyear>2004 or pubyear<1950:
