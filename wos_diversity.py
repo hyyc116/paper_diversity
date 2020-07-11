@@ -51,7 +51,7 @@ def cal_wos_paper_divs():
     subj_totalnum = float(len(subj_subj_sim.keys()))
     
     pid_divs = {}
-    for line in open('../WOS_data_processing/data/pid_teamsize.json'):
+    for line in open('../WOS_data_processing/data/pid_refs.txt'):
 
         line = line.strip()
 
