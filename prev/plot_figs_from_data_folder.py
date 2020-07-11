@@ -267,7 +267,7 @@ def plotting_from_data_folder():
 
 
 if __name__ == '__main__':
-	plotting_from_data_folder()
+    plotting_from_data_folder()
 
 
 

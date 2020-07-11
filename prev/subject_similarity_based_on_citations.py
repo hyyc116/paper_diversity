@@ -49,8 +49,8 @@ def subject_sim():
             logging.info('total progress {:} ....'.format(progress))
 
         for subject in pid_subjects[pid]:
-        	for ref_subject in pid_subjects[ref_id]:
-        		subjects_mat[subject][ref_subject]+=1
+            for ref_subject in pid_subjects[ref_id]:
+                subjects_mat[subject][ref_subject]+=1
 
     open('data/subjects_mat.json','w').write(json.dumps(subjects_mat))
     logging.info('saved to data/subjects_mat.json.')
@@ -150,7 +150,7 @@ def out_sim_mat(subject_sim_json):
 
 
 if __name__ == '__main__':
-	# subject_sim()
+    # subject_sim()
     subject_count_path = 'data/subject_count.json'
     subject_coocur_mat_path = 'data/subjects_mat.json'
     # subject_similarity(subject_coocur_mat_path)

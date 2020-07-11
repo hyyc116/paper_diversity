@@ -25,25 +25,25 @@
 
 
 a = '''
-	1,1709
-	2,352
-	3,123
-	4,60
-	5,38
-	6,15
-	7,13
-	8,10
-	9,3
-	10,3
-	11,2
-	12,2
-	13,3
-	14,3
-	15,2
-	17,1
-	19,2
-	20,1
-	27,1
+    1,1709
+    2,352
+    3,123
+    4,60
+    5,38
+    6,15
+    7,13
+    8,10
+    9,3
+    10,3
+    11,2
+    12,2
+    13,3
+    14,3
+    15,2
+    17,1
+    19,2
+    20,1
+    27,1
 '''
 
 xs = []
@@ -51,29 +51,29 @@ ys = []
 for line in a.split("\n"):
 
 
-	line = line.strip()
+    line = line.strip()
 
-	if line=='':
-		continue
+    if line=='':
+        continue
 
-	x,y = line.split(',')
+    x,y = line.split(',')
 
-	
-	# print(x,y)
+    
+    # print(x,y)
 
-	x = int(x)
-	y = int(y)
+    x = int(x)
+    y = int(y)
 
-	xs.append(x)
-	ys.append(y)
+    xs.append(x)
+    ys.append(y)
 
 Y = []
 for i in sorted(range(len(xs)),key=lambda i:xs[i],reverse=True):
-	# print(i,xs[i],ys[i])
-	x = xs[i]
-	y = ys[i]
+    # print(i,xs[i],ys[i])
+    x = xs[i]
+    y = ys[i]
 
-	Y.extend([x]*y)
+    Y.extend([x]*y)
 
 import numpy as np
 # print(len(Y))
@@ -121,11 +121,11 @@ total = []
 t = 0
 for i,x in enumerate(citations):
 
-	xs.append(i+1)
-	ys.append(x)
+    xs.append(i+1)
+    ys.append(x)
 
-	t+=x 
-	total.append(t)
+    t+=x 
+    total.append(t)
 
 ax = axes[0]
 
