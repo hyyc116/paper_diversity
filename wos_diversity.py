@@ -42,11 +42,11 @@ def cal_wos_paper_divs():
 
     pid_pubyear,pid_subjects,pid_topsubjs,pid_teamsize = load_basic_data()
     ## pid c5
-    pid_c5 = json.loads('../WOS_data_processing/data/pid_c5.json')
+    pid_c5 = json.loads(open('../WOS_data_processing/data/pid_c5.json').read())
     ## pid_c10
-    pid_c10 = json.loads('../WOS_data_processing/data/pid_c10.json')
+    pid_c10 = json.loads(open('../WOS_data_processing/data/pid_c10.json').read())
     ## subject subject sim
-    subj_subj_sim  = json.loads('../WOS_data_processing/data/subj_subj_sim.json')
+    subj_subj_sim  = json.loads(open('../WOS_data_processing/data/subj_subj_sim.json').read())
 
     subj_totalnum = float(len(subj_subj_sim.keys()))
     
