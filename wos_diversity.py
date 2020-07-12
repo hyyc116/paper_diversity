@@ -102,7 +102,7 @@ def cal_wos_paper_divs():
 
             subjs = list(set(subjs))
 
-            subj_div = cal_subj_div(subj_nums,subjs,subj_subj_sim)
+            subj_div = cal_subj_div(subj_totalnum,subj_nums,subjs,subj_subj_sim)
 
             pid_divs[pid] = [yd_div,subj_div,c5_div,c10_div]
 
@@ -111,7 +111,7 @@ def cal_wos_paper_divs():
 
 
 
-def cal_subj_div(subj_nums,subjs,subj_subj_sim):
+def cal_subj_div(subj_totalnum,subj_nums,subjs,subj_subj_sim):
 
     variety = len(subjs)/float(subj_totalnum)
 
