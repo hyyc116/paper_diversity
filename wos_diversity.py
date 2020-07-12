@@ -90,7 +90,7 @@ def cal_wos_paper_divs():
             subj_nums = []
             c5s = []
             c10s = []
-            for ref_id in pid_refs:
+            for ref_id in pid_refs[pid]:
 
                 yds.append(abs(int(pid_pubyear[ref_id])-pubyear))
 
