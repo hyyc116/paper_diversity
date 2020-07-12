@@ -51,9 +51,16 @@ def cal_wos_paper_divs():
     subj_totalnum = float(len(subj_subj_sim.keys()))
     
     pid_divs = {}
+
+    progress = 0
+
+    sub_progress = 0
+
     for line in open('../WOS_data_processing/data/pid_refs.txt'):
 
         line = line.strip()
+
+        progress+=1
 
         pid_refs = json.loads(line)
 
@@ -62,6 +69,11 @@ def cal_wos_paper_divs():
             if len(pid_refs[pid])<4:
 
                 continue
+
+            sub_progress+=1
+
+            if sub_progress%1000000==0:
+                logging.info('progress:{},sub progress {} ...'.format(progress,sub_progress))
 
             pubyear = int(pid_pubyear.get(pid,9999))
 
