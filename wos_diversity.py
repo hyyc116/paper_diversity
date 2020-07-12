@@ -71,13 +71,13 @@ def cal_wos_paper_divs():
 
             sub_progress+=1
 
-            if sub_progress%1000==0:
+            if sub_progress%1000000==0:
                 logging.info('progress:{},sub progress {} ...'.format(progress,sub_progress))
 
             pubyear = int(pid_pubyear.get(pid,9999))
 
             ## 1950年 到 如果年份大于2004则舍弃
-            if pubyear>2004 or pubyear<1950:
+            if pubyear>2010 or pubyear<1950:
                 continue
 
             ## 对于每一篇文章来讲 需要计算三个
@@ -104,8 +104,6 @@ def cal_wos_paper_divs():
 
 
             ## 通过上面的值计算每篇论文reference的diversity
-
-
             yd_div = gini(yds)
             c5_div = gini(c5s)
             c10_div = gini(c10s)
