@@ -86,7 +86,7 @@ def cal_wos_paper_divs():
 
                 c5s.append(pid_c5.get(ref_id,0))
 
-                c10s.append(pid_c10.get(ref_id))
+                c10s.append(pid_c10.get(ref_id,0))
 
                 subj_nums.append(len(pid_subjects.get(ref_id,[])))
 
