@@ -110,7 +110,13 @@ def cal_wos_paper_divs():
 
             subjs = list(set(subjs))
 
-            subj_div = cal_subj_div(subj_totalnum,subj_nums,subjs,subj_subj_sim)
+            if len(subjs)<=1:
+
+                subj_div = 0
+
+            else:
+
+                subj_div = cal_subj_div(subj_totalnum,subj_nums,subjs,subj_subj_sim)
 
             pid_divs[pid] = [yd_div,subj_div,c5_div,c10_div]
 
