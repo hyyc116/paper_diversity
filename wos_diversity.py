@@ -66,13 +66,12 @@ def cal_wos_paper_divs():
 
         for pid in pid_refs.keys():
 
-            if len(pid_refs[pid])<4:
-
+            if len(pid_refs[pid])<4 or len(pid_refs[pid])>100:
                 continue
 
             sub_progress+=1
 
-            if sub_progress%1000000==0:
+            if sub_progress%1000==0:
                 logging.info('progress:{},sub progress {} ...'.format(progress,sub_progress))
 
             pubyear = int(pid_pubyear.get(pid,9999))
@@ -82,7 +81,6 @@ def cal_wos_paper_divs():
                 continue
 
             ## 对于每一篇文章来讲 需要计算三个
-
             ## year differences
             ## subject diversity
             ## c5 diversity
