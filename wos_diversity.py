@@ -115,7 +115,7 @@ def cal_subj_div(subj_totalnum,subj_nums,subjs,subj_subj_sim):
 
     variety = len(subjs)/float(subj_totalnum)
 
-    balance = gini(subj_num)
+    balance = gini(subj_nums)
 
     disparsity = cal_disparsity(subjs,subj_subj_sim)
 
