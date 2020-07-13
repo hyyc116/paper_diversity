@@ -133,6 +133,8 @@ def cal_subj_div(subj_totalnum,subj_nums,subjs,subj_subj_sim):
 
     disparsity = cal_disparsity(subjs,subj_subj_sim)
 
+    return variety*balance*disparsity
+
 
 def cal_disparsity(subjs,subj_subj_sim):
     subjs = list(subjs)
