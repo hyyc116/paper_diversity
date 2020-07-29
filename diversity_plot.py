@@ -168,6 +168,9 @@ def plot_dis_over_attr(attrName,data,xlim=None):
     ax.set_ylabel('year diversity')
     ax.set_title('year diversity')
 
+    if xlim is not None:
+        ax.set_xlim(xlim[0],xlim[1])
+
 
     ax = axes[1]
     xs = []
@@ -210,6 +213,9 @@ def plot_dis_over_attr(attrName,data,xlim=None):
     ax.set_ylabel('impact diversity')
 
     ax.set_title('impact diversity')
+
+    if xlim is not None:
+        ax.set_xlim(xlim[0],xlim[1])
 
 
     plt.tight_layout()
