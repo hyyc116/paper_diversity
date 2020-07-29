@@ -254,6 +254,8 @@ def year_div():
     ys = [year_divs[i] for i in samples]
 
     ax.plot(xs,ys,'o')
+    ax.set_xscale('log')
+    
 
     ax.set_xlabel('$c_{10}$')
     ax.set_ylabel('year diversity')
@@ -263,6 +265,8 @@ def year_div():
     ys = [subj_divs[i] for i in samples]
 
     ax.plot(xs,ys,'o')
+    ax.set_xscale('log')
+    
 
     ax.set_xlabel('$c_{10}$')
     ax.set_ylabel('subject diversity')
@@ -272,6 +276,8 @@ def year_div():
     ys = [c10_divs[i] for i in samples]
 
     ax.plot(xs,ys,'o')
+    ax.set_xscale('log')
+    
 
     ax.set_xlabel('$c_{10}$')
     ax.set_ylabel('impact diversity')
@@ -301,6 +307,9 @@ def year_div():
     ax.set_xlabel('$c_{10}$')
     ax.set_ylabel('year diversity')
 
+    ax.set_xscale('log')
+
+
     ax = axes[1]
 
     ys = [subj_divs[i] for i in samples]
@@ -310,6 +319,9 @@ def year_div():
     ax.set_xlabel('$c_{10}$')
     ax.set_ylabel('subject diversity')
 
+    ax.set_xscale('log')
+
+
     ax = axes[2]
 
     ys = [c10_divs[i] for i in samples]
@@ -318,6 +330,9 @@ def year_div():
 
     ax.set_xlabel('$c_{10}$')
     ax.set_ylabel('impact diversity')
+
+    ax.set_xscale('log')
+
 
 
     plt.tight_layout()
@@ -337,6 +352,8 @@ def year_div():
     ys = [year_divs[i] for i in samples]
 
     ax.plot(xs,ys,'o')
+    ax.set_xscale('log')
+
 
     ax.set_xlabel('$c_{10}$')
     ax.set_ylabel('year diversity')
@@ -346,6 +363,8 @@ def year_div():
     ys = [subj_divs[i] for i in samples]
 
     ax.plot(xs,ys,'o')
+    ax.set_xscale('log')
+
 
     ax.set_xlabel('$c_{10}$')
     ax.set_ylabel('subject diversity')
@@ -355,6 +374,8 @@ def year_div():
     ys = [c10_divs[i] for i in samples]
 
     ax.plot(xs,ys,'o')
+    ax.set_xscale('log')
+
 
     ax.set_xlabel('$c_{10}$')
     ax.set_ylabel('impact diversity')
