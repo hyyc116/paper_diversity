@@ -92,11 +92,8 @@ def year_div():
     fos_c10_dis = defaultdict(list)
     fos_subj_dis = defaultdict(list)
 
-
     progress = 0 
-    
 
-    line = line.strip()
     pid_div_vs = json.loads(open("data/pid_divs.json").read())
     for pid in pid_div_vs.keys():
 
