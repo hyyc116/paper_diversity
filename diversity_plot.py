@@ -136,13 +136,13 @@ def year_div():
             fos_c10_dis[subj].append(c10_div)
 
 
-    plot_dis_over_attr('publication year',(year_div_dis,subj_div_dis,c10_div_dis))
+    plot_dis_over_attr('publication year',(year_div_dis,subj_div_dis,c10_div_dis),(1980,2005))
 
-    plot_dis_over_attr('team size',(ts_year_dis,ts_subj_dis,ts_c10_dis))
+    plot_dis_over_attr('team size',(ts_year_dis,ts_subj_dis,ts_c10_dis),(0,10))
 
     # plot_dis_over_attr('field',(fos_year_dis,fos_subj_dis,fos_c10_dis))
 
-def plot_dis_over_attr(attrName,data):
+def plot_dis_over_attr(attrName,data,xlim=None):
 
     # logging.info("start to plotting {}, length of data {} ....".format(attrName,len(data)))
 
@@ -186,6 +186,9 @@ def plot_dis_over_attr(attrName,data):
     ax.set_ylabel('subject diversity')
 
     ax.set_title('subject diversity')
+
+    if xlim is not None:
+        ax.set_xlim(xlim[0],xlim[1])
 
     ax.legend()
 
