@@ -92,6 +92,9 @@ def year_div():
     fos_c10_dis = defaultdict(list)
     fos_subj_dis = defaultdict(list)
 
+    ## 整体分布
+    general_t_divs = defaultdict(lambda:defaultdict(list))
+
     progress = 0 
 
     pid_div_vs = json.loads(open("data/pid_divs.json").read())
@@ -136,11 +139,90 @@ def year_div():
             fos_c10_dis[subj].append(c10_div)
 
 
+
+
+        general_t_divs['year'].append(year_div)
+        general_t_divs['subj'].append(subj_div)
+        general_t_divs['impact'].append(c10_div)
+
+
+
     plot_dis_over_attr('publication year',(year_div_dis,subj_div_dis,c10_div_dis),(1980,2005))
 
     plot_dis_over_attr('team size',(ts_year_dis,ts_subj_dis,ts_c10_dis),(0,10))
 
     # plot_dis_over_attr('field',(fos_year_dis,fos_subj_dis,fos_c10_dis))
+
+    ## 几个领域的分布图
+
+    fig,axes  = plt.subplots(3,1,figsize=(5,12))
+
+    ax = axes[0]
+    for subj in sorted(fos_year_dis.keys()):
+
+        xs,ys = dataHist(fos_year_dis[subj])
+
+        ax.plot(xs,ys,label=subj)
+
+    ax.set_xlabel('year diversity')
+    ax.set_ylabel('CDF')
+
+    ax.legend(fontsize=6,ncol=2)
+
+
+    ax = axes[1]
+    for subj in sorted(fos_subj_dis.keys()):
+
+        xs,ys = dataHist(fos_subj_dis[subj])
+
+        ax.plot(xs,ys,label=subj)
+
+    ax.set_xlabel('subject diversity')
+    ax.set_ylabel('CDF')
+
+    ax.legend(fontsize=6,ncol=2)
+
+
+    ax = axes[2]
+    for subj in sorted(fos_c10_dis.keys()):
+
+        xs,ys = dataHist(fos_c10_dis[subj])
+
+        ax.plot(xs,ys,label=subj)
+
+    ax.set_xlabel('impact diversity')
+    ax.set_ylabel('CDF')
+
+    ax.legend(fontsize=6,ncol=2)
+
+    plt.tight_layout()
+
+    plt.savefig('fig/subject_div_dis.png',dpi=400)
+
+    logging.info("fig saved to fig/subject_div_dis.png")
+
+
+    fig,axes = plt.figure(3,1,figsize=(5,12))
+
+    for i,t in enumerate(general_t_divs.keys()):
+
+        ax = axes[i]
+
+        xs,ys = dataHist(general_t_divs[t])
+
+        ax.plot(xs,ys,label=t)
+
+        ax.set_xlabel('diversity')
+        ax.set_ylabel('CDF')
+
+    plt.tight_layout()
+
+    plt.savefig('fig/general_div_Dis.png',dpi=400)
+
+    logging.info("fig saved to fig/general_div_Dis.png.")
+
+
+
 
 def plot_dis_over_attr(attrName,data,xlim=None):
 
@@ -223,6 +305,19 @@ def plot_dis_over_attr(attrName,data,xlim=None):
     plt.savefig('fig/diversity_over_{}.png'.format(attrName.replace(' ','_')),dpi=400)
     logging.info("fig saved to fig/diversity_over_{}.png.".format(attrName.replace(' ','_')))
 
+
+
+def dataHist(data):
+
+    hists,bins_edges = np.histogram(data,bins=500)
+
+    centers = np.array(bins_edges[:-1]+bins_edges[1:])/float(2)
+
+    t = np.sum(hists)
+
+    hists = [np.sum(hists[:i+1])/float(t) for i in range(len(hists))]
+
+    return centers,hists
 
 
 ## 随领域的分布
