@@ -57,6 +57,22 @@ def load_basic_data(attrs=['year','subj','topsubj','teamsize','doctype','cn'],is
 
         results['cn']=pid_cn
 
+    if 'c5' in attrs:
+
+        logging.info('loading paper citation c5 ...')
+        pid_cn = json.loads(open('../WOS_data_processing/data/pid_c5.json').read())
+        logging.info('{} papers has c5 label.'.format(len(pid_cn.keys())))
+
+        results['c5']=pid_cn
+
+    if 'c10' in attrs:
+
+        logging.info('loading paper citation c10 ...')
+        pid_cn = json.loads(open('../WOS_data_processing/data/pid_c10.json').read())
+        logging.info('{} papers has c10 label.'.format(len(pid_cn.keys())))
+
+        results['c10']=pid_cn
+
     if isStat:
         interset = set(pid_pubyear.keys())&set(pid_teamsize.keys())&set(pid_topsubjs.keys())&set(pid_topsubjs.keys())
         logging.info('{} papers has both four attrs.'.format(len(interset)))
@@ -76,7 +92,7 @@ def load_basic_data(attrs=['year','subj','topsubj','teamsize','doctype','cn'],is
 ## 几种diversity随时间的变化
 def year_div():
 
-    paper_year,paper_topsubjs,paper_ts = load_basic_data(['year','topsubj','teamsize'])
+    paper_year,paper_topsubjs,paper_ts,paper_c10,paper_c5,paper_cn = load_basic_data(['year','topsubj','teamsize','c10','c5','cn'])
 
     year_div_dis = defaultdict(list)
     c10_div_dis = defaultdict(list)
@@ -94,6 +110,9 @@ def year_div():
 
     ## 整体分布
     general_t_divs = defaultdict(list)
+
+    ## 
+    attrs = []
 
     progress = 0 
 
@@ -113,13 +132,15 @@ def year_div():
 
         subjs = paper_topsubjs.get(pid,None)
 
-        if year>2004:
+        if  year<1980 or year>2004:
             continue
 
 
         # year_div,c5_div,c10_div,subj_div = pid_div_vs[pid]
 
         year_div,subj_div,c5_div,c10_div = pid_div_vs[pid]
+
+        attrs.append([paper_c10[pid],paper_c5[pid],paper_cn[pid],year_div,subj_div,c10_div])
 
         year_div_dis[year].append(year_div)
         c10_div_dis[year].append(c10_div)
@@ -219,6 +240,131 @@ def year_div():
 
     logging.info("fig saved to fig/general_div_Dis.png.")
 
+    c10s,c5s,cns,year_divs,subj_divs,c10_divs = zip(*attrs)
+
+    ## 画散点图
+    samples = np.random.choice(np.arange(len(c10s)),size=1000)
+
+    fig,axes = plt.subplots(3,1,figsize=(5,12))
+
+    xs = [c10s[i] for i in samples]
+
+    ax = axes[0]
+
+    ys = [year_divs[i] for i in samples]
+
+    ax.plot(xs,ys,'o')
+
+    ax.set_xlabel('$c_{10}$')
+    ax.set_ylabel('year diversity')
+
+    ax = axes[1]
+
+    ys = [subj_divs[i] for i in samples]
+
+    ax.plot(xs,ys,'o')
+
+    ax.set_xlabel('$c_{10}$')
+    ax.set_ylabel('subject diversity')
+
+    ax = axes[2]
+
+    ys = [c10_divs[i] for i in samples]
+
+    ax.plot(xs,ys,'o')
+
+    ax.set_xlabel('$c_{10}$')
+    ax.set_ylabel('impact diversity')
+
+
+    plt.tight_layout()
+
+    plt.savefig('fig/diversity_citation_c10_scatter.png',dpi=200)
+
+    logging.info("fig saved to fig/diversity_citation_c10_scatter.png.")
+
+
+
+    ## 画散点图
+    # samples = np.random.choice(np.arange(len(c5s)),size=1000)
+
+    fig,axes = plt.subplots(3,1,figsize=(5,12))
+
+    xs = [c5s[i] for i in samples]
+
+    ax = axes[0]
+
+    ys = [year_divs[i] for i in samples]
+
+    ax.plot(xs,ys,'o')
+
+    ax.set_xlabel('$c_{10}$')
+    ax.set_ylabel('year diversity')
+
+    ax = axes[1]
+
+    ys = [subj_divs[i] for i in samples]
+
+    ax.plot(xs,ys,'o')
+
+    ax.set_xlabel('$c_{10}$')
+    ax.set_ylabel('subject diversity')
+
+    ax = axes[2]
+
+    ys = [c10_divs[i] for i in samples]
+
+    ax.plot(xs,ys,'o')
+
+    ax.set_xlabel('$c_{10}$')
+    ax.set_ylabel('impact diversity')
+
+
+    plt.tight_layout()
+
+    plt.savefig('fig/diversity_citation_c5_scatter.png',dpi=200)
+
+    logging.info("fig saved to fig/diversity_citation_c5_scatter.png.")
+
+
+
+    fig,axes = plt.subplots(3,1,figsize=(5,12))
+
+    xs = [cns[i] for i in samples]
+
+    ax = axes[0]
+
+    ys = [year_divs[i] for i in samples]
+
+    ax.plot(xs,ys,'o')
+
+    ax.set_xlabel('$c_{10}$')
+    ax.set_ylabel('year diversity')
+
+    ax = axes[1]
+
+    ys = [subj_divs[i] for i in samples]
+
+    ax.plot(xs,ys,'o')
+
+    ax.set_xlabel('$c_{10}$')
+    ax.set_ylabel('subject diversity')
+
+    ax = axes[2]
+
+    ys = [c10_divs[i] for i in samples]
+
+    ax.plot(xs,ys,'o')
+
+    ax.set_xlabel('$c_{10}$')
+    ax.set_ylabel('impact diversity')
+
+
+    plt.tight_layout()
+
+    plt.savefig('fig/diversity_citation_cn_scatter.png',dpi=200)
+
+    logging.info("fig saved to fig/diversity_citation_cn_scatter.png.")
 
 
 
