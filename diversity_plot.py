@@ -165,9 +165,9 @@ def year_div():
         general_t_divs['impact'].append(c10_div)
 
 
-    max_yd,min_yd = np.max(general_t_divs['year'])
-    max_sd,min_sd = np.max(general_t_divs['subj'])
-    max_id,min_id = np.max(general_t_divs['impact'])
+    max_yd,min_yd = np.max(general_t_divs['year']),np.min(general_t_divs['year'])
+    max_sd,min_sd = np.max(general_t_divs['subj']),np.min(general_t_divs['subj'])
+    max_id,min_id = np.max(general_t_divs['impact']),np.min(general_t_divs['impact'])
 
 
     plot_dis_over_attr('publication year',(year_div_dis,subj_div_dis,c10_div_dis,max_yd,min_yd,max_sd,min_sd,max_id,min_id),(1979,2005))
