@@ -200,7 +200,7 @@ def year_div():
     logging.info("fig saved to fig/subject_div_dis.png")
 
 
-    fig,axes = plt.figure(3,1,figsize=(5,12))
+    fig,axes = plt.subplots(3,1,figsize=(5,12))
 
     for i,t in enumerate(general_t_divs.keys()):
 
