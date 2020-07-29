@@ -93,7 +93,7 @@ def year_div():
     fos_subj_dis = defaultdict(list)
 
     ## 整体分布
-    general_t_divs = defaultdict(lambda:defaultdict(list))
+    general_t_divs = defaultdict(list)
 
     progress = 0 
 
@@ -137,8 +137,6 @@ def year_div():
             fos_year_dis[subj].append(year_div)
             fos_subj_dis[subj].append(subj_div)
             fos_c10_dis[subj].append(c10_div)
-
-
 
 
         general_t_divs['year'].append(year_div)
