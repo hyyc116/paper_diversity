@@ -101,7 +101,7 @@ def year_div():
 
         if progress%100000==0:
 
-            logging.info("progress {} ....".format(progresss))
+            logging.info("progress {} ....".format(progress))
 
 
         year = int(paper_year.get(pid,9999))
