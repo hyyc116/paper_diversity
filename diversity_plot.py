@@ -165,10 +165,14 @@ def year_div():
         general_t_divs['impact'].append(c10_div)
 
 
+    max_yd,min_yd = np.max(general_t_divs['year'])
+    max_sd,min_sd = np.max(general_t_divs['subj'])
+    max_id,min_id = np.max(general_t_divs['impact'])
 
-    plot_dis_over_attr('publication year',(year_div_dis,subj_div_dis,c10_div_dis),(1980,2005))
 
-    plot_dis_over_attr('team size',(ts_year_dis,ts_subj_dis,ts_c10_dis),(0,10))
+    plot_dis_over_attr('publication year',(year_div_dis,subj_div_dis,c10_div_dis,max_yd,min_yd,max_sd,min_sd,max_id,min_id),(1979,2005))
+
+    plot_dis_over_attr('team size',(ts_year_dis,ts_subj_dis,ts_c10_dis,max_yd,min_yd,max_sd,min_sd,max_id,min_id),(0,10))
 
     # plot_dis_over_attr('field',(fos_year_dis,fos_subj_dis,fos_c10_dis))
 
@@ -255,7 +259,7 @@ def year_div():
 
     ax.plot(xs,ys,'o')
     ax.set_xscale('log')
-    
+
 
     ax.set_xlabel('$c_{10}$')
     ax.set_ylabel('year diversity')
@@ -266,7 +270,7 @@ def year_div():
 
     ax.plot(xs,ys,'o')
     ax.set_xscale('log')
-    
+
 
     ax.set_xlabel('$c_{10}$')
     ax.set_ylabel('subject diversity')
@@ -277,7 +281,7 @@ def year_div():
 
     ax.plot(xs,ys,'o')
     ax.set_xscale('log')
-    
+
 
     ax.set_xlabel('$c_{10}$')
     ax.set_ylabel('impact diversity')
@@ -395,7 +399,7 @@ def plot_dis_over_attr(attrName,data,xlim=None):
 
     # print(data.keys())
 
-    year_div_dis,subj_div_dis,c10_div_dis = data
+    year_div_dis,subj_div_dis,c10_div_dis,max_yd,min_yd,max_sd,min_sd,max_id,min_id = data
 
     fig,axes = plt.subplots(3,1,figsize=(5,12))
 
@@ -405,10 +409,11 @@ def plot_dis_over_attr(attrName,data,xlim=None):
     ys_median = []
     for year in sorted(year_div_dis.keys()):
         xs.append(year)
-        ys_mean.append(np.mean(year_div_dis[year]))
-        ys_median.append(np.median(year_div_dis[year]))
+        ys = (np.array(year_div_dis[year])-min_yd)/(max_yd-min_yd)
+        ys_mean.append(np.mean(ys))
+        ys_median.append(np.median(ys))
 
-    ax.plot(xs,ys_mean,'-.',label = 'mean')
+    ax.plot(xs,ys_mean,'--',label = 'mean')
     ax.plot(xs,ys_median,'-.',label ='median')
 
     ax.set_xlabel('{}'.format(attrName))
@@ -418,6 +423,8 @@ def plot_dis_over_attr(attrName,data,xlim=None):
     if xlim is not None:
         ax.set_xlim(xlim[0],xlim[1])
 
+    ax.legend()
+
 
     ax = axes[1]
     xs = []
@@ -425,11 +432,13 @@ def plot_dis_over_attr(attrName,data,xlim=None):
     ys_median = []
     for year in sorted(subj_div_dis.keys()):
         xs.append(year)
-        ys_mean.append(np.mean(subj_div_dis[year]))
-        ys_median.append(np.median(subj_div_dis[year]))
+        ys = (np.array(subj_div_dis[year])-min_sd)/(max_sd-min_sd)
+
+        ys_mean.append(np.mean(ys))
+        ys_median.append(np.median(ys))
 
 
-    ax.plot(xs,ys_mean,'-.',label = 'mean')
+    ax.plot(xs,ys_mean,'--',label = 'mean')
     ax.plot(xs,ys_median,'-.',label = 'median')
 
     ax.set_xlabel('{}'.format(attrName))
@@ -449,11 +458,14 @@ def plot_dis_over_attr(attrName,data,xlim=None):
     ys_median = []
     for year in sorted(c10_div_dis.keys()):
         xs.append(year)
-        ys_mean.append(np.mean(c10_div_dis[year]))
-        ys_median.append(np.median(c10_div_dis[year]))
+
+        ys = (np.array(c10_div_dis[year])-min_id)/(max_id-min_id)
+
+        ys_mean.append(np.mean(ys))
+        ys_median.append(np.median(ys))
 
 
-    ax.plot(xs,ys_mean,'-.',label = 'mean')
+    ax.plot(xs,ys_mean,'--',label = 'mean')
     ax.plot(xs,ys_median,'-.',label = 'median')
 
     ax.set_xlabel('{}'.format(attrName))
@@ -463,6 +475,8 @@ def plot_dis_over_attr(attrName,data,xlim=None):
 
     if xlim is not None:
         ax.set_xlim(xlim[0],xlim[1])
+
+    ax.legend()
 
 
     plt.tight_layout()
