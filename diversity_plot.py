@@ -3,17 +3,80 @@
 
 from basic_config import *
 
+def load_basic_data(attrs=['year','subj','topsubj','teamsize','doctype','cn'],isStat=False):
+
+    logging.info('======== LOADING BASIC DATA =============')
+    logging.info('======== ================== =============')
+
+    results = {}
+
+    if 'year' in attrs:
+
+        logging.info('loading paper pubyear ...')
+        pid_pubyear = json.loads(open('../WOS_data_processing/data/pid_pubyear.json').read())
+        logging.info('{} papers has year label.'.format(len(pid_pubyear.keys())))
+
+        results['year']=pid_pubyear
+
+    if 'subj' in attrs:
+        logging.info('loading paper subjects ...')
+        pid_subjects = json.loads(open('../WOS_data_processing/data/pid_subjects.json').read())
+        logging.info('{} papers has subject label.'.format(len(pid_subjects.keys())))
+
+        results['subj'] = pid_subjects
+
+    if 'topsubj' in attrs:
+        logging.info('loading paper top subjects ...')
+        pid_topsubjs = json.loads(open('../WOS_data_processing/data/pid_topsubjs.json').read())
+        logging.info('{} papers has top subject label.'.format(len(pid_topsubjs.keys())))
+        
+        results['topsubj']=pid_topsubjs
+
+
+    if 'teamsize' in attrs:
+
+        logging.info('loading paper teamsize ...')
+        pid_teamsize = json.loads(open('../WOS_data_processing/data/pid_teamsize.json').read())
+        logging.info('{} papers has teamsize label.'.format(len(pid_teamsize.keys())))
+
+        results['teamsize'] = pid_teamsize
+
+    if 'doctype'  in attrs:
+
+        logging.info('loading paper doctype ...')
+        pid_doctype = json.loads(open('../WOS_data_processing/data/pid_doctype.json').read())
+        logging.info('{} papers has doctype label.'.format(len(pid_doctype.keys())))
+
+        results['doctype'] = pid_doctype
+
+    if 'cn' in attrs:
+
+        logging.info('loading paper citation count ...')
+        pid_cn = json.loads(open('../WOS_data_processing/data/pid_cn.json').read())
+        logging.info('{} papers has citation count label.'.format(len(pid_cn.keys())))
+
+        results['cn']=pid_cn
+
+    if isStat:
+        interset = set(pid_pubyear.keys())&set(pid_teamsize.keys())&set(pid_topsubjs.keys())&set(pid_topsubjs.keys())
+        logging.info('{} papers has both four attrs.'.format(len(interset)))
+
+    logging.info('======== LOADING BASIC DATA DONE =============')
+    logging.info('======== ======================= =============')
+
+
+    if len(attrs)>=1:
+        
+        return [results[attr] for attr in attrs]
+
+    else:
+        return None
+
+
 ## 几种diversity随时间的变化
 def year_div():
 
-    paper_year= json.loads(open('data/paper_year.json').read())
-    logging.info('year data loaded ....')
-
-    paper_ts= json.loads(open('data/paper_teamsize.json').read())
-    logging.info('team size data loaded ....')
-
-    paper_fos= json.loads(open('data/paper_field0.json').read())
-    logging.info('paper field data loaded ....')
+    paper_year,paper_topsubjs,paper_ts = load_basic_data(['year','topsubj','teamsize'])
 
     year_div_dis = defaultdict(list)
     c10_div_dis = defaultdict(list)
@@ -31,45 +94,49 @@ def year_div():
 
 
     progress = 0 
-    total_papers = 0
-    for line in open('data/pid_divs.txt'):
+    
+
+    line = line.strip()
+    pid_div_vs = json.loads(open("data/pid_divs.json").read())
+    for pid in pid_div_vs.keys():
 
         progress+=1
 
-        logging.info("progress {}, total papers {} ....".format(progress,total_papers))
+        if progress%100000==0:
 
-        line = line.strip()
-        pid_div_vs = json.loads(line)
-        for pid in pid_div_vs.keys():
+            logging.info("progress {} ....".format(progresss))
 
-            year = int(paper_year.get(pid,9999))
 
-            ts = int(paper_ts.get(pid,-1))
+        year = int(paper_year.get(pid,9999))
 
-            subjs = paper_fos.get(pid,None)
+        ts = int(paper_ts.get(pid,-1))
 
-            if year>2008 or ts==-1:
-                continue
+        subjs = paper_topsubjs.get(pid,None)
 
-            total_papers+=1
+        if year>2004:
+            continue
 
-            year_div,c5_div,c10_div,subj_div = pid_div_vs[pid]
 
-            year_div_dis[year].append(year_div)
-            c10_div_dis[year].append(c10_div)
-            subj_div_dis[year].append(subj_div)
+        # year_div,c5_div,c10_div,subj_div = pid_div_vs[pid]
 
+        year_div,subj_div,c5_div,c10_div = pid_div_vs[pid]
+
+        year_div_dis[year].append(year_div)
+        c10_div_dis[year].append(c10_div)
+        subj_div_dis[year].append(subj_div)
+
+        if ts!=-1:
             ts_year_dis[ts].append(year_div)
             ts_subj_dis[ts].append(subj_div)
             ts_c10_dis[ts].append(c10_div)
 
-            if subjs is None:
-                continue
+        if subjs is None:
+            continue
 
-            for subj in subjs:
-                fos_year_dis[subj].append(year_div)
-                fos_subj_dis[subj].append(subj_div)
-                fos_c10_dis[subj].append(c10_div)
+        for subj in subjs:
+            fos_year_dis[subj].append(year_div)
+            fos_subj_dis[subj].append(subj_div)
+            fos_c10_dis[subj].append(c10_div)
 
 
     plot_dis_over_attr('publication year',(year_div_dis,subj_div_dis,c10_div_dis))
@@ -150,106 +217,6 @@ def plot_dis_over_attr(attrName,data):
     plt.savefig('fig/diversity_over_{}.png'.format(attrName.replace(' ','_')),dpi=400)
     logging.info("fig saved to fig/diversity_over_{}.png.".format(attrName.replace(' ','_')))
 
-
-
-## 随team size的分布
-def team_div():
-    paper_ts= json.loads(open('data/paper_teamsize.json').read())
-    logging.info('team size data loaded ....')
-
-    year_div_dis = defaultdict(list)
-    c10_div_dis = defaultdict(list)
-    subj_div_dis = defaultdict(list)
-
-    progress = 0 
-    for line in open('data/pid_divs.txt'):
-
-        progress+=1
-
-        logging.info("progress {} ....".format(progress))
-
-        
-        line = line.strip()
-
-        pid_div_vs = json.loads(line)
-
-        for pid in pid_div_vs.keys():
-
-            year = int(paper_ts.get(pid,-1))
-
-            if year>2005:
-                continue
-
-            year_div,c5_div,c10_div,subj_div = pid_div_vs[pid]
-
-            year_div_dis[year].append(year_div)
-            c10_div_dis[year].append(c10_div)
-            subj_div_dis[year].append(subj_div)
-
-    logging.info("start to plotting ....")
-
-    fig,axes = plt.subplots(3,1,figsize=(5,12))
-
-    ax = axes[0]
-    xs = []
-    ys_mean = []
-    ys_median = []
-    for year in sorted(year_div_dis.keys()):
-        xs.append(year)
-        ys_mean.append(np.mean(year_div_dis[year]))
-        ys_median.append(np.median(year_div_dis[year]))
-
-
-    ax.plot(xs,ys_mean,'mean')
-    ax.plot(xs,ys_median,'median')
-
-    ax.set_xlabel('publication year')
-    ax.set_ylabel('year diversity')
-
-    ax.set_title('year diversity')
-
-
-    ax = axes[1]
-    xs = []
-    ys_mean = []
-    ys_median = []
-    for year in sorted(subj_div_dis.keys()):
-        xs.append(year)
-        ys_mean.append(np.mean(subj_div_dis[year]))
-        ys_median.append(np.median(subj_div_dis[year]))
-
-
-    ax.plot(xs,ys_mean,'mean')
-    ax.plot(xs,ys_median,'median')
-
-    ax.set_xlabel('publication year')
-    ax.set_ylabel('subject diversity')
-
-    ax.set_title('subject diversity')
-
-
-    ax = axes[2]
-    xs = []
-    ys_mean = []
-    ys_median = []
-    for year in sorted(c10_div_dis.keys()):
-        xs.append(year)
-        ys_mean.append(np.mean(c10_div_dis[year]))
-        ys_median.append(np.median(c10_div_dis[year]))
-
-
-    ax.plot(xs,ys_mean,'mean')
-    ax.plot(xs,ys_median,'median')
-
-    ax.set_xlabel('publication year')
-    ax.set_ylabel('impact diversity')
-
-    ax.set_title('impact diversity')
-
-    plt.tight_layout()
-
-    plt.savefig('fig/diversity_over_year.png',dpi=400)
-    logging.info("fig saved to fig/diversity_over_year.png.")
 
 
 ## 随领域的分布
