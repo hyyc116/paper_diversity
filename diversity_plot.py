@@ -282,7 +282,7 @@ def year_div():
 
 
     ax.plot(xs,ys_mean,'--','mean')
-    ax.plot(xs,ys_median.'-.','median')
+    ax.plot(xs,ys_median,'-.','median')
     ax.set_xscale('log')
 
     ax.set_xlabel('$c_{10}$')
@@ -305,7 +305,7 @@ def year_div():
 
 
     ax.plot(xs,ys_mean,'--','mean')
-    ax.plot(xs,ys_median.'-.','median')
+    ax.plot(xs,ys_median,'-.','median')
     ax.set_xscale('log')
 
 
@@ -329,7 +329,7 @@ def year_div():
 
 
     ax.plot(xs,ys_mean,'--','mean')
-    ax.plot(xs,ys_median.'-.','median')
+    ax.plot(xs,ys_median,'-.','median')
     ax.set_xscale('log')
 
 
@@ -368,7 +368,7 @@ def year_div():
 
 
     ax.plot(xs,ys_mean,'--','mean')
-    ax.plot(xs,ys_median.'-.','median')
+    ax.plot(xs,ys_median,'-.','median')
     ax.set_xscale('log')
 
     ax.set_xlabel('$c_{5}$')
@@ -391,7 +391,7 @@ def year_div():
 
 
     ax.plot(xs,ys_mean,'--','mean')
-    ax.plot(xs,ys_median.'-.','median')
+    ax.plot(xs,ys_median,'-.','median')
     ax.set_xscale('log')
 
 
@@ -415,7 +415,7 @@ def year_div():
 
 
     ax.plot(xs,ys_mean,'--','mean')
-    ax.plot(xs,ys_median.'-.','median')
+    ax.plot(xs,ys_median,'-.','median')
     ax.set_xscale('log')
 
 
