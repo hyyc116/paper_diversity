@@ -183,7 +183,7 @@ def year_div():
     ax = axes[0]
     for subj in sorted(fos_year_dis.keys()):
 
-        xs,ys = dataHist(fos_year_dis[subj])
+        xs,_,ys = dataHist(fos_year_dis[subj])
 
         ax.plot(xs,ys,label=subj)
 
@@ -196,7 +196,7 @@ def year_div():
     ax = axes[1]
     for subj in sorted(fos_subj_dis.keys()):
 
-        xs,ys = dataHist(fos_subj_dis[subj])
+        xs,_,ys = dataHist(fos_subj_dis[subj])
 
         ax.plot(xs,ys,label=subj)
 
@@ -209,7 +209,7 @@ def year_div():
     ax = axes[2]
     for subj in sorted(fos_c10_dis.keys()):
 
-        xs,ys = dataHist(fos_c10_dis[subj])
+        xs,_,ys = dataHist(fos_c10_dis[subj])
 
         ax.plot(xs,ys,label=subj)
 
