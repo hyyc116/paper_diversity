@@ -287,8 +287,8 @@ def year_div():
         ys_median.append(np.median(ys))
 
 
-    ax.plot(xs,smooth(ys_mean,10),'--',label='mean')
-    ax.plot(xs,smooth(ys_median,10),'-.',label='median')
+    ax.plot(xs,smooth(ys_mean,9),'--',label='mean')
+    ax.plot(xs,smooth(ys_median,9),'-.',label='median')
     ax.set_xscale('log')
 
     ax.set_xlabel('$c_{10}$')
@@ -310,8 +310,8 @@ def year_div():
         ys_median.append(np.median(ys))
 
 
-    ax.plot(xs,smooth(ys_mean,10),'--',label='mean')
-    ax.plot(xs,smooth(ys_median,10),'-.',label='median')
+    ax.plot(xs,smooth(ys_mean,9),'--',label='mean')
+    ax.plot(xs,smooth(ys_median,9),'-.',label='median')
     ax.set_xscale('log')
 
 
@@ -335,7 +335,7 @@ def year_div():
 
 
     ax.plot(xs,ys_mean,'--',label='mean')
-    ax.plot(xs,smooth(ys_median,10),'-.',label='median')
+    ax.plot(xs,smooth(ys_median,9),'-.',label='median')
     ax.set_xscale('log')
 
 
@@ -374,7 +374,7 @@ def year_div():
 
 
     ax.plot(xs,ys_mean,'--',label='mean')
-    ax.plot(xs,smooth(ys_median,10),'-.',label='median')
+    ax.plot(xs,smooth(ys_median,9),'-.',label='median')
     ax.set_xscale('log')
 
     ax.set_xlabel('$c_{5}$')
@@ -396,8 +396,8 @@ def year_div():
         ys_median.append(np.median(ys))
 
 
-    ax.plot(xs,smooth(ys_mean,10),'--',label='mean')
-    ax.plot(xs,smooth(ys_median,10),'-.',label='median')
+    ax.plot(xs,smooth(ys_mean,9),'--',label='mean')
+    ax.plot(xs,smooth(ys_median,9),'-.',label='median')
     ax.set_xscale('log')
 
 
@@ -420,8 +420,8 @@ def year_div():
         ys_median.append(np.median(ys))
 
 
-    ax.plot(xs,smooth(ys_mean,10),'--',label='mean')
-    ax.plot(xs,smooth(ys_median,10),'-.',label='median')
+    ax.plot(xs,smooth(ys_mean,9),'--',label='mean')
+    ax.plot(xs,smooth(ys_median,9),'-.',label='median')
     ax.set_xscale('log')
 
 
@@ -512,8 +512,8 @@ def plot_dis_over_attr(attrName,data,xlim=None):
         ys_mean.append(np.mean(ys))
         ys_median.append(np.median(ys))
 
-    ax.plot(xs,smooth(ys_mean,10),'--',label = 'mean')
-    ax.plot(xs,smooth(ys_median,10),'-.',label ='median')
+    ax.plot(xs,smooth(ys_mean,9),'--',label = 'mean')
+    ax.plot(xs,smooth(ys_median,9),'-.',label ='median')
 
     ax.set_xlabel('{}'.format(attrName))
     ax.set_ylabel('year diversity')
@@ -537,8 +537,8 @@ def plot_dis_over_attr(attrName,data,xlim=None):
         ys_median.append(np.median(ys))
 
 
-    ax.plot(xs,smooth(ys_mean,10),'--',label = 'mean')
-    ax.plot(xs,smooth(ys_median,10),'-.',label = 'median')
+    ax.plot(xs,smooth(ys_mean,9),'--',label = 'mean')
+    ax.plot(xs,smooth(ys_median,9),'-.',label = 'median')
 
     ax.set_xlabel('{}'.format(attrName))
     ax.set_ylabel('subject diversity')
@@ -564,8 +564,8 @@ def plot_dis_over_attr(attrName,data,xlim=None):
         ys_median.append(np.median(ys))
 
 
-    ax.plot(xs,smooth(ys_mean,10),'--',label = 'mean')
-    ax.plot(xs,smooth(ys_median,10),'-.',label = 'median')
+    ax.plot(xs,smooth(ys_mean,9),'--',label = 'mean')
+    ax.plot(xs,smooth(ys_median,9),'-.',label = 'median')
 
     ax.set_xlabel('{}'.format(attrName))
     ax.set_ylabel('impact diversity')
