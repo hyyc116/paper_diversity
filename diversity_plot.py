@@ -334,7 +334,7 @@ def year_div():
         ys_median.append(np.median(ys))
 
 
-    ax.plot(xs,ys_mean,'--',label='mean')
+    ax.plot(xs,smooth(ys_mean,99),'--',label='mean')
     ax.plot(xs,smooth(ys_median,99),'-.',label='median')
     ax.set_xscale('log')
 
@@ -373,7 +373,7 @@ def year_div():
         ys_median.append(np.median(ys))
 
 
-    ax.plot(xs,ys_mean,'--',label='mean')
+    ax.plot(xs,smooth(ys_mean,99),'--',label='mean')
     ax.plot(xs,smooth(ys_median,99),'-.',label='median')
     ax.set_xscale('log')
 
