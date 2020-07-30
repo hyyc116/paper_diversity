@@ -287,8 +287,8 @@ def year_div():
         ys_median.append(np.median(ys))
 
 
-    ax.plot(xs,ys_mean,'--','mean')
-    ax.plot(xs,ys_median,'-.','median')
+    ax.plot(xs,smooth(ys_mean,10),'--',label='mean')
+    ax.plot(xs,smooth(ys_median,10),'-.',label='median')
     ax.set_xscale('log')
 
     ax.set_xlabel('$c_{10}$')
@@ -310,8 +310,8 @@ def year_div():
         ys_median.append(np.median(ys))
 
 
-    ax.plot(xs,ys_mean,'--','mean')
-    ax.plot(xs,ys_median,'-.','median')
+    ax.plot(xs,smooth(ys_mean,10),'--',label='mean')
+    ax.plot(xs,smooth(ys_median,10),'-.',label='median')
     ax.set_xscale('log')
 
 
@@ -334,8 +334,8 @@ def year_div():
         ys_median.append(np.median(ys))
 
 
-    ax.plot(xs,ys_mean,'--','mean')
-    ax.plot(xs,ys_median,'-.','median')
+    ax.plot(xs,ys_mean,'--',label='mean')
+    ax.plot(xs,smooth(ys_median,10),'-.',label='median')
     ax.set_xscale('log')
 
 
@@ -373,8 +373,8 @@ def year_div():
         ys_median.append(np.median(ys))
 
 
-    ax.plot(xs,ys_mean,'--','mean')
-    ax.plot(xs,ys_median,'-.','median')
+    ax.plot(xs,ys_mean,'--',label='mean')
+    ax.plot(xs,smooth(ys_median,10),'-.',label='median')
     ax.set_xscale('log')
 
     ax.set_xlabel('$c_{5}$')
@@ -396,8 +396,8 @@ def year_div():
         ys_median.append(np.median(ys))
 
 
-    ax.plot(xs,ys_mean,'--','mean')
-    ax.plot(xs,ys_median,'-.','median')
+    ax.plot(xs,smooth(ys_mean,10),'--',label='mean')
+    ax.plot(xs,smooth(ys_median,10),'-.',label='median')
     ax.set_xscale('log')
 
 
@@ -412,7 +412,7 @@ def year_div():
 
 
     for c5 in sorted(c5_attrs.keys()):
-        xs.append(c10)
+        xs.append(c5)
         ys = c5_attrs[c5]['impact']
         ys = (np.array(ys)-min_id)/(max_id-min_id)
 
@@ -420,17 +420,13 @@ def year_div():
         ys_median.append(np.median(ys))
 
 
-    ax.plot(xs,ys_mean,'--','mean')
-    ax.plot(xs,ys_median,'-.','median')
+    ax.plot(xs,smooth(ys_mean,10),'--',label='mean')
+    ax.plot(xs,smooth(ys_median,10),'-.',label='median')
     ax.set_xscale('log')
-
 
 
     ax.set_xlabel('$c_{5}$')
     ax.set_ylabel('impact diversity')
-
-
-    plt.tight_layout()
 
 
     plt.tight_layout()
@@ -485,7 +481,16 @@ def year_div():
 
     # logging.info("fig saved to fig/diversity_citation_cn_scatter.png.")
 
-
+def smooth(a,WSZ):
+  # a:原始数据，NumPy 1-D array containing the data to be smoothed
+  # 必须是1-D的，如果不是，请使用 np.ravel()或者np.squeeze()转化 
+  # WSZ: smoothing window size needs, which must be odd number,
+  # as in the original MATLAB implementation
+  out0 = np.convolve(a,np.ones(WSZ,dtype=int),'valid')/WSZ
+  r = np.arange(1,WSZ-1,2)
+  start = np.cumsum(a[:WSZ-1])[::2]/r
+  stop = (np.cumsum(a[:-WSZ:-1])[::2]/r)[::-1]
+  return np.concatenate(( start , out0, stop ))
 
 def plot_dis_over_attr(attrName,data,xlim=None):
 
@@ -507,8 +512,8 @@ def plot_dis_over_attr(attrName,data,xlim=None):
         ys_mean.append(np.mean(ys))
         ys_median.append(np.median(ys))
 
-    ax.plot(xs,ys_mean,'--',label = 'mean')
-    ax.plot(xs,ys_median,'-.',label ='median')
+    ax.plot(xs,smooth(ys_mean,10),'--',label = 'mean')
+    ax.plot(xs,smooth(ys_median,10),'-.',label ='median')
 
     ax.set_xlabel('{}'.format(attrName))
     ax.set_ylabel('year diversity')
@@ -532,8 +537,8 @@ def plot_dis_over_attr(attrName,data,xlim=None):
         ys_median.append(np.median(ys))
 
 
-    ax.plot(xs,ys_mean,'--',label = 'mean')
-    ax.plot(xs,ys_median,'-.',label = 'median')
+    ax.plot(xs,smooth(ys_mean,10),'--',label = 'mean')
+    ax.plot(xs,smooth(ys_median,10),'-.',label = 'median')
 
     ax.set_xlabel('{}'.format(attrName))
     ax.set_ylabel('subject diversity')
@@ -559,8 +564,8 @@ def plot_dis_over_attr(attrName,data,xlim=None):
         ys_median.append(np.median(ys))
 
 
-    ax.plot(xs,ys_mean,'--',label = 'mean')
-    ax.plot(xs,ys_median,'-.',label = 'median')
+    ax.plot(xs,smooth(ys_mean,10),'--',label = 'mean')
+    ax.plot(xs,smooth(ys_median,10),'-.',label = 'median')
 
     ax.set_xlabel('{}'.format(attrName))
     ax.set_ylabel('impact diversity')
