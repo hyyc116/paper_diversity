@@ -486,11 +486,13 @@ def smooth(a,WSZ):
   # 必须是1-D的，如果不是，请使用 np.ravel()或者np.squeeze()转化 
   # WSZ: smoothing window size needs, which must be odd number,
   # as in the original MATLAB implementation
-  out0 = np.convolve(a,np.ones(WSZ,dtype=int),'valid')/WSZ
-  r = np.arange(1,WSZ-1,2)
-  start = np.cumsum(a[:WSZ-1])[::2]/r
-  stop = (np.cumsum(a[:-WSZ:-1])[::2]/r)[::-1]
-  return np.concatenate(( start , out0, stop ))
+  # out0 = np.convolve(a,np.ones(WSZ,dtype=int),'valid')/WSZ
+  # r = np.arange(1,WSZ-1,2)
+  # start = np.cumsum(a[:WSZ-1])[::2]/r
+  # stop = (np.cumsum(a[:-WSZ:-1])[::2]/r)[::-1]
+  # return np.concatenate(( start , out0, stop ))
+
+  return [np.mean(a[:i+1]) for i in range(len(a))]
 
 def plot_dis_over_attr(attrName,data,xlim=None):
 
