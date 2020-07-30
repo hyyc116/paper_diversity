@@ -230,14 +230,20 @@ def year_div():
     for i,t in enumerate(general_t_divs.keys()):
 
         ax = axes[i]
-
         xs,pdf,cdf = dataHist(general_t_divs[t])
 
-        ax.plot(xs,pdf,label='PDF')
-        ax.plot(xs,cdf,label='CDF')
-
+        color = '#1f77b4'
         ax.set_xlabel('{} diversity'.format(t))
-        ax.set_ylabel('probability')
+        ax.set_ylabel('PDF', color=color)
+        ax.plot(xs,pdf,label='PDF', color=color)
+        ax.tick_params(axis='y', labelcolor=color)
+
+        ax1 = ax.twinx()
+        color = '#e377c2'
+        ax1.set_ylabel('PDF', color=color)
+        ax1.plot(xs,cdf,label='CDF', color=color)
+        ax1.tick_params(axis='y', labelcolor=color)
+        
 
     plt.tight_layout()
 
