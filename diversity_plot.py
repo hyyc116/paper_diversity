@@ -187,7 +187,7 @@ def year_div():
 
     of.close()
 
-    log.info('data saved to data/ALL_attrs.txt.')
+    logging.info('data saved to data/ALL_attrs.txt.')
 
     # plot_dis_over_attr('field',(fos_year_dis,fos_subj_dis,fos_c10_dis))
 
