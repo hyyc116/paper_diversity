@@ -181,7 +181,7 @@ def year_div():
     lines = []
 
     for attr in attrs:
-        lines.append([str(a) for a in attr])
+        lines.append(','.join([str(a) for a in attr]))
 
     of.write('\n'.join(lines)+'\n')
 
