@@ -140,7 +140,7 @@ def year_div():
 
         year_div,subj_div,c5_div,c10_div = pid_div_vs[pid]
 
-        attrs.append([paper_c10.get(pid,0),paper_c5.get(pid,0),paper_cn.get(pid,0),year_div,subj_div,c10_div])
+        attrs.append([paper_c10.get(pid,0),paper_c5.get(pid,0),paper_cn.get(pid,0),year,ts,year_div,subj_div,c10_div])
 
         year_div_dis[year].append(year_div)
         c10_div_dis[year].append(c10_div)
@@ -173,6 +173,21 @@ def year_div():
     plot_dis_over_attr('publication year',(year_div_dis,subj_div_dis,c10_div_dis,max_yd,min_yd,max_sd,min_sd,max_id,min_id),(1979,2005))
 
     plot_dis_over_attr('team size',(ts_year_dis,ts_subj_dis,ts_c10_dis,max_yd,min_yd,max_sd,min_sd,max_id,min_id),(0,10))
+
+    of = open('data/ALL_attrs.txt','w')
+
+    of.write('c10,c5,cn,year,teamsize,year div,subj div,impact div\n')
+
+    lines = []
+
+    for attr in attrs:
+        lines.append([str(a) for a in attr])
+
+    of.write('\n'.join(lines)+'\n')
+
+    of.close()
+
+    log.info('data saved to data/ALL_attrs.txt.')
 
     # plot_dis_over_attr('field',(fos_year_dis,fos_subj_dis,fos_c10_dis))
 
@@ -251,7 +266,7 @@ def year_div():
 
     logging.info("fig saved to fig/general_div_Dis.png.")
 
-    c10s,c5s,cns,year_divs,subj_divs,c10_divs = zip(*attrs)
+    c10s,c5s,cns,years,tses,year_divs,subj_divs,c10_divs = zip(*attrs)
 
     c10_attrs= defaultdict(lambda:defaultdict(list))
     c5_attrs= defaultdict(lambda:defaultdict(list))
