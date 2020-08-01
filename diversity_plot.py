@@ -785,7 +785,7 @@ def plot_attrs(x,y,xlabel,ylabel,saved_path,logX=False):
 
     xs,ys_mean,ll,ul = average_with_95_confidence(x,y)
 
-    ax.plot(xs,ys)
+    ax.plot(xs,ys_mean)
     ax.fill_between(xs,ll,ul,alpha=.3,color='#ff9896')
 
     ax.set_xlabel(xlabel)
