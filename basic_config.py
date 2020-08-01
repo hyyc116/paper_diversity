@@ -356,7 +356,7 @@ def loess_data(xs,ys):
     l = loess(sorted_xs,sorted_ys)
     l.fit()
 
-    pred_x = list(set(sorted_xs))
+    pred_x = sorted(list(set(sorted_xs)))
     pred = l.predict(pred_x, stderror=True)
     conf = pred.confidence()
 
