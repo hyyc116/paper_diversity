@@ -332,7 +332,7 @@ def loess_test():
     x = np.linspace(0,2*np.pi,100).tolist()*100
 
     x = sorted(x)
-    y = np.sin(x) + np.random.random(10000) 
+    y = np.sin(x) + np.random.random(5000) 
 
     pred_x,lowess,ll,ul = loess_data(x,y)
 

@@ -767,7 +767,7 @@ def plot_attrs(x,y,xlabel,ylabel,saved_path,logX=False):
 
     ax = axes[0]
 
-    selected_ixes= np.random.choice(range(len(x)),size=50000)
+    selected_ixes= np.random.choice(range(len(x)),size=5000)
 
     pred_x,lowess,ll,ul = loess_data([x[ix] for ix in selected_ixes],[y[ix] for ix in selected_ixes])
 
