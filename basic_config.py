@@ -334,34 +334,37 @@ def loess_test():
     x = sorted(x)
     y = np.sin(x) + np.random.random(200) * 0.4
 
-    l = loess(x,y)
-    l.fit()
-
-    pred_x = sorted(list(set(x)))
-    pred = l.predict(x, stderror=True)
-    conf = pred.confidence()
-
-    lowess = pred.values
-    ll = conf.lower
-    ul = conf.upper
+    pred_x,lowess,ll,ul = loess_data(x,y)
 
     plt.plot(x, y, '+')
-    plt.plot(x, lowess)
-    plt.fill_between(x,ll,ul,alpha=.33)
+    plt.plot(pred_x, lowess)
+    plt.fill_between(pred_x,ll,ul,alpha=.33)
     plt.savefig('test_loess.png')
 
-def loess_data(x,y):
+def loess_data(xs,ys):
 
-    # sorted()
+    ixes = range(len(xs))
 
-    l = loess(x,y)
+    sorted_xs = []
+    sorted_ys = []
+
+    for ix in sorted(ixes,key=lambda x:xs[x]):
+
+        sorted_xs.append(xs[ix])
+        sorted_ys.append(ys[ix])
+
+    l = loess(sorted_xs,sorted_ys)
     l.fit()
-    pred = l.predict(x, stderror=True)
+
+    pred_x = list(set(sorted_xs))
+    pred = l.predict(pred_x, stderror=True)
     conf = pred.confidence()
 
     lowess = pred.values
     ll = conf.lower
     ul = conf.upper
+
+    return pred_x,lowess,ll,ul
 
 
 
