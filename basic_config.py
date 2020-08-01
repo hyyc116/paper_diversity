@@ -337,17 +337,17 @@ def loess_test():
     pred_x,lowess,ll,ul = loess_data(x,y)
 
     plt.figure()
-    plt.plot(x, y, '+')
+    # plt.plot(x, y, '+')
     plt.plot(pred_x, lowess)
-    plt.fill_between(pred_x,ll,ul,alpha=.33)
+    plt.fill_between(pred_x,ll,ul,alpha=.8)
     plt.savefig('test_loess.png')
 
     xs,ys_mean,ll,ul = average_with_95_confidence(x,y)
 
     plt.figure()
-    plt.plot(x, y, '+')
+    # plt.plot(x, y, '+')
     plt.plot(xs, ys_mean)
-    plt.fill_between(xs,ll,ul,alpha=.33)
+    plt.fill_between(xs,ll,ul,alpha=.8)
     plt.savefig('test_average_confidence.png')
 
 
