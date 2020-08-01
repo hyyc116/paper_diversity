@@ -177,9 +177,9 @@ def year_div():
 
         attrs.append([paper_c10.get(pid,0),paper_c5.get(pid,0),paper_cn.get(pid,0),year,ts,year_div,subj_div,c10_div,subj,did])
 
-        year_div = pid_yi[pid]
-        c10_div = pid_ii[pid]
-        subj_div = pid_si[pid]
+        # year_div = pid_yi[pid]
+        # c10_div = pid_ii[pid]
+        # subj_div = pid_si[pid]
 
         year_div_dis[year].append(year_div)
         c10_div_dis[year].append(c10_div)
