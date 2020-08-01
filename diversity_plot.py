@@ -836,6 +836,6 @@ def impact_div():
 
 
 if __name__ == '__main__':
-    year_div()
+    # year_div()
 
-    # percentile_div()
+    percentile_div()
