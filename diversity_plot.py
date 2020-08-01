@@ -737,9 +737,9 @@ def percentile_div():
         if  year<1980 or year>2004:
             continue
 
-        year_div = pid_yi[pid]
-        c10_div = pid_ii[pid]
-        subj_div = pid_si[pid]
+        year_div = pid_yi[pid]*100
+        c10_div = pid_ii[pid]*100
+        subj_div = pid_si[pid]*100
 
         attrs.append([paper_c10.get(pid,0),paper_c5.get(pid,0),paper_cn.get(pid,0),year,ts,year_div,subj_div,c10_div])
 
@@ -747,30 +747,30 @@ def percentile_div():
     c10s,c5s,cns,years,tses,yds,sds,ids = zip(*attrs)
 
     ## 随着year的变化
-    plot_attrs(years,yds,'year','year diversity','fig/year_yd.png')
-    plot_attrs(years,sds,'year','subject diversity','fig/year_sd.png')
-    plot_attrs(years,ids,'year','impact diversity','fig/year_id.png')
+    plot_attrs(years,yds,'year','percentile of year diversity','fig/year_yd.png')
+    plot_attrs(years,sds,'year','percentile of subject diversity','fig/year_sd.png')
+    plot_attrs(years,ids,'year','percentile of impact diversity','fig/year_id.png')
 
     tses,ts_yds,ts_sds,ts_ids = zip(*[[tses[ix],yds[ix],sds[ix],ids[ix]] for ix in range(len(tses)) if tses[ix]!=-1])
-    plot_attrs(tses,ts_yds,'teamsize','year diversity','fig/teamsize_yd.png')
-    plot_attrs(tses,ts_sds,'teamsize','subject diversity','fig/teamsize_sd.png')
-    plot_attrs(tses,ts_ids,'teamsize','impact diversity','fig/teamsize_id.png')
+    plot_attrs(tses,ts_yds,'teamsize','percentile of year diversity','fig/teamsize_yd.png')
+    plot_attrs(tses,ts_sds,'teamsize','percentile of subject diversity','fig/teamsize_sd.png')
+    plot_attrs(tses,ts_ids,'teamsize','percentile of impact diversity','fig/teamsize_id.png')
 
 
     c10s,c10_yds,c10_sds,c10_ids = zip(*[[c10s[ix],yds[ix],sds[ix],ids[ix]] for ix in range(len(c10s)) if c10s[ix]!=-1])
-    plot_attrs(c10s,c10_yds,'$c_{10}$','year diversity','fig/c10_yd.png')
-    plot_attrs(c10s,c10_sds,'$c_{10}$','subject diversity','fig/c10_sd.png')
-    plot_attrs(c10s,c10_ids,'$c_{10}$','impact diversity','fig/c10_id.png')
+    plot_attrs(c10s,c10_yds,'$c_{10}$','percentile of year diversity','fig/c10_yd.png',logX=True)
+    plot_attrs(c10s,c10_sds,'$c_{10}$','percentile of subject diversity','fig/c10_sd.png',logX=True)
+    plot_attrs(c10s,c10_ids,'$c_{10}$','percentile of impact diversity','fig/c10_id.png',logX=True)
 
     c5s,c5_yds,c5_sds,c5_ids = zip(*[[c5s[ix],yds[ix],sds[ix],ids[ix]] for ix in range(len(c5s)) if c5s[ix]!=-1])
-    plot_attrs(c5s,c5_yds,'$c_5$','year diversity','fig/c5_yd.png')
-    plot_attrs(c5s,c5_sds,'$c_5$','subject diversity','fig/c5_sd.png')
-    plot_attrs(c5s,c5_ids,'$c_5$','impact diversity','fig/c5_id.png')
+    plot_attrs(c5s,c5_yds,'$c_5$','percentile of year diversity','fig/c5_yd.png',logX=True)
+    plot_attrs(c5s,c5_sds,'$c_5$','percentile of subject diversity','fig/c5_sd.png',logX=True)
+    plot_attrs(c5s,c5_ids,'$c_5$','percentile of impact diversity','fig/c5_id.png',logX=True)
 
     cns,cn_yds,cn_sds,cn_ids = zip(*[[cns[ix],yds[ix],sds[ix],ids[ix]] for ix in range(len(cns)) if cns[ix]!=-1])
-    plot_attrs(cns,cn_yds,'$c_n$','year diversity','fig/cn_yd.png')
-    plot_attrs(cns,cn_sds,'$c_n$','subject diversity','fig/cn_sd.png')
-    plot_attrs(cns,cn_ids,'$c_n$','impact diversity','fig/cn_id.png')
+    plot_attrs(cns,cn_yds,'$c_n$','percentile of year diversity','fig/cn_yd.png',logX=True)
+    plot_attrs(cns,cn_sds,'$c_n$','percentile of subject diversity','fig/cn_sd.png',logX=True)
+    plot_attrs(cns,cn_ids,'$c_n$','percentile of impact diversity','fig/cn_id.png',logX=True)
 
 
 def plot_attrs(x,y,xlabel,ylabel,saved_path,logX=False):
@@ -781,7 +781,7 @@ def plot_attrs(x,y,xlabel,ylabel,saved_path,logX=False):
 
     ax = axes[0]
 
-    selected_ixes= np.random.choice(range(len(x)),size=5000)
+    selected_ixes= np.random.choice(range(len(x)),size=50000)
 
     pred_x,lowess,ll,ul = loess_data([x[ix] for ix in selected_ixes],[y[ix] for ix in selected_ixes])
 
@@ -790,6 +790,8 @@ def plot_attrs(x,y,xlabel,ylabel,saved_path,logX=False):
 
     ax.set_xlabel(xlabel)
     ax.set_ylabel(ylabel)
+
+    ax.set_ylim(0,100)
 
     if logX:
         ax.set_xscale('log')
