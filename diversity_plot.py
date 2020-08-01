@@ -777,7 +777,7 @@ def plot_attrs(x,y,xlabel,ylabel,saved_path,logX=False):
 
     logging.info('plot {} vs {} figs ...'.format(xlabel,ylabel))
 
-    fig,axes = plt.subplots(1,1,figsize=(5,4))
+    fig,axes = plt.subplots(2,1,figsize=(5,8))
 
     ax = axes[0]
 
@@ -801,7 +801,7 @@ def plot_attrs(x,y,xlabel,ylabel,saved_path,logX=False):
 
     logging.info('haha')
 
-    ax = axes
+    ax = axes[1]
 
     xs,ys_mean,ll,ul = average_with_95_confidence(x,y)
 
