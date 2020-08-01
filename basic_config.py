@@ -18,7 +18,7 @@ from itertools import combinations
 import pylab
 import itertools
 from mpl_toolkits.mplot3d import Axes3D
-from scipy.interpolate import spline
+# from scipy.interpolate import spline
 from multiprocessing.dummy import Pool as ThreadPool
 from networkx.algorithms import isomorphism
 from matplotlib import cm as CM
