@@ -163,7 +163,7 @@ def year_div():
 
         year_div,subj_div,c5_div,c10_div = pid_div_vs[pid]
 
-        subj = pid_topsubjs[pid][0]
+        subj = subjs[0]
         did = 0
 
         doctype = pid_doctype.get(pid,'Article')
