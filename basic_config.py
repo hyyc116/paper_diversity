@@ -330,6 +330,8 @@ def gini(array):
 def loess_test():
 
     x = np.linspace(0,2*np.pi,100).tolist()*2
+
+    x = sorted(x)
     y = np.sin(x) + np.random.random(200) * 0.4
 
     l = loess(x,y)
