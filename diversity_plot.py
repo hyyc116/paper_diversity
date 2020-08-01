@@ -116,27 +116,27 @@ def year_div():
 
     progress = 0 
 
-    logging.info('sorting ....')
+    # logging.info('sorting ....')
 
-    totalnum = len(pid_div_vs.keys())
+    # totalnum = len(pid_div_vs.keys())
 
-    pid_si = {}
+    # pid_si = {}
 
-    for i,pid in enumerate(sorted(pid_div_vs.keys(),key= lambda x:pid_div_vs[x][1])):
+    # for i,pid in enumerate(sorted(pid_div_vs.keys(),key= lambda x:pid_div_vs[x][1])):
 
-        pid_si[pid] = i/float(totalnum)
+    #     pid_si[pid] = i/float(totalnum)
 
-    pid_yi = {}
-    for i,pid in enumerate(sorted(pid_div_vs.keys(),key= lambda x:pid_div_vs[x][0])):
+    # pid_yi = {}
+    # for i,pid in enumerate(sorted(pid_div_vs.keys(),key= lambda x:pid_div_vs[x][0])):
 
-        pid_yi[pid] = i/float(totalnum)
+    #     pid_yi[pid] = i/float(totalnum)
 
-    pid_ii = {}
-    for i,pid in enumerate(sorted(pid_div_vs.keys(),key= lambda x:pid_div_vs[x][3])):
+    # pid_ii = {}
+    # for i,pid in enumerate(sorted(pid_div_vs.keys(),key= lambda x:pid_div_vs[x][3])):
 
-        pid_ii[pid] = i/float(totalnum)
+    #     pid_ii[pid] = i/float(totalnum)
 
-    logging.info('sorted done')
+    # logging.info('sorted done')
 
 
     pid_div_vs = json.loads(open("data/pid_divs.json").read())
