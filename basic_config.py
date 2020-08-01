@@ -329,18 +329,29 @@ def gini(array):
 
 def loess_test():
 
-    x = np.linspace(0,2*np.pi,100).tolist()*2
+    x = np.linspace(0,2*np.pi,100).tolist()*100
 
     x = sorted(x)
-    y = np.sin(x) + np.random.random(200) * 0.4
+    y = np.sin(x) + np.random.random(10000) * 0.5
 
     pred_x,lowess,ll,ul = loess_data(x,y)
 
+    plt.figure()
     plt.plot(x, y, '+')
     plt.plot(pred_x, lowess)
     plt.fill_between(pred_x,ll,ul,alpha=.33)
     plt.savefig('test_loess.png')
 
+    xs,ys_mean,ll,ul = average_with_95_confidence(x,y)
+
+    plt.figure()
+    plt.plot(x, y, '+')
+    plt.plot(xs, ys_mean)
+    plt.fill_between(xs,ll,ul,alpha=.33)
+    plt.savefig('test_average_confidence.png')
+
+
+## use local weighted regression to fit data
 def loess_data(xs,ys):
 
     ixes = range(len(xs))
@@ -366,6 +377,70 @@ def loess_data(xs,ys):
 
     return pred_x,lowess,ll,ul
 
+## use bootstrap method to cal mean and confidence interval
+
+
+def average_with_95_confidence(xs,ys):
+
+    x_y_dict = defaultdict(list)
+    for ix in range(len(xs)):
+        x_y_dict[xs[ix]].append(ys[ix])
+
+
+    xs = []
+    ys_mean = []
+    ys_ul = []
+    ys_ll = []
+
+    for x in sorted(x_y_dict.keys()):
+        xs.append(x)
+
+        data = x_y_dict[x]
+
+        ys_mean.append(mean_func(data))
+
+        ll,ul = bootstrap(data,50,0.95,mean_func)
+
+        ys_ul.append(ul)
+        ys_ll.append(ll)
+
+    return xs,ys_mean,ys_ll,ys_ul
+
+
+
+
+
+def bootstrap(data, B, c, func):
+    """
+    计算bootstrap置信区间
+    :param data: array 保存样本数据
+    :param B: 抽样次数 通常B>=1000
+    :param c: 置信水平
+    :param func: 样本估计量
+    :return: bootstrap置信区间上下限
+    """
+    array = np.array(data)
+    n = len(array)
+    sample_result_arr = []
+    for i in range(B):
+        index_arr = np.random.randint(0, n, size=n)
+        data_sample = array[index_arr]
+        sample_result = func(data_sample)
+        sample_result_arr.append(sample_result)
+
+    a = 1 - c
+    k1 = int(B * a / 2)
+    k2 = int(B * (1 - a / 2))
+    auc_sample_arr_sorted = sorted(sample_result_arr)
+    lower = auc_sample_arr_sorted[k1]
+    higher = auc_sample_arr_sorted[k2]
+
+    return lower, higher
+
+
+def mean_func(data):
+
+    return np.mean(data)
 
 
 if __name__ == '__main__':
