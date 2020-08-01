@@ -329,7 +329,7 @@ def gini(array):
 
 def loess_test():
 
-    x = np.linspace(0,2*np.pi,100)
+    x = np.linspace(0,2*np.pi,100).tolist()*2
     y = np.sin(x) + np.random.random(100) * 0.4
 
     l = loess(x,y)
@@ -345,6 +345,20 @@ def loess_test():
     plt.plot(x, lowess)
     plt.fill_between(x,ll,ul,alpha=.33)
     plt.savefig('test_loess.png')
+
+def loess_data(x,y):
+
+    # sorted()
+
+    l = loess(x,y)
+    l.fit()
+    pred = l.predict(x, stderror=True)
+    conf = pred.confidence()
+
+    lowess = pred.values
+    ll = conf.lower
+    ul = conf.upper
+
 
 
 if __name__ == '__main__':
