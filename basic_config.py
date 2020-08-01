@@ -334,6 +334,8 @@ def loess_test():
 
     l = loess(x,y)
     l.fit()
+
+    pred_x = sorted(list(set(x)))
     pred = l.predict(x, stderror=True)
     conf = pred.confidence()
 
