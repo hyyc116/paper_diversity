@@ -92,7 +92,7 @@ def load_basic_data(attrs=['year','subj','topsubj','teamsize','doctype','cn'],is
 ## 几种diversity随时间的变化
 def year_div():
 
-    paper_year,paper_topsubjs,paper_ts,paper_c10,paper_c5,paper_cn = load_basic_data(['year','topsubj','teamsize','c10','c5','cn'])
+    paper_year,paper_topsubjs,paper_ts,paper_c10,paper_c5,paper_cn,pid_doctype = load_basic_data(['year','topsubj','teamsize','c10','c5','cn','doctype'])
 
     year_div_dis = defaultdict(list)
     c10_div_dis = defaultdict(list)
@@ -163,7 +163,19 @@ def year_div():
 
         year_div,subj_div,c5_div,c10_div = pid_div_vs[pid]
 
-        attrs.append([paper_c10.get(pid,0),paper_c5.get(pid,0),paper_cn.get(pid,0),year,ts,year_div,subj_div,c10_div])
+        subj = pid_topsubjs[pid][0]
+        did = 0
+
+        doctype = pid_doctype.get(pid,'Article')
+
+        if doctype=='Article':
+            did = 0
+        elif doctype =='Review':
+            did = 1
+        else:
+            did =2
+
+        attrs.append([paper_c10.get(pid,0),paper_c5.get(pid,0),paper_cn.get(pid,0),year,ts,year_div,subj_div,c10_div,subj,did])
 
         year_div = pid_yi[pid]
         c10_div = pid_ii[pid]
@@ -213,6 +225,8 @@ def year_div():
     lines = []
 
     for attr in attrs:
+        if attr[4]==-1:
+            continue
         lines.append(','.join([str(a) for a in attr]))
 
     of.write('\n'.join(lines)+'\n')
@@ -298,7 +312,7 @@ def year_div():
 
     logging.info("fig saved to fig/general_div_Dis.png.")
 
-    c10s,c5s,cns,years,tses,year_divs,subj_divs,c10_divs = zip(*attrs)
+    c10s,c5s,cns,years,tses,year_divs,subj_divs,c10_divs,_subjs,docs = zip(*attrs)
 
     c10_attrs= defaultdict(lambda:defaultdict(list))
     c5_attrs= defaultdict(lambda:defaultdict(list))
@@ -816,6 +830,6 @@ def impact_div():
 
 
 if __name__ == '__main__':
-    # year_div()
+    year_div()
 
-    percentile_div()
+    # percentile_div()
