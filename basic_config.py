@@ -339,7 +339,7 @@ def loess_test():
     plt.figure()
     # plt.plot(x, y, '+')
     plt.plot(pred_x, lowess)
-    plt.fill_between(pred_x,ll,ul,alpha=.5,c='#ff9896')
+    plt.fill_between(pred_x,ll,ul,alpha=.5,color='#ff9896')
     plt.savefig('test_loess.png')
 
     xs,ys_mean,ll,ul = average_with_95_confidence(x,y)
@@ -347,7 +347,7 @@ def loess_test():
     plt.figure()
     # plt.plot(x, y, '+')
     plt.plot(xs, ys_mean)
-    plt.fill_between(xs,ll,ul,alpha=.5,c='#ff9896')
+    plt.fill_between(xs,ll,ul,alpha=.5,color='#ff9896')
     plt.savefig('test_average_confidence.png')
 
 
