@@ -777,27 +777,27 @@ def plot_attrs(x,y,xlabel,ylabel,saved_path,logX=False):
 
     logging.info('plot {} vs {} figs ...'.format(xlabel,ylabel))
 
-    fig,axes = plt.subplots(2,1,figsize=(5,8))
+    fig,axes = plt.subplots(1,1,figsize=(5,4))
 
-    ax = axes[0]
+    # ax = axes[0]
 
-    selected_ixes= np.random.choice(range(len(x)),size=50000)
+    # selected_ixes= np.random.choice(range(len(x)),size=50000)
 
-    pred_x,lowess,ll,ul = loess_data([x[ix] for ix in selected_ixes],[y[ix] for ix in selected_ixes])
+    # pred_x,lowess,ll,ul = loess_data([x[ix] for ix in selected_ixes],[y[ix] for ix in selected_ixes])
 
-    ax.plot(pred_x,lowess)
-    ax.fill_between(pred_x,ll,ul,alpha=.3,color='#ff9896')
+    # ax.plot(pred_x,lowess)
+    # ax.fill_between(pred_x,ll,ul,alpha=.3,color='#ff9896')
 
-    ax.set_xlabel(xlabel)
-    ax.set_ylabel(ylabel)
+    # ax.set_xlabel(xlabel)
+    # ax.set_ylabel(ylabel)
 
-    ax.set_ylim(0,100)
+    # ax.set_ylim(0,100)
 
-    if logX:
-        ax.set_xscale('log')
+    # if logX:
+    #     ax.set_xscale('log')
 
 
-    ax = axes[1]
+    ax = axes
 
     xs,ys_mean,ll,ul = average_with_95_confidence(x,y)
 
