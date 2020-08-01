@@ -38,6 +38,9 @@ import statsmodels.api as sm
 lowess = sm.nonparametric.lowess
 import scipy
 
+from skmisc.loess import loess
+
+
 # from gini import gini
 
 logging.basicConfig(format='%(asctime)s : %(levelname)s : %(message)s',level=logging.INFO)
@@ -324,18 +327,40 @@ def gini(array):
     # Gini coefficient:
     return ((np.sum((2 * index - n  - 1) * array)) / (n * np.sum(array)))
 
+def loess_test():
+
+    x = np.linspace(0,2*np.pi,100)
+    y = np.sin(x) + np.random.random(100) * 0.4
+
+    l = loess(x,y)
+    l.fit()
+    pred = l.predict(x, stderror=True)
+    conf = pred.confidence()
+
+    lowess = pred.values
+    ll = conf.lower
+    ul = conf.upper
+
+    plt.plot(x, y, '+')
+    plt.plot(x, lowess)
+    plt.fill_between(x,ll,ul,alpha=.33)
+    plt.savefig('test_loess.png')
+
+
 if __name__ == '__main__':
     # test color theme
 
-    xs = range(5)
-    ys = np.random.random((5, 5))
+    # xs = range(5)
+    # ys = np.random.random((5, 5))
 
-    plt.figure()
-    plt.plot(xs,ys)
+    # plt.figure()
+    # plt.plot(xs,ys)
 
-    plt.tight_layout()
+    # plt.tight_layout()
 
-    plt.savefig('fig/test_color.jpg')
+    # plt.savefig('fig/test_color.jpg')
+
+    loess_test()
 
 
 
