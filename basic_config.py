@@ -351,6 +351,7 @@ def loess_test():
     plt.savefig('test_average_confidence.png')
 
 
+
 ## use local weighted regression to fit data
 def loess_data(xs,ys):
 

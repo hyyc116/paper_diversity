@@ -721,333 +721,61 @@ def percentile_div():
         if  year<1980 or year>2004:
             continue
 
-
-        # year_div,c5_div,c10_div,subj_div = pid_div_vs[pid]
-
-        year_div,subj_div,c5_div,c10_div = pid_div_vs[pid]
-
-
         year_div = pid_yi[pid]
         c10_div = pid_ii[pid]
         subj_div = pid_si[pid]
 
         attrs.append([paper_c10.get(pid,0),paper_c5.get(pid,0),paper_cn.get(pid,0),year,ts,year_div,subj_div,c10_div])
-        
-
-        year_div_dis[year].append(year_div)
-        c10_div_dis[year].append(c10_div)
-        subj_div_dis[year].append(subj_div)
-
-        if ts!=-1:
-            ts_year_dis[ts].append(year_div)
-            ts_subj_dis[ts].append(subj_div)
-            ts_c10_dis[ts].append(c10_div)
-
-        if subjs is None:
-            continue
-
-        for subj in subjs:
-            fos_year_dis[subj].append(year_div)
-            fos_subj_dis[subj].append(subj_div)
-            fos_c10_dis[subj].append(c10_div)
 
 
-        general_t_divs['year'].append(year_div)
-        general_t_divs['subject'].append(subj_div)
-        general_t_divs['impact'].append(c10_div)
+    ## 随着year的变化
+    c10s,c5s,cns,years,tses,yds,sds,ids = zip(*attrs)
 
-
-    # max_yd,min_yd = np.max(general_t_divs['year']),np.min(general_t_divs['year'])
-    # max_sd,min_sd = np.max(general_t_divs['subject']),np.min(general_t_divs['subject'])
-    # max_id,min_id = np.max(general_t_divs['impact']),np.min(general_t_divs['impact'])
-
-    max_yd,min_yd = 1,0
-    max_sd,min_sd = 1,0
-    max_id,min_id = 1,0
+    plot_attrs(years,yds,'year','year diversity','fig/year_yd.png')
+    plot_attrs(years,sds,'year','subject diversity','fig/year_sd.png')
+    plot_attrs(years,ids,'year','impact diversity','fig/year_id.png')
 
 
 
-    plot_dis_over_attr('publication year',(year_div_dis,subj_div_dis,c10_div_dis,max_yd,min_yd,max_sd,min_sd,max_id,min_id),(1979,2005))
 
-    plot_dis_over_attr('team size',(ts_year_dis,ts_subj_dis,ts_c10_dis,max_yd,min_yd,max_sd,min_sd,max_id,min_id),(0,10))
+def plot_attrs(x,y,xlabel,ylabel,saved_path,logX=False):
 
-    # of = open('data/ALL_attrs.txt','w')
+    logging.info('plot {} vs {} figs ...'.format(xlabel,ylabel))
 
-    # of.write('c10,c5,cn,year,teamsize,year div,subj div,impact div\n')
-
-    # lines = []
-
-    # for attr in attrs:
-        # lines.append(','.join([str(a) for a in attr]))
-
-    # of.write('\n'.join(lines)+'\n')
-
-    # of.close()
-
-    # logging.info('data saved to data/ALL_attrs.txt.')
-
-    # plot_dis_over_attr('field',(fos_year_dis,fos_subj_dis,fos_c10_dis))
-
-    ## 几个领域的分布图
-
-    fig,axes  = plt.subplots(3,1,figsize=(5,12))
-
-    ax = axes[0]
-    for subj in sorted(fos_year_dis.keys()):
-
-        xs,_,ys = dataHist(fos_year_dis[subj])
-
-        ax.plot(xs,ys,label=subj)
-
-    ax.set_xlabel('year diversity')
-    ax.set_ylabel('CDF')
-
-    ax.legend(fontsize=6,ncol=2)
-
-
-    ax = axes[1]
-    for subj in sorted(fos_subj_dis.keys()):
-
-        xs,_,ys = dataHist(fos_subj_dis[subj])
-
-        ax.plot(xs,ys,label=subj)
-
-    ax.set_xlabel('subject diversity')
-    ax.set_ylabel('CDF')
-
-    ax.legend(fontsize=6,ncol=2)
-
-
-    ax = axes[2]
-    for subj in sorted(fos_c10_dis.keys()):
-
-        xs,_,ys = dataHist(fos_c10_dis[subj])
-
-        ax.plot(xs,ys,label=subj)
-
-    ax.set_xlabel('impact diversity')
-    ax.set_ylabel('CDF')
-
-    ax.legend(fontsize=6,ncol=2)
-
-    plt.tight_layout()
-
-    plt.savefig('fig/subject_div_dis.png',dpi=400)
-
-    logging.info("fig saved to fig/subject_div_dis.png")
-
-
-    fig,axes = plt.subplots(3,1,figsize=(6,12))
-
-    for i,t in enumerate(general_t_divs.keys()):
-
-        ax = axes[i]
-        xs,pdf,cdf = dataHist(general_t_divs[t])
-
-        color = '#1f77b4'
-        ax.set_xlabel('{} diversity'.format(t))
-        ax.set_ylabel('PDF', color=color)
-        ax.plot(xs,pdf,label='PDF', color=color)
-        ax.tick_params(axis='y', labelcolor=color)
-
-        ax1 = ax.twinx()
-        color = '#e377c2'
-        ax1.set_ylabel('CDF', color=color)
-        ax1.plot(xs,cdf,label='CDF', color=color)
-        ax1.tick_params(axis='y', labelcolor=color)
-        
-
-    plt.tight_layout()
-
-    plt.savefig('fig/general_div_CDF_Dis.png',dpi=400)
-
-    logging.info("fig saved to fig/general_div_Dis.png.")
-
-    c10s,c5s,cns,years,tses,year_divs,subj_divs,c10_divs = zip(*attrs)
-
-    c10_attrs= defaultdict(lambda:defaultdict(list))
-    c5_attrs= defaultdict(lambda:defaultdict(list))
-
-    for i in range(len(c10s)):
-
-        c10_attrs[c10s[i]]['year'].append(year_divs[i])
-        c10_attrs[c10s[i]]['subj'].append(subj_divs[i])
-        c10_attrs[c10s[i]]['impact'].append(c10_divs[i])
-
-        c5_attrs[c5s[i]]['year'].append(year_divs[i])
-        c5_attrs[c5s[i]]['subj'].append(subj_divs[i])
-        c5_attrs[c5s[i]]['impact'].append(c10_divs[i])
-
-
-    ## 画散点图
-    fig,axes = plt.subplots(3,1,figsize=(5,12))
-
+    fig,axes = plt.subplots(2,1,figsize=(5,8))
 
     ax = axes[0]
 
-    xs = []
-    ys_mean = []
-    ys_median = []
+    pred_x,lowess,ll,ul = loess_data(x,y)
 
+    ax.plot(pred_x,lowess)
+    ax.fill_between(pred_x,ll,ul,alpha=.3,color='#ff9896')
 
-    for c10 in sorted(c10_attrs.keys()):
-        xs.append(c10)
-        ys = c10_attrs[c10]['year']
-        ys = (np.array(ys)-min_yd)/(max_yd-min_yd)
+    ax.set_xlabel(xlabel)
+    ax.set_ylabel(ylabel)
 
-        ys_mean.append(np.mean(ys))
-        ys_median.append(np.median(ys))
+    if logX:
+        ax.set_xscale('log')
 
-
-    ax.plot(xs,smooth(ys_mean,99),'--',label='mean')
-    ax.plot(xs,smooth(ys_median,99),'-.',label='median')
-    ax.set_xscale('log')
-
-    ax.set_xlabel('$c_{10}$')
-    ax.set_ylabel('year diversity')
 
     ax = axes[1]
-    
-    xs = []
-    ys_mean = []
-    ys_median = []
 
+    xs,ys_mean,ll,ul = average_with_95_confidence(x,y)
 
-    for c10 in sorted(c10_attrs.keys()):
-        xs.append(c10)
-        ys = c10_attrs[c10]['subj']
-        ys = (np.array(ys)-min_sd)/(max_sd-min_sd)
+    ax.plot(xs,ys)
+    ax.fill_between(xs,ll,ul,alpha=.3,color='#ff9896')
 
-        ys_mean.append(np.mean(ys))
-        ys_median.append(np.median(ys))
+    ax.set_xlabel(xlabel)
+    ax.set_ylabel(ylabel)
 
-
-    ax.plot(xs,smooth(ys_mean,99),'--',label='mean')
-    ax.plot(xs,smooth(ys_median,99),'-.',label='median')
-    ax.set_xscale('log')
-
-
-    ax.set_xlabel('$c_{10}$')
-    ax.set_ylabel('subject diversity')
-
-    ax = axes[2]
-
-    xs = []
-    ys_mean = []
-    ys_median = []
-
-
-    for c10 in sorted(c10_attrs.keys()):
-        xs.append(c10)
-        ys = c10_attrs[c10]['impact']
-        ys = (np.array(ys)-min_id)/(max_id-min_id)
-
-        ys_mean.append(np.mean(ys))
-        ys_median.append(np.median(ys))
-
-
-    ax.plot(xs,smooth(ys_mean,99),'--',label='mean')
-    ax.plot(xs,smooth(ys_median,99),'-.',label='median')
-    ax.set_xscale('log')
-
-
-
-    ax.set_xlabel('$c_{10}$')
-    ax.set_ylabel('impact diversity')
-
+    if logX:
+        ax.set_xscale('log')
 
     plt.tight_layout()
 
-    plt.savefig('fig/diversity_citation_c10_scatter.png',dpi=200)
+    plt.savefig(saved_path,dpi=400)
 
-    logging.info("fig saved to fig/diversity_citation_c10_scatter.png.")
-
-
-
-    ## 画散点图
-    # samples = np.random.choice(np.arange(len(c5s)),size=1000)
-
-    fig,axes = plt.subplots(3,1,figsize=(5,12))
-
-    ax = axes[0]
-
-    xs = []
-    ys_mean = []
-    ys_median = []
-
-
-    for c5 in sorted(c5_attrs.keys()):
-        xs.append(c5)
-        ys = c5_attrs[c5]['year']
-        ys = (np.array(ys)-min_yd)/(max_yd-min_yd)
-
-        ys_mean.append(np.mean(ys))
-        ys_median.append(np.median(ys))
-
-
-    ax.plot(xs,smooth(ys_mean,99),'--',label='mean')
-    ax.plot(xs,smooth(ys_median,99),'-.',label='median')
-    ax.set_xscale('log')
-
-    ax.set_xlabel('$c_{5}$')
-    ax.set_ylabel('year diversity')
-
-    ax = axes[1]
-    
-    xs = []
-    ys_mean = []
-    ys_median = []
-
-
-    for c5 in sorted(c5_attrs.keys()):
-        xs.append(c5)
-        ys = c5_attrs[c5]['subj']
-        ys = (np.array(ys)-min_sd)/(max_sd-min_sd)
-
-        ys_mean.append(np.mean(ys))
-        ys_median.append(np.median(ys))
-
-
-    ax.plot(xs,smooth(ys_mean,99),'--',label='mean')
-    ax.plot(xs,smooth(ys_median,99),'-.',label='median')
-    ax.set_xscale('log')
-
-
-    ax.set_xlabel('$c_{5}$')
-    ax.set_ylabel('subject diversity')
-
-    ax = axes[2]
-
-    xs = []
-    ys_mean = []
-    ys_median = []
-
-
-    for c5 in sorted(c5_attrs.keys()):
-        xs.append(c5)
-        ys = c5_attrs[c5]['impact']
-        ys = (np.array(ys)-min_id)/(max_id-min_id)
-
-        ys_mean.append(np.mean(ys))
-        ys_median.append(np.median(ys))
-
-
-    ax.plot(xs,smooth(ys_mean,99),'--',label='mean')
-    ax.plot(xs,smooth(ys_median,99),'-.',label='median')
-    ax.set_xscale('log')
-
-
-    ax.set_xlabel('$c_{5}$')
-    ax.set_ylabel('impact diversity')
-
-
-    plt.tight_layout()
-
-    plt.savefig('fig/diversity_citation_c5_scatter.png',dpi=200)
-
-    logging.info("fig saved to fig/diversity_citation_c5_scatter.png.")
-
-
+    logging.info('fig saved to {}.'.format(saved_path))
 
 
 
@@ -1065,4 +793,6 @@ def impact_div():
 
 
 if __name__ == '__main__':
-    year_div()
+    # year_div()
+
+    percentile_div()
