@@ -750,11 +750,6 @@ def percentile_div():
     plot_attrs(years,sds,'year','percentile of subject diversity','fig/year_sd.png')
     plot_attrs(years,ids,'year','percentile of impact diversity','fig/year_id.png')
 
-    tses,ts_yds,ts_sds,ts_ids = zip(*[[tses[ix],yds[ix],sds[ix],ids[ix]] for ix in range(len(tses)) if tses[ix]!=-1 and tses[-1]<13])
-    plot_attrs(tses,ts_yds,'teamsize','percentile of year diversity','fig/teamsize_yd.png')
-    plot_attrs(tses,ts_sds,'teamsize','percentile of subject diversity','fig/teamsize_sd.png')
-    plot_attrs(tses,ts_ids,'teamsize','percentile of impact diversity','fig/teamsize_id.png')
-
 
     c10s,c10_yds,c10_sds,c10_ids = zip(*[[c10s[ix],yds[ix],sds[ix],ids[ix]] for ix in range(len(c10s)) if c10s[ix]!=0])
     plot_attrs(c10s,c10_yds,'$c_{10}$','percentile of year diversity','fig/c10_yd.png',logX=True)
@@ -770,6 +765,11 @@ def percentile_div():
     plot_attrs(cns,cn_yds,'$c_n$','percentile of year diversity','fig/cn_yd.png',logX=True)
     plot_attrs(cns,cn_sds,'$c_n$','percentile of subject diversity','fig/cn_sd.png',logX=True)
     plot_attrs(cns,cn_ids,'$c_n$','percentile of impact diversity','fig/cn_id.png',logX=True)
+
+    tses,ts_yds,ts_sds,ts_ids = zip(*[[tses[ix],yds[ix],sds[ix],ids[ix]] for ix in range(len(tses)) if tses[ix]!=-1 and tses[-1]<13])
+    plot_attrs(tses,ts_yds,'teamsize','percentile of year diversity','fig/teamsize_yd.png')
+    plot_attrs(tses,ts_sds,'teamsize','percentile of subject diversity','fig/teamsize_sd.png')
+    plot_attrs(tses,ts_ids,'teamsize','percentile of impact diversity','fig/teamsize_id.png')
 
 
 def plot_attrs(x,y,xlabel,ylabel,saved_path,logX=False):
