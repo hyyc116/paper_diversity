@@ -29,6 +29,8 @@ def plot_refnum_dis():
     plt.figure(figsize=(5,4))
 
     plt.plot(xs,ys)
+    plt.xscale('log')
+    plt.yscale('log')
 
     plt.xlabel("number of references")
     plt.ylabel('percentage')
