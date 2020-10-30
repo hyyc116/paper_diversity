@@ -70,7 +70,7 @@ def cal_wos_paper_divs():
     #  计算c2 c5 c10的percentile
     c2_percentile = nums_to_percentile_dict(pid_c2.values())
     c5_percentile = nums_to_percentile_dict(pid_c5.values())
-    c5_percentile = nums_to_percentile_dict(pid_c5.values())
+    c10_percentile = nums_to_percentile_dict(pid_c10.values())
 
 
     subj_totalnum = float(len(subj_subj_sim.keys()))

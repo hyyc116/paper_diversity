@@ -161,7 +161,11 @@ def year_div():
 
         # year_div,c5_div,c10_div,subj_div = pid_div_vs[pid]
 
-        year_div,subj_div,c5_div,c10_div = pid_div_vs[pid]
+        yd_div,subj_div,c2_div,c5_div,c10_div,\
+        yd_mean,yd_std,\
+        c2_mean,c2_std,c5_mean,c5_std,c10_mean,c10_std,\
+        c2p_div,c5p_div,c10p_div,\
+        c2p_mean,c2p_std,c5p_mean,c5p_std,c10p_mean,c10p_std = pid_div_vs[pid]
 
         subj = subjs[0]
         did = 0
@@ -838,6 +842,6 @@ def impact_div():
 
 
 if __name__ == '__main__':
-    # year_div()
+    year_div()
 
     percentile_div()
