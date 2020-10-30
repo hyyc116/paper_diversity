@@ -174,7 +174,7 @@ def cal_wos_paper_divs():
             c10_div = gini(c10s)
             # 均值以及std
             yd_mean = np.mean(yds)
-            td_std = np.std(yds)
+            yd_std = np.std(yds)
             #
             c2_mean = np.mean(c2s)
             c2_std = np.std(c2s)
