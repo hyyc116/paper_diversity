@@ -347,16 +347,16 @@ def plot_div():
 
 
 def plot_single_attr(attrs,attr_name,saveID,subjs,years,tss,c2s,c5s,c10s,cns):
-    PDF_CDF_all(c10_divs,subjs,attr_name,f'{saveID}')
+    PDF_CDF_all(attrs,subjs,attr_name,f'{saveID}')
     # 随时间的变化
-    attr1_over_attr2(c10_divs,years,subjs,attr_name,'year',f'{saveID}_over_year',axrange=[1980,2004],xscale='linear')
+    attr1_over_attr2(attrs,years,subjs,attr_name,'year',f'{saveID}_over_year',axrange=[1980,2004],xscale='linear')
     # 随着teamsize的变化
-    attr1_over_attr2(c10_divs,tss,subjs,attr_name,'team size',f'{saveID}_over_ts',axrange=[1,10],xscale='linear')
+    attr1_over_attr2(attrs,tss,subjs,attr_name,'team size',f'{saveID}_over_ts',axrange=[1,10],xscale='linear')
     # 随着c2 c5 c10 cn
-    attr1_over_attr2(c10_divs,c2s,subjs,attr_name,'$c_2$',f'{saveID}_over_c2',axrange=None,xscale='log')
-    attr1_over_attr2(c10_divs,c5s,subjs,attr_name,'$c_5$',f'{saveID}_over_c5',axrange=None,xscale='log')
-    attr1_over_attr2(c10_divs,c10s,subjs,attr_name,'$c_{10}$',f'{saveID}_over_c10',axrange=None,xscale='log')
-    attr1_over_attr2(c10_divs,cns,subjs,attr_name,'number of citations',f'{saveID}_over_cn',axrange=None,xscale='log')
+    attr1_over_attr2(attrs,c2s,subjs,attr_name,'$c_2$',f'{saveID}_over_c2',axrange=None,xscale='log')
+    attr1_over_attr2(attrs,c5s,subjs,attr_name,'$c_5$',f'{saveID}_over_c5',axrange=None,xscale='log')
+    attr1_over_attr2(attrs,c10s,subjs,attr_name,'$c_{10}$',f'{saveID}_over_c10',axrange=None,xscale='log')
+    attr1_over_attr2(attrs,cns,subjs,attr_name,'number of citations',f'{saveID}_over_cn',axrange=None,xscale='log')
 
 
 
