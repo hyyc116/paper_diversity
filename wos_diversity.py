@@ -310,7 +310,12 @@ def cal_disparsity(subjs,subj_subj_sim):
 
 
 if __name__ == '__main__':
-    cal_wos_paper_divs()
+    # cal_wos_paper_divs()
+
+    ## pid c2
+    pid_c2 = json.loads(open('../WOS_data_processing/data/pid_c2.json').read())
+
+    print(nums_to_percentile_dict(pid_c2.keys()))
 
 
 

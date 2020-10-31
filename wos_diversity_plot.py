@@ -120,7 +120,7 @@ def PDF_CDF_all(attrs,subjs,attr_name,save_name):
 '''
 def PDF_CDF(subj_attrs,attr_name,save_name):
 
-    fig,axes = plt.subplots(2,1,figsize=(5,8))
+    fig,axes = plt.subplots(2,1,figsize=(7,10))
     # 一个PDF与CDF画在一起的图
 
     ax = axes[0]
@@ -187,7 +187,7 @@ def attr1_over_attr2(attr1,attr2,all_subjs,attr_name_1,attr_name_2,save_name,axr
 
     N = len(subj_attr2_attr1list.keys())
 
-    fig,axes = plt.subplots(N,1,figsize=(5,4*N))
+    fig,axes = plt.subplots(N,1,figsize=(7,5*N))
 
     for i,subj in enumerate(sorted(subj_attr2_attr1list.keys())):
 
