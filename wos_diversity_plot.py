@@ -71,7 +71,7 @@ def load_basic_data(attrs=['year','subj','topsubj','teamsize','doctype','cn'],is
         pid_cn = json.loads(open('../WOS_data_processing/data/pid_c2.json').read())
         logging.info('{} papers has c2 label.'.format(len(pid_cn.keys())))
 
-        results['c5']=pid_cn
+        results['c2']=pid_cn
 
     if 'c10' in attrs:
 
