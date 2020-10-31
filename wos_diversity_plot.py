@@ -276,7 +276,7 @@ def plot_div():
             yd_mean,yd_std,c2_mean,c2_std,c5_mean,c5_std,c10_mean,c10_std,\
             c2p_div,c5p_div,c10p_div,c2p_mean,c2p_std,c5p_mean,c5p_std,c10p_mean,c10p_std])
 
-    loging.info('data loaded,start to plotting ...')
+    logging.info('data loaded,start to plotting ...')
 
     # 根据attrs进行计算
     c2s,c5s,c10s,cns,years,tss,subjss,dids,\
