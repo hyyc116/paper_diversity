@@ -124,7 +124,7 @@ def PDF_CDF(subj_attrs,attr_name,save_name):
     # 一个PDF与CDF画在一起的图
 
     ax = axes[0]
-    xs,pdf,cdf = dataHist(general_t_divs[t])
+    xs,pdf,cdf = dataHist(subj_attrs['ALL'])
     color = '#1f77b4'
     ax.set_xlabel('{} diversity'.format(t))
     ax.set_ylabel('PDF', color=color)
