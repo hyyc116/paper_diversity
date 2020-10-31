@@ -91,6 +91,9 @@ def load_basic_data(attrs=['year','subj','topsubj','teamsize','doctype','cn'],is
 #  画出给定的图
 
 def PDF_CDF_all(attrs,subjs,attr_name,save_name):
+
+    logging.info(f'plotting PDF CDF on attr {attr_name} ...')
+
     subj_attrs = defaultdict(list)
     for i in range(len(attrs)):
 
@@ -109,7 +112,7 @@ def PDF_CDF_all(attrs,subjs,attr_name,save_name):
 '''
 def PDF_CDF(subj_attrs,attr_name,save_name):
 
-    fig,axes = plt.subplots(1,2,figsize=(8,3.5))
+    fig,axes = plt.subplots(2,1,figsize=(5,8))
     # 一个PDF与CDF画在一起的图
 
     ax = axes[0]
@@ -142,10 +145,14 @@ def PDF_CDF(subj_attrs,attr_name,save_name):
 
     plt.tight_layout()
     # 保存的图
-    plt.savefig(f'fig/PDF_CDF_{save_name}.png',dpi=400)
+    plt.savefig(f'fig/{save_name}_PDF_CDF.png',dpi=400)
+    logging.info(f'fig saved to fig/{save_name}_PDF_CDF.png')
+
 
 #  一种属性随着另一种属性的变化，
 def attr1_over_attr2(attr1,attr2,all_subjs,attr_name_1,attr_name_2,save_name,axrange=[1,10],xscale='linear'):
+
+    logging.info(f'plotting {attr_name_1} changes over {attr_name_2} ...')
 
     assert len(attr1)==len(attr2)
 
@@ -157,8 +164,9 @@ def attr1_over_attr2(attr1,attr2,all_subjs,attr_name_1,attr_name_2,save_name,axr
 
     for i in range(len(attr1)):
 
-        if attr2[i]<axrange[0] or attr2[i]>axrange[1]:
-            continue
+        if not axrange is None:
+            if attr2[i]<axrange[0] or attr2[i]>axrange[1]:
+                continue
 
         subjs = all_subjs[i]
 
@@ -171,7 +179,7 @@ def attr1_over_attr2(attr1,attr2,all_subjs,attr_name_1,attr_name_2,save_name,axr
 
     N = len(subj_attr2_attr1list.keys())
 
-    fig,axes = plt.subplots(1,N,figsize=(N*4,3.5))
+    fig,axes = plt.subplots(N,1,figsize=(5,4*N))
 
     for i,subj in enumerate(sorted(subj_attr2_attr1list.keys())):
 
@@ -210,9 +218,9 @@ def attr1_over_attr2(attr1,attr2,all_subjs,attr_name_1,attr_name_2,save_name,axr
 
     plt.tight_layout()
 
-    plt.savefig(f'{save_name}_dis.png',dpi=400)
+    plt.savefig(f'fig/{save_name}_dis.png',dpi=400)
 
-
+    logging.info(f'fig saved to fig/{save_name}_dis.png')
 
 def plot_div():
 
@@ -221,6 +229,7 @@ def plot_div():
     ## 属性列表
     attrs = []
     progress = 0 
+    logging.info("loading paper divsity files ....")
     pid_div_vs = json.loads(open("data/pid_divs.json").read())
     for pid in pid_div_vs.keys():
 
@@ -242,7 +251,7 @@ def plot_div():
         c2p_div,c5p_div,c10p_div,\
         c2p_mean,c2p_std,c5p_mean,c5p_std,c10p_mean,c10p_std = pid_div_vs[pid]
 
-        c2,c5,c10 = paper_c2.get(pid,0),paper_c5.get(pid,0),paper_c10.get(pid,0)
+        c2,c5,c10,cn = paper_c2.get(pid,0),paper_c5.get(pid,0),paper_c10.get(pid,0),paper_cn.get(pid,0)
         subjs = paper_topsubjs[pid]
 
         did = 0
@@ -254,24 +263,63 @@ def plot_div():
         else:
             did =2
 
-        attrs.append([c2,c5,c10,year,ts,subjs,did,\
+        attrs.append([c2,c5,c10,cn,year,ts,subjs,did,\
             yd_div,subj_div,c2_div,c5_div,c10_div,\
             yd_mean,yd_std,c2_mean,c2_std,c5_mean,c5_std,c10_mean,c10_std,\
             c2p_div,c5p_div,c10p_div,c2p_mean,c2p_std,c5p_mean,c5p_std,c10p_mean,c10p_std])
 
+    loging.info('data loaded,start to plotting ...')
 
     # 根据attrs进行计算
-    c2s,c5s,c10s,years,tss,subjss,dids,\
+    c2s,c5s,c10s,cns,years,tss,subjss,dids,\
     yd_divs,subj_divs,c2_divs,c5_divs,c10_divs,\
     yd_means,yd_stds,c2_means,c2_stds,c5_means,c5_stds,c10_means,c10_stds,\
     c2p_divs,c5p_divs,c10p_divs,c2p_means,c2p_stds,c5p_means,c5p_stds,c10p_means,c10p_stds = zip(*attrs)
   
-    # 单个属性的PDF以及各个领域的CDF分布
-    PDF_CDF_all(yd_divs,subjs,'year diversity','YD')
-    PDF_CDF_all(subj_divs,subjs,'subject diversity','SD')
-    PDF_CDF_all(c10_divs,subjs,'impact diversity','ID')
+    # ============== Year div ===============
+    plot_single_attr(yd_divs,'year diversity','YD',subjs,years,tss,c2s,c5s,c10s,cns)
+    plot_single_attr(yd_means,'yd_mean','YD_mean',subjs,years,tss,c2s,c5s,c10s,cns)
+    plot_single_attr(yd_stds,'yd_std','YD_std',subjs,years,tss,c2s,c5s,c10s,cns)
 
+    ## =================== subj div ===============
+    plot_single_attr(subj_divs,'subject diversity','SD',subjs,years,tss,c2s,c5s,c10s,cns)
+
+    # ===================== IMPACT DIV ==============
+    plot_single_attr(c10_divs,'impact diversity','ID',subjs,years,tss,c2s,c5s,c10s,cns)
+    plot_single_attr(c10p_divs,'impact diversity (percentile)','IDP',subjs,years,tss,c2s,c5s,c10s,cns)
+
+    plot_single_attr(c2_means,'c2_mean','c2_mean',subjs,years,tss,c2s,c5s,c10s,cns)
+    plot_single_attr(c2_stds,'c2_std','c2_std',subjs,years,tss,c2s,c5s,c10s,cns)
+
+    plot_single_attr(c2p_means,'c2p_mean','c2p_mean',subjs,years,tss,c2s,c5s,c10s,cns)
+    plot_single_attr(c2p_stds,'c2p_std','c2p_std',subjs,years,tss,c2s,c5s,c10s,cns)
     
+    plot_single_attr(c5_means,'c5_mean','c5_mean',subjs,years,tss,c2s,c5s,c10s,cns)
+    plot_single_attr(c5_stds,'c5_std','c5_std',subjs,years,tss,c2s,c5s,c10s,cns)
+
+    plot_single_attr(c5p_means,'c5p_mean','c5p_mean',subjs,years,tss,c2s,c5s,c10s,cns)
+    plot_single_attr(c5p_stds,'c5p_std','c5p_std',subjs,years,tss,c2s,c5s,c10s,cns)
+
+    plot_single_attr(c10_means,'c10_mean','c10_mean',subjs,years,tss,c2s,c5s,c10s,cns)
+    plot_single_attr(c10_stds,'c10_std','c10_std',subjs,years,tss,c2s,c5s,c10s,cns)
+
+    plot_single_attr(c10p_means,'c10p_mean','c10p_mean',subjs,years,tss,c2s,c5s,c10s,cns)
+    plot_single_attr(c10p_stds,'c10p_std','c10p_std',subjs,years,tss,c2s,c5s,c10s,cns)
+
+
+
+
+def plot_single_attr(attrs,attr_name,saveID,subjs,years,tss,c2s,c5s,c10s,cns):
+    PDF_CDF_all(c10_divs,subjs,attr_name,f'{saveID}')
+    # 随时间的变化
+    attr1_over_attr2(c10_divs,years,subjs,attr_name,'year',f'{saveID}_over_year',axrange=[1980,2004],xscale='linear')
+    # 随着teamsize的变化
+    attr1_over_attr2(c10_divs,tss,subjs,attr_name,'team size',f'{saveID}_over_ts',axrange=[1,10],xscale='linear')
+    # 随着c2 c5 c10 cn
+    attr1_over_attr2(c10_divs,c2s,subjs,attr_name,'$c_2$',f'{saveID}_over_c2',axrange=None,xscale='log')
+    attr1_over_attr2(c10_divs,c5s,subjs,attr_name,'$c_5$',f'{saveID}_over_c5',axrange=None,xscale='log')
+    attr1_over_attr2(c10_divs,c10s,subjs,attr_name,'$c_{10}$',f'{saveID}_over_c10',axrange=None,xscale='log')
+    attr1_over_attr2(c10_divs,cns,subjs,attr_name,'number of citations',f'{saveID}_over_cn',axrange=None,xscale='log')
 
 
 
@@ -1034,6 +1082,8 @@ def impact_div():
 
 
 if __name__ == '__main__':
-    year_div()
+    # year_div()
 
     # percentile_div()
+
+    plot_div()
