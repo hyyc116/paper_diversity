@@ -50,14 +50,19 @@ def nums_to_percentile_dict(nums):
     total=len(nums)
     num_t = 0
 
+    print(total)
+
     num_percentile = {}
     for num in sorted(num_counter.keys()):
-        num_t+=num
+        num_t+=num_counter[num]
+
+        print(num_t,total)
         percentile = int(num_t*100/total)
 
         num_percentile[num] = percentile
 
-    num_percentile[0] = 0
+    # 如果是1 默认为和1一样的percentile
+    num_percentile[0] = num_percentile[1]
 
     return num_percentile
 
@@ -310,12 +315,10 @@ def cal_disparsity(subjs,subj_subj_sim):
 
 
 if __name__ == '__main__':
-    # cal_wos_paper_divs()
+    cal_wos_paper_divs()
 
-    ## pid c2
-    pid_c2 = json.loads(open('../WOS_data_processing/data/pid_c2.json').read())
 
-    print(nums_to_percentile_dict(pid_c2.values()))
+    
 
 
 
