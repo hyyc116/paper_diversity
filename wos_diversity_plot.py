@@ -218,11 +218,11 @@ def attr1_over_attr2(attr1,attr2,all_subjs,attr_name_1,attr_name_2,save_name,axr
         # selected_ixes= np.random.choice(range(len(attr1)),size=5000)
         # pred_x,lowess,ll,ul = loess_data([attr2[ix] for ix in selected_ixes],[attr1[ix] for ix in selected_ixes])
         #  一种是用moving average
-        # ax.plot(xs,smooth(ys_mean,99),'--',label='mean')
-        # ax.plot(xs,smooth(ys_median,99),'-.',label='median')
+        ax.plot(xs,smooth(ys_mean,99),'--',label='mean')
+        ax.plot(xs,smooth(ys_median,99),'-.',label='median')
         #  先不进行平滑
-        ax.plot(xs,ys_mean,label='mean')
-        ax.plot(xs,ys_median,label='median')
+        # ax.plot(xs,ys_mean,label='mean')
+        # ax.plot(xs,ys_median,label='median')
 
         ax.set_xscale(xscale)
 
