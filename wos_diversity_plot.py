@@ -360,12 +360,6 @@ def plot_single_attr(attrs,attr_name,saveID,subjs,years,tss,c2s,c5s,c10s,cns):
 
 
 
-
-
-
-
-
-
 ## 几种diversity随时间的变化
 def year_div():
 
