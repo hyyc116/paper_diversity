@@ -89,6 +89,20 @@ def load_basic_data(attrs=['year','subj','topsubj','teamsize','doctype','cn'],is
         return None
 
 #  画出给定的图
+
+def PDF_CDF_all(attrs,subjs,attr_name,save_name):
+    subj_attrs = defaultdict(list)
+    for i in range(len(attrs)):
+
+        for subj in subjs[i]:
+
+            subj_attrs[subj].append(attrs[i])
+
+        subj_attrs['ALL'].append(attrs[i])
+
+    PDF_CDF(subj_attrs,attr_name,save_name)
+
+
 '''
     @param subj_attrs: 每一个学科对应的属性数组,所有的对应组别ALL
 
@@ -202,7 +216,7 @@ def attr1_over_attr2(attr1,attr2,all_subjs,attr_name_1,attr_name_2,save_name,axr
 
 def plot_div():
 
-    paper_year,paper_topsubjs,paper_ts,paper_c10,paper_c5,paper_cn= load_basic_data(['year','topsubj','teamsize','c10','c5','cn'])
+    paper_year,paper_topsubjs,paper_ts,paper_c10,paper_c5,paper_c2,paper_cn= load_basic_data(['year','topsubj','teamsize','c10','c5','c2','cn'])
 
     ## 属性列表
     attrs = []
@@ -228,6 +242,9 @@ def plot_div():
         c2p_div,c5p_div,c10p_div,\
         c2p_mean,c2p_std,c5p_mean,c5p_std,c10p_mean,c10p_std = pid_div_vs[pid]
 
+        c2,c5,c10 = paper_c2.get(pid,0),paper_c5.get(pid,0),paper_c10.get(pid,0)
+        subjs = paper_topsubjs[pid]
+
         did = 0
         doctype = pid_doctype.get(pid,'Article')
         if doctype=='Article':
@@ -236,6 +253,28 @@ def plot_div():
             did = 1
         else:
             did =2
+
+        attrs.append([c2,c5,c10,year,ts,subjs,did,\
+            yd_div,subj_div,c2_div,c5_div,c10_div,\
+            yd_mean,yd_std,c2_mean,c2_std,c5_mean,c5_std,c10_mean,c10_std,\
+            c2p_div,c5p_div,c10p_div,c2p_mean,c2p_std,c5p_mean,c5p_std,c10p_mean,c10p_std])
+
+
+    # 根据attrs进行计算
+    c2s,c5s,c10s,years,tss,subjss,dids,\
+    yd_divs,subj_divs,c2_divs,c5_divs,c10_divs,\
+    yd_means,yd_stds,c2_means,c2_stds,c5_means,c5_stds,c10_means,c10_stds,\
+    c2p_divs,c5p_divs,c10p_divs,c2p_means,c2p_stds,c5p_means,c5p_stds,c10p_means,c10p_stds = zip(*attrs)
+  
+    # 单个属性的PDF以及各个领域的CDF分布
+    PDF_CDF_all(yd_divs,subjs,'year diversity','YD')
+    PDF_CDF_all(subj_divs,subjs,'subject diversity','SD')
+    PDF_CDF_all(c10_divs,subjs,'impact diversity','ID')
+
+    
+
+
+
 
 
 

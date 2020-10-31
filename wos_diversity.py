@@ -231,7 +231,7 @@ def cal_wos_paper_divs():
         xs.append(cc)
         ys.append(cc_counter[cc])
 
-    plt.figure(figsize=(4,3.5))
+    plt.figure(figsize=(7,5))
 
     plt.plot(xs,ys,'o',fillstyle='none')
 
@@ -252,10 +252,14 @@ def cal_wos_paper_divs():
     xs = []
     ys = []
     for rn in sorted(ref_nums.keys()):
+
+        if xs>100 :
+            continue
+
         xs.append(rn)
         ys.append(ref_nums[rn])
 
-    plt.figure(figsize=(4,3.5))
+    plt.figure(figsize=(7,5))
     plt.plot(xs,ys)
     
     plt.xlabel('number of references')
