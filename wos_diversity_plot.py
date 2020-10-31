@@ -279,7 +279,7 @@ def plot_div():
     logging.info('data loaded,start to plotting ...')
 
     # 根据attrs进行计算
-    c2s,c5s,c10s,cns,years,tss,subjss,dids,\
+    c2s,c5s,c10s,cns,years,tss,subjs,dids,\
     yd_divs,subj_divs,c2_divs,c5_divs,c10_divs,\
     yd_means,yd_stds,c2_means,c2_stds,c5_means,c5_stds,c10_means,c10_stds,\
     c2p_divs,c5p_divs,c10p_divs,c2p_means,c2p_stds,c5p_means,c5p_stds,c10p_means,c10p_stds = zip(*attrs)
