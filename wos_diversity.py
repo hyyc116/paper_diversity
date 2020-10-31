@@ -1,4 +1,11 @@
 #coding:utf-8
+'''
+Total paper num: 16531796 ,total num of citation links: 284895705
+reserved paper num: 13561705 ,reserved num of citation links: 259070878
+
+[description]
+'''
+
 
 ## 数据使用 1950-2004年的数据
 from basic_config import *
