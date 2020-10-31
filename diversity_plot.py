@@ -88,6 +88,159 @@ def load_basic_data(attrs=['year','subj','topsubj','teamsize','doctype','cn'],is
     else:
         return None
 
+#  画出给定的图
+'''
+    @param subj_attrs: 每一个学科对应的属性数组,所有的对应组别ALL
+
+'''
+def PDF_CDF(subj_attrs,attr_name,save_name):
+
+    fig,axes = plt.subplots(1,2,figsize=(8,3.5))
+    # 一个PDF与CDF画在一起的图
+
+    ax = axes[0]
+    xs,pdf,cdf = dataHist(general_t_divs[t])
+    color = '#1f77b4'
+    ax.set_xlabel('{} diversity'.format(t))
+    ax.set_ylabel('PDF', color=color)
+    ax.plot(xs,pdf,label='PDF', color=color)
+    ax.tick_params(axis='y', labelcolor=color)
+
+    ax1 = ax.twinx()
+    color = '#e377c2'
+    ax1.set_ylabel('CDF', color=color)
+    ax1.plot(xs,cdf,label='CDF', color=color)
+    ax1.tick_params(axis='y', labelcolor=color)
+
+    #一个各学科CDF一起的图
+    ax = axes[1]
+    for subj in sorted(subj_attrs.keys()):
+
+        xs,_,ys = dataHist(subj_attrs[subj])
+
+        ax.plot(xs,ys,label=subj)
+
+    ax.set_xlabel(attr_name)
+    ax.set_ylabel('CDF')
+
+    ax.legend(fontsize=6,ncol=2)
+
+
+    plt.tight_layout()
+    # 保存的图
+    plt.savefig(f'fig/PDF_CDF_{save_name}.png',dpi=400)
+
+#  一种属性随着另一种属性的变化，
+def attr1_over_attr2(attr1,attr2,all_subjs,attr_name_1,attr_name_2,save_name,axrange=[1,10],xscale='linear'):
+
+    assert len(attr1)==len(attr2)
+
+    # 获得attr1的最大值 最小值 
+    attr_min = np.min(attr1)
+    attr_max = np.max(attr2)
+
+    subj_attr2_attr1list = defaultdict(lambda:defaultdict(list))
+
+    for i in range(len(attr1)):
+
+        if attr2[i]<axrange[0] or attr2[i]>axrange[1]:
+            continue
+
+        subjs = all_subjs[i]
+
+        for subj in subjs:
+
+            subj_attr2_attr1list[subj][attr2[i]].append(attr1[i])
+
+        subj_attr2_attr1list['ALL'][attr2[i]].append(attr1[i])
+
+
+    N = len(subj_attr2_attr1list.keys())
+
+    fig,axes = plt.subplots(1,N,figsize=(N*4,3.5))
+
+    for i,subj in enumerate(sorted(subj_attr2_attr1list.keys())):
+
+        ax = axes[i]
+
+        ax.set_title(subj)
+
+        attr2_attr1list = subj_attr2_attr1list[subj]
+
+        # 根据统计的结果进行画图
+        xs = []
+        ys_mean = []
+        ys_median = []
+        for a2 in sorted(attr2_attr1list.keys()):
+            xs.append(a2)
+            ys = attr2_attr1list[a2]
+            ys = (np.array(ys)-attr_min)/(attr_max-attr_min)
+
+            ys_mean.append(np.mean(ys))
+            ys_median.append(np.median(ys))
+
+        # 根据lowess对结果进行归一化
+        # selected_ixes= np.random.choice(range(len(attr1)),size=5000)
+        # pred_x,lowess,ll,ul = loess_data([attr2[ix] for ix in selected_ixes],[attr1[ix] for ix in selected_ixes])
+        #  一种是用moving average
+        # ax.plot(xs,smooth(ys_mean,99),'--',label='mean')
+        # ax.plot(xs,smooth(ys_median,99),'-.',label='median')
+        #  先不进行平滑
+        ax.plot(xs,ys_mean,label='mean')
+        ax.plot(xs,ys_median,label='median')
+
+        ax.set_xscale(xscale)
+
+        ax.set_xlabel(attr_name_2)
+        ax.set_ylabel(attr_name_1)
+
+    plt.tight_layout()
+
+    plt.savefig(f'{save_name}_dis.png',dpi=400)
+
+
+
+def plot_div():
+
+    paper_year,paper_topsubjs,paper_ts,paper_c10,paper_c5,paper_cn= load_basic_data(['year','topsubj','teamsize','c10','c5','cn'])
+
+    ## 属性列表
+    attrs = []
+    progress = 0 
+    pid_div_vs = json.loads(open("data/pid_divs.json").read())
+    for pid in pid_div_vs.keys():
+
+        progress+=1
+        if progress%100000==0:
+            logging.info("progress {} ....".format(progress))
+
+        year = int(paper_year.get(pid,9999))
+        ts = int(paper_ts.get(pid,-1))
+        subjs = paper_topsubjs.get(pid,None)
+
+        if  year<1980 or year>2004:
+            continue
+
+        # 属性列表的进行
+        yd_div,subj_div,c2_div,c5_div,c10_div,\
+        yd_mean,yd_std,\
+        c2_mean,c2_std,c5_mean,c5_std,c10_mean,c10_std,\
+        c2p_div,c5p_div,c10p_div,\
+        c2p_mean,c2p_std,c5p_mean,c5p_std,c10p_mean,c10p_std = pid_div_vs[pid]
+
+        did = 0
+        doctype = pid_doctype.get(pid,'Article')
+        if doctype=='Article':
+            did = 0
+        elif doctype =='Review':
+            did = 1
+        else:
+            did =2
+
+
+
+
+
 
 ## 几种diversity随时间的变化
 def year_div():
@@ -844,4 +997,4 @@ def impact_div():
 if __name__ == '__main__':
     year_div()
 
-    percentile_div()
+    # percentile_div()
