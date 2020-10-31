@@ -65,6 +65,14 @@ def load_basic_data(attrs=['year','subj','topsubj','teamsize','doctype','cn'],is
 
         results['c5']=pid_cn
 
+    if 'c2' in attrs:
+
+        logging.info('loading paper citation c2 ...')
+        pid_cn = json.loads(open('../WOS_data_processing/data/pid_c2.json').read())
+        logging.info('{} papers has c2 label.'.format(len(pid_cn.keys())))
+
+        results['c5']=pid_cn
+
     if 'c10' in attrs:
 
         logging.info('loading paper citation c10 ...')
@@ -305,6 +313,35 @@ def plot_div():
 
     plot_single_attr(c10p_means,'c10p_mean','c10p_mean',subjs,years,tss,c2s,c5s,c10s,cns)
     plot_single_attr(c10p_stds,'c10p_std','c10p_std',subjs,years,tss,c2s,c5s,c10s,cns)
+
+    of = open('data/ALL_attrs.txt','w')
+
+    of.write('c2,c5,c10,cn,year,ts,subjs,did,\
+            yd_div,subj_div,c2_div,c5_div,c10_div,\
+            yd_mean,yd_std,c2_mean,c2_std,c5_mean,c5_std,c10_mean,c10_std,\
+            c2p_div,c5p_div,c10p_div,c2p_mean,c2p_std,c5p_mean,c5p_std,c10p_mean,c10p_std\n')
+
+    lines = []
+
+    for attr in attrs:
+
+        c2,c5,c10,cn,year,ts,subjs,did,\
+        yd_div,subj_div,c2_div,c5_div,c10_div,\
+        yd_mean,yd_std,c2_mean,c2_std,c5_mean,c5_std,c10_mean,c10_std,\
+        c2p_div,c5p_div,c10p_div,c2p_mean,c2p_std,c5p_mean,c5p_std,c10p_mean,c10p_std = attr
+        if ts==-1:
+            continue
+
+        # 随机选择一个subj
+        attr[6] = np.random.choice(subjs,size=1)[0]
+
+        lines.append(','.join([str(a) for a in attr]))
+
+    of.write('\n'.join(lines)+'\n')
+
+    of.close()
+
+    logging.info('data saved to data/ALL_attrs.txt.')
 
 
 
