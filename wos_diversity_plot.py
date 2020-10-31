@@ -126,7 +126,7 @@ def PDF_CDF(subj_attrs,attr_name,save_name):
     ax = axes[0]
     xs,pdf,cdf = dataHist(subj_attrs['ALL'])
     color = '#1f77b4'
-    ax.set_xlabel('{} diversity'.format(t))
+    ax.set_xlabel(attr_name)
     ax.set_ylabel('PDF', color=color)
     ax.plot(xs,pdf,label='PDF', color=color)
     ax.tick_params(axis='y', labelcolor=color)
