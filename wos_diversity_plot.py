@@ -232,7 +232,7 @@ def attr1_over_attr2(attr1,attr2,all_subjs,attr_name_1,attr_name_2,save_name,axr
 
 def plot_div():
 
-    paper_year,paper_topsubjs,paper_ts,paper_c10,paper_c5,paper_c2,paper_cn= load_basic_data(['year','topsubj','teamsize','c10','c5','c2','cn'])
+    paper_year,paper_topsubjs,paper_ts,paper_c10,paper_c5,paper_c2,paper_cn,pid_doctype= load_basic_data(['year','topsubj','teamsize','c10','c5','c2','cn','doctype'])
 
     ## 属性列表
     attrs = []
