@@ -171,7 +171,7 @@ def attr1_over_attr2(attr1,attr2,all_subjs,attr_name_1,attr_name_2,save_name,axr
 
     # 获得attr1的最大值 最小值 
     attr_min = np.min(attr1)
-    attr_max = np.max(attr2)
+    attr_max = np.max(attr1)
 
     subj_attr2_attr1list = defaultdict(lambda:defaultdict(list))
 
