@@ -315,7 +315,7 @@ if __name__ == '__main__':
     ## pid c2
     pid_c2 = json.loads(open('../WOS_data_processing/data/pid_c2.json').read())
 
-    print(nums_to_percentile_dict(pid_c2.keys()))
+    print(nums_to_percentile_dict(pid_c2.values()))
 
 
 

@@ -137,6 +137,9 @@ def PDF_CDF(subj_attrs,attr_name,save_name):
     ax1.plot(xs,cdf,label='CDF', color=color)
     ax1.tick_params(axis='y', labelcolor=color)
 
+    if attr_name.startswith('c'):
+        ax.set_xscale('log')
+
     #一个各学科CDF一起的图
     ax = axes[1]
     for subj in sorted(subj_attrs.keys()):
@@ -147,6 +150,8 @@ def PDF_CDF(subj_attrs,attr_name,save_name):
 
     ax.set_xlabel(attr_name)
     ax.set_ylabel('CDF')
+    if attr_name.startswith('c'):
+        ax.set_xscale('log')
 
     ax.legend(fontsize=6,ncol=2)
 
