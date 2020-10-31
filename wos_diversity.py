@@ -260,7 +260,7 @@ def cal_wos_paper_divs():
     ys = []
     for rn in sorted(ref_nums.keys()):
 
-        if xs>100 :
+        if rn>100 :
             continue
 
         xs.append(rn)
