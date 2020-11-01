@@ -171,7 +171,7 @@ def PDF_CDF(subj_attrs,attr_name,save_name):
     ax = axes[1]
     for subj in sorted(subj_attrs.keys()):
 
-        xs,_,ys = dataHist(subj_attrs[subj])
+        xs,_,ys = data2Hist(subj_attrs[subj],log)
 
         ax.plot(xs,ys,label=subj)
 
