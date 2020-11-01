@@ -247,7 +247,7 @@ def attr1_over_attr2(attr1,attr2,all_subjs,attr_name_1,attr_name_2,save_name,axr
         #  一种是用moving average
         window = 5
         if xscale=='log':  
-            window=201 if len(xs)>111 else int(len(xs)/5)*4+1
+            window=201 if len(xs)>201 else int(len(xs)/5)*4+1
 
         ax.plot(xs,smooth(ys_mean,window),label='mean')
         ax.plot(xs,smooth(ys_median,window),label='median')
