@@ -96,6 +96,28 @@ def load_basic_data(attrs=['year','subj','topsubj','teamsize','doctype','cn'],is
     else:
         return None
 
+
+
+def data2Hist(data,log=False):
+
+    if log:
+        edges = np.logspace(np.log(np.min(data)),np.log(np.max(data)),200)
+    else:
+        edges = np.linspace(np.log(np.min(data)),np.log(np.max(data)),200)
+
+    hists,bins_edges = np.histogram(data,bins=edges)
+
+    centers = np.array(bins_edges[:-1]+bins_edges[1:])/float(2)
+
+    t = np.sum(hists)
+
+    cdf = [np.sum(hists[:i+1])/float(t) for i in range(len(hists))]
+
+    pdf = np.array(hists)/float(t)
+
+    return centers,pdf,cdf
+
+
 #  画出给定的图
 
 def PDF_CDF_all(attrs,subjs,attr_name,save_name):
@@ -123,8 +145,13 @@ def PDF_CDF(subj_attrs,attr_name,save_name):
     fig,axes = plt.subplots(2,1,figsize=(7,10))
     # 一个PDF与CDF画在一起的图
 
+    if attr_name.startswith('c'):
+        log=True
+    else:
+        log=False
+
     ax = axes[0]
-    xs,pdf,cdf = dataHist(subj_attrs['ALL'])
+    xs,pdf,cdf = data2Hist(subj_attrs['ALL'],log)
     color = '#1f77b4'
     ax.set_xlabel(attr_name)
     ax.set_ylabel('PDF', color=color)
@@ -218,8 +245,11 @@ def attr1_over_attr2(attr1,attr2,all_subjs,attr_name_1,attr_name_2,save_name,axr
         # selected_ixes= np.random.choice(range(len(attr1)),size=5000)
         # pred_x,lowess,ll,ul = loess_data([attr2[ix] for ix in selected_ixes],[attr1[ix] for ix in selected_ixes])
         #  一种是用moving average
-        ax.plot(xs,smooth(ys_mean,99),'--',label='mean')
-        ax.plot(xs,smooth(ys_median,99),'-.',label='median')
+        window = 5
+        if attr_name_2.startswith('c'):
+            window=50
+        ax.plot(xs,smooth(ys_mean,window),'--',label='mean')
+        ax.plot(xs,smooth(ys_median,window),'-.',label='median')
         #  先不进行平滑
         # ax.plot(xs,ys_mean,label='mean')
         # ax.plot(xs,ys_median,label='median')
@@ -228,6 +258,8 @@ def attr1_over_attr2(attr1,attr2,all_subjs,attr_name_1,attr_name_2,save_name,axr
 
         ax.set_xlabel(attr_name_2)
         ax.set_ylabel(attr_name_1)
+
+        ax.legend()
 
     plt.tight_layout()
 
@@ -823,17 +855,20 @@ def year_div():
     # logging.info("fig saved to fig/diversity_citation_cn_scatter.png.")
 
 def smooth(a,WSZ):
-  # a:原始数据，NumPy 1-D array containing the data to be smoothed
-  # 必须是1-D的，如果不是，请使用 np.ravel()或者np.squeeze()转化 
-  # WSZ: smoothing window size needs, which must be odd number,
-  # as in the original MATLAB implementation
-  # out0 = np.convolve(a,np.ones(WSZ,dtype=int),'valid')/WSZ
-  # r = np.arange(1,WSZ-1,2)
-  # start = np.cumsum(a[:WSZ-1])[::2]/r
-  # stop = (np.cumsum(a[:-WSZ:-1])[::2]/r)[::-1]
-  # return np.concatenate(( start , out0, stop ))
+  # # a:原始数据，NumPy 1-D array containing the data to be smoothed
+  # # 必须是1-D的，如果不是，请使用 np.ravel()或者np.squeeze()转化 
+  # # WSZ: smoothing window size needs, which must be odd number,
+  # # as in the original MATLAB implementation
+  # # out0 = np.convolve(a,np.ones(WSZ,dtype=int),'valid')/WSZ
+  # # r = np.arange(1,WSZ-1,2)
+  # # start = np.cumsum(a[:WSZ-1])[::2]/r
+  # # stop = (np.cumsum(a[:-WSZ:-1])[::2]/r)[::-1]
+  # # return np.concatenate(( start , out0, stop ))
 
-  return [np.mean(a[:i+1]) for i in range(len(a))]
+  # return [np.mean(a[:i+1]) for i in range(len(a))]
+
+  # 使用savgol滤波器进行平滑线
+    return scipy.signal.savgol_filter(ys_mean,WSZ,3)
 
 def plot_dis_over_attr(attrName,data,xlim=None):
 
