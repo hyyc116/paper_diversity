@@ -103,7 +103,7 @@ def data2Hist(data,log=False):
     if log:
         edges = np.logspace(np.log(np.min(data)),np.log(np.max(data)),200)
     else:
-        edges = np.linspace(np.log(np.min(data)),np.log(np.max(data)),200)
+        edges = np.linspace(np.min(data),np.max(data),200)
 
     hists,bins_edges = np.histogram(data,bins=edges)
 
