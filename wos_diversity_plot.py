@@ -868,7 +868,7 @@ def smooth(a,WSZ):
   # return [np.mean(a[:i+1]) for i in range(len(a))]
 
   # 使用savgol滤波器进行平滑线
-    return scipy.signal.savgol_filter(ys_mean,WSZ,3)
+    return scipy.signal.savgol_filter(a,WSZ,3)
 
 def plot_dis_over_attr(attrName,data,xlim=None):
 
