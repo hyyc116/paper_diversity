@@ -246,7 +246,7 @@ def attr1_over_attr2(attr1,attr2,all_subjs,attr_name_1,attr_name_2,save_name,axr
         # pred_x,lowess,ll,ul = loess_data([attr2[ix] for ix in selected_ixes],[attr1[ix] for ix in selected_ixes])
         #  一种是用moving average
         window = 5
-        if attr_name_2.startswith('c'):
+        if xscale=='log':
             window=50
         ax.plot(xs,smooth(ys_mean,window),'--',label='mean')
         ax.plot(xs,smooth(ys_median,window),'-.',label='median')
@@ -353,10 +353,7 @@ def plot_div():
 
     of = open('data/ALL_attrs.txt','w')
 
-    of.write('c2,c5,c10,cn,year,ts,subjs,did,\
-            yd_div,subj_div,c2_div,c5_div,c10_div,\
-            yd_mean,yd_std,c2_mean,c2_std,c5_mean,c5_std,c10_mean,c10_std,\
-            c2p_div,c5p_div,c10p_div,c2p_mean,c2p_std,c5p_mean,c5p_std,c10p_mean,c10p_std\n')
+    of.write('c2,c5,c10,cn,year,ts,subjs,did,yd_div,subj_div,c2_div,c5_div,c10_div,yd_mean,yd_std,c2_mean,c2_std,c5_mean,c5_std,c10_mean,c10_std,c2p_div,c5p_div,c10p_div,c2p_mean,c2p_std,c5p_mean,c5p_std,c10p_mean,c10p_std\n')
 
     lines = []
 
