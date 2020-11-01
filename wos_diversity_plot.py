@@ -246,7 +246,7 @@ def attr1_over_attr2(attr1,attr2,all_subjs,attr_name_1,attr_name_2,save_name,axr
         # pred_x,lowess,ll,ul = loess_data([attr2[ix] for ix in selected_ixes],[attr1[ix] for ix in selected_ixes])
         #  一种是用moving average
         window = 5
-        if xscale=='log':
+        if xscale=='log':  
             window=50
         ax.plot(xs,smooth(ys_mean,window),'--',label='mean')
         ax.plot(xs,smooth(ys_median,window),'-.',label='median')
@@ -865,7 +865,7 @@ def smooth(a,WSZ):
   # return [np.mean(a[:i+1]) for i in range(len(a))]
 
   # 使用savgol滤波器进行平滑线
-    return scipy.signal.savgol_filter(a,WSZ,3)
+    return scipy.signal.savgol_filter(a,WSZ,2)
 
 def plot_dis_over_attr(attrName,data,xlim=None):
 
