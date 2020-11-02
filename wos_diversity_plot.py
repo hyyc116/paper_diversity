@@ -411,7 +411,7 @@ def year_div():
 
     year_div_dis = defaultdict(list)
     c10_div_dis = defaultdict(list)
-    subj_div_dis = defaultdict(list)
+    subj_div_dis = defaultdict(list) 
 
     ## team size
     ts_year_dis = defaultdict(list)
