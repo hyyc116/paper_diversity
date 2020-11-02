@@ -400,7 +400,7 @@ def plot_single_attr(attrs,attr_name,saveID,subjs,years,tss,c2s,c5s,c10s,cns):
     attr1_over_attr2(attrs,c2s,subjs,attr_name,'$c_2$',f'{saveID}_over_c2',axrange=[1,np.max(c2s)],xscale='log')
     attr1_over_attr2(attrs,c5s,subjs,attr_name,'$c_5$',f'{saveID}_over_c5',axrange=[1,np.max(c5s)],xscale='log')
     attr1_over_attr2(attrs,c10s,subjs,attr_name,'$c_{10}$',f'{saveID}_over_c10',axrange=[1,np.max(c10s)],xscale='log')
-    attr1_over_attr2(attrs,cns,subjs,attr_name,'number of citations',f'{saveID}_over_cn',axrange=[1,np.max(n2s)],xscale='log')
+    attr1_over_attr2(attrs,cns,subjs,attr_name,'number of citations',f'{saveID}_over_cn',axrange=[1,np.max(cns)],xscale='log')
 
 
 
