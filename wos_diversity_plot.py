@@ -100,7 +100,12 @@ def load_basic_data(attrs=['year','subj','topsubj','teamsize','doctype','cn'],is
 
 def data2Hist(data,log=False):
 
+
+
     if log:
+
+        data = [d for d in data if d>0]
+
         edges = np.logspace(np.log(np.min(data)),np.log(np.max(data)),200)
     else:
         edges = np.linspace(np.min(data),np.max(data),200)
@@ -249,8 +254,12 @@ def attr1_over_attr2(attr1,attr2,all_subjs,attr_name_1,attr_name_2,save_name,axr
         if xscale=='log':  
             window=201 if len(xs)>201 else int(len(xs)/5)*4+1
 
-        ax.plot(xs,smooth(ys_mean,window),label='mean')
-        ax.plot(xs,smooth(ys_median,window),label='median')
+        # ax.plot(xs,smooth(ys_mean,window),label='mean')
+        # ax.plot(xs,smooth(ys_median,window),label='median')
+
+        ax.plot(*lowess_smooth(xs,ys_mean),label='mean')
+        ax.plot(*lowess_smooth(xs,ys_median),label='median')
+
         #  先不进行平滑
         # ax.plot(xs,ys_mean,label='mean')
         # ax.plot(xs,ys_median,label='median')
@@ -388,10 +397,10 @@ def plot_single_attr(attrs,attr_name,saveID,subjs,years,tss,c2s,c5s,c10s,cns):
     # 随着teamsize的变化
     attr1_over_attr2(attrs,tss,subjs,attr_name,'team size',f'{saveID}_over_ts',axrange=[1,10],xscale='linear')
     # 随着c2 c5 c10 cn
-    attr1_over_attr2(attrs,c2s,subjs,attr_name,'$c_2$',f'{saveID}_over_c2',axrange=None,xscale='log')
-    attr1_over_attr2(attrs,c5s,subjs,attr_name,'$c_5$',f'{saveID}_over_c5',axrange=None,xscale='log')
-    attr1_over_attr2(attrs,c10s,subjs,attr_name,'$c_{10}$',f'{saveID}_over_c10',axrange=None,xscale='log')
-    attr1_over_attr2(attrs,cns,subjs,attr_name,'number of citations',f'{saveID}_over_cn',axrange=None,xscale='log')
+    attr1_over_attr2(attrs,c2s,subjs,attr_name,'$c_2$',f'{saveID}_over_c2',axrange=[1,np.max(c2s)],xscale='log')
+    attr1_over_attr2(attrs,c5s,subjs,attr_name,'$c_5$',f'{saveID}_over_c5',axrange=[1,np.max(c5s)],xscale='log')
+    attr1_over_attr2(attrs,c10s,subjs,attr_name,'$c_{10}$',f'{saveID}_over_c10',axrange=[1,np.max(c10s)],xscale='log')
+    attr1_over_attr2(attrs,cns,subjs,attr_name,'number of citations',f'{saveID}_over_cn',axrange=[1,np.max(n2s)],xscale='log')
 
 
 
@@ -866,7 +875,15 @@ def smooth(a,WSZ):
   # return [np.mean(a[:i+1]) for i in range(len(a))]
 
   # 使用savgol滤波器进行平滑线
-    return scipy.signal.savgol_filter(a,WSZ,2)
+    return scipy.signal.savgol_filter(a,WSZ,1)
+
+def lowess_smooth(x,y):
+    
+    selected_ixes= np.random.choice(range(len(x)),size=5000)
+
+    pred_x,lowess,ll,ul = loess_data([x[ix] for ix in selected_ixes],[y[ix] for ix in selected_ixes])
+
+    return pred_x,lowess
 
 def plot_dis_over_attr(attrName,data,xlim=None):
 
