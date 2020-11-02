@@ -250,15 +250,15 @@ def attr1_over_attr2(attr1,attr2,all_subjs,attr_name_1,attr_name_2,save_name,axr
         # selected_ixes= np.random.choice(range(len(attr1)),size=5000)
         # pred_x,lowess,ll,ul = loess_data([attr2[ix] for ix in selected_ixes],[attr1[ix] for ix in selected_ixes])
         #  一种是用moving average
-        window = 5
-        if xscale=='log':  
-            window=201 if len(xs)>201 else int(len(xs)/5)*4+1
+        # window = 5
+        # if xscale=='log':  
+            # window=201 if len(xs)>201 else int(len(xs)/5)*4+1
 
-        # ax.plot(xs,smooth(ys_mean,window),label='mean')
-        # ax.plot(xs,smooth(ys_median,window),label='median')
+        ax.plot(xs,smooth(ys_mean,window),label='mean')
+        ax.plot(xs,smooth(ys_median,window),label='median')
 
-        ax.plot(*lowess_smooth(xs,ys_mean),label='mean')
-        ax.plot(*lowess_smooth(xs,ys_median),label='median')
+        # ax.plot(*lowess_smooth(xs,ys_mean),label='mean')
+        # ax.plot(*lowess_smooth(xs,ys_median),label='median')
 
         #  先不进行平滑
         # ax.plot(xs,ys_mean,label='mean')
