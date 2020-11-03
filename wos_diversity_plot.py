@@ -872,10 +872,10 @@ def smooth(a,WSZ):
   # # stop = (np.cumsum(a[:-WSZ:-1])[::2]/r)[::-1]
   # # return np.concatenate(( start , out0, stop ))
 
-  # return [np.mean(a[:i+1]) for i in range(len(a))]
+  return [np.mean(a[:i+1]) for i in range(len(a))]
 
   # 使用savgol滤波器进行平滑线
-    return scipy.signal.savgol_filter(a,WSZ,1)
+    # return scipy.signal.savgol_filter(a,WSZ,1)
 
 def lowess_smooth(x,y):
     
