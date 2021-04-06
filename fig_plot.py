@@ -22,7 +22,7 @@ def plot_fig2():
 
         year_cns[pubyear].append(int(pid_cn.get(pid, 0)))
 
-    fig, ax = plt.subplots(1, 1, figsize=(5, 4))
+    fig, ax = plt.subplots(1, 1, figsize=(7, 4))
 
     # 文章数量随着时间的变化
     xs = []
