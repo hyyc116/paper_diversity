@@ -53,7 +53,7 @@ def shuffle_year_refs():
             if len(pid_refs[pid]) < 4 or len(pid_refs[pid]) > 100:
                 continue
 
-            for ref in pid_refs.keys():
+            for ref in pid_refs[pid]:
                 year_refs[pubyear].append([pid, ref])
 
     logging.info('starting to shuffle ...')
