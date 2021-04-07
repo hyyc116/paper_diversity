@@ -83,7 +83,7 @@ def shuffle_year_refs():
 
         refs = new_pid_refs[pid]
 
-        pubyear = pid_pubyear[pid]
+        pubyear = int(pid_pubyear[pid])
 
         for ref in refs:
             yds.append(abs(int(pid_pubyear[ref]) - pubyear))
