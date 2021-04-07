@@ -11,20 +11,22 @@ def shuffle_year_refs():
     logging.info('{} papers has year label.'.format(len(pid_pubyear.keys())))
 
     pid_c2 = json.loads(open('../WOS_data_processing/data/pid_c2.json').read())
-    logging.info('{} papers has citations.'.format(len(pid_c2.keys())))
+    logging.info('{} papers has c2.'.format(len(pid_c2.keys())))
 
     pid_c5 = json.loads(open('../WOS_data_processing/data/pid_c5.json').read())
-    logging.info('{} papers has citations.'.format(len(pid_c5.keys())))
+    logging.info('{} papers has c5.'.format(len(pid_c5.keys())))
 
     pid_c10 = json.loads(
         open('../WOS_data_processing/data/pid_c10.json').read())
-    logging.info('{} papers has citations.'.format(len(pid_c10.keys())))
+    logging.info('{} papers has c10.'.format(len(pid_c10.keys())))
 
     progress = 0
 
     sub_progress = 0
 
     year_refs = defaultdict(list)
+
+    logging.info('start to stat refs ...')
 
     for line in open('../WOS_data_processing/data/pid_refs.txt'):
 
