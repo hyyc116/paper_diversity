@@ -62,7 +62,7 @@ def shuffle_year_refs():
     # 每一年对应的论文和参考文献
     for year in year_refs.keys():
 
-        pids, refs = zip(*year_refs[year])
+        pids, refs = list(zip(*year_refs[year]))
 
         # 只需要将refs进行shuffle，就基本上不会进行
         np.random.shuffle(refs)
