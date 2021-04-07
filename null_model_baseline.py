@@ -64,6 +64,9 @@ def shuffle_year_refs():
 
         pids, refs = list(zip(*year_refs[year]))
 
+        pids = list(pids)
+        refs = list(refs)
+
         # 只需要将refs进行shuffle，就基本上不会进行
         np.random.shuffle(refs)
 
