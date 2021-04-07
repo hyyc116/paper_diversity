@@ -89,7 +89,7 @@ def cal_wos_paper_divs():
     subj_totalnum = float(len(subj_subj_sim.keys()))
     
     pid_divs = {}
-
+ 
     progress = 0
 
     sub_progress = 0
