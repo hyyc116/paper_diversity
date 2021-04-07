@@ -86,7 +86,7 @@ def shuffle_year_refs():
         pubyear = int(pid_pubyear[pid])
 
         for ref in refs:
-            yds.append(abs(int(pid_pubyear[ref]) - pubyear))
+            yds.append(float(abs(int(pid_pubyear[ref]) - pubyear)))
 
         yd_div = gini(yds)
         yd_mean = np.mean(yds)
