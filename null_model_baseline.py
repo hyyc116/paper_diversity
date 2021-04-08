@@ -108,7 +108,7 @@ def shuffle_year_refs():
 
 def plot_attrs():
 
-    data = pd.read_csv(open('data/new_shuffled_yd_lines.csv'))
+    data = pd.read_csv('data/new_shuffled_yd_lines.csv')
 
     # sns.lineplot(data=data, x=x, y=y, ax=ax, ci='sd')
     fig, axes = plt.subplots(1, 2, figsize=(10, 5))
