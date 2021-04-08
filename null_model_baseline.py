@@ -111,9 +111,30 @@ def plot_attrs():
     data = pd.read_csv(open('data/new_shuffled_yd_lines.csv'))
 
     # sns.lineplot(data=data, x=x, y=y, ax=ax, ci='sd')
+    fig, axes = plt.subplots(1, 2, figsize=(10, 5))
 
-    pass
+    ax = axes[0]
+    sns.histplot(data,
+                 x='yd_mean',
+                 ax=ax,
+                 kde=True,
+                 cumulative=True,
+                 stat='probability')
+    ax = axes[1]
+    sns.histplot(data,
+                 x='yd_std',
+                 ax=ax,
+                 kde=True,
+                 cumulative=True,
+                 stat='probability')
+
+    plt.tight_layout()
+
+    plt.savefig('fig/fig3.png', dpi=400)
+    logging.info('fig saved to fig/fig3.png.')
 
 
 if __name__ == "__main__":
-    shuffle_year_refs()
+    # shuffle_year_refs()
+
+    plot_attrs()
