@@ -1,6 +1,9 @@
 #coding:utf-8
 from basic_config import *
 
+import pandas as pd
+import seaborn as sns
+
 
 # 保持引用的学科不变，改变引用节点的时间
 def shuffle_year_refs():
@@ -96,10 +99,20 @@ def shuffle_year_refs():
         c5 = pid_c5.get(pid, 0)
         c10 = pid_c10.get(pid, 0)
 
-        lines.append(f'{pid},{c2},{c5},{c10},{yd_div},{yd_mean},{yd_std}')
+        lines.append(
+            f'{pid},{pubyear},{c2},{c5},{c10},{yd_div},{yd_mean},{yd_std}')
 
     open('data/new_shuffled_yd_lines.csv', 'w').write('\n'.join(lines))
     logging.info('data saved to data/new_shuffled_yd_lines.csv.')
+
+
+def plot_attrs():
+
+    data = pd.read_csv(open('data/new_shuffled_yd_lines.csv'))
+
+    # sns.lineplot(data=data, x=x, y=y, ax=ax, ci='sd')
+
+    pass
 
 
 if __name__ == "__main__":
