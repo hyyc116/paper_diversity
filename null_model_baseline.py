@@ -77,7 +77,7 @@ def shuffle_year_refs():
             ref = refs[i]
             new_pid_refs[pid].append(ref)
 
-    lines = ['pid,c2,c5,c10,yd_div,yd_mean,yd_std']
+    lines = ['pid,year,c2,c5,c10,yd_div,yd_mean,yd_std']
 
     # 根据新混乱的进行统计
     for pid in new_pid_refs.keys():
