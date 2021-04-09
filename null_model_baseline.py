@@ -23,6 +23,12 @@ def shuffle_year_refs():
         open('../WOS_data_processing/data/pid_c10.json').read())
     logging.info('{} papers has c10.'.format(len(pid_c10.keys())))
 
+    logging.info('loading paper top subjects ...')
+    pid_topsubjs = json.loads(
+        open('../WOS_data_processing/data/pid_topsubjs.json').read())
+    logging.info('{} papers has top subject label.'.format(
+        len(pid_topsubjs.keys())))
+
     progress = 0
 
     sub_progress = 0
@@ -77,7 +83,7 @@ def shuffle_year_refs():
             ref = refs[i]
             new_pid_refs[pid].append(ref)
 
-    lines = ['pid,year,c2,c5,c10,yd_div,yd_mean,yd_std']
+    lines = ['pid,year,subj,c2,c5,c10,yd_div,yd_mean,yd_std']
 
     # 根据新混乱的进行统计
     for pid in new_pid_refs.keys():
@@ -99,8 +105,16 @@ def shuffle_year_refs():
         c5 = pid_c5.get(pid, 0)
         c10 = pid_c10.get(pid, 0)
 
+        subjs = pid_topsubjs.get(pid, [])
+
+        if len(subjs) == 0:
+            continue
+
+        subj = np.random.choice(subjs, size=1)[0]
+
         lines.append(
-            f'{pid},{pubyear},{c2},{c5},{c10},{yd_div},{yd_mean},{yd_std}')
+            f'{pid},{pubyear},{subj},{c2},{c5},{c10},{yd_div},{yd_mean},{yd_std}'
+        )
 
     open('data/new_shuffled_yd_lines.csv', 'w').write('\n'.join(lines))
     logging.info('data saved to data/new_shuffled_yd_lines.csv.')
@@ -135,6 +149,6 @@ def plot_attrs():
 
 
 if __name__ == "__main__":
-    # shuffle_year_refs()
+    shuffle_year_refs()
 
-    plot_attrs()
+    # plot_attrs()
