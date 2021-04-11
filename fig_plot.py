@@ -92,8 +92,7 @@ def plot_fig3():
                 cumulative=True,
                 hue='subjs',
                 fill=False,
-                common_norm=False,
-                element='poly')
+                common_norm=False)
 
     # 所有的分布
     sns.kdeplot(data=all_data,
@@ -101,16 +100,14 @@ def plot_fig3():
                 ax=ax,
                 cumulative=True,
                 fill=False,
-                label='ALL',
-                element='poly')
+                label='ALL')
 
     sns.kdeplot(data=shuffed_data,
                 x='yd_div',
                 ax=ax,
                 cumulative=True,
                 fill=False,
-                label='NULLMODEL',
-                element='poly')
+                label='NULLMODEL')
 
     ax.set_xlabel('freshness diversity')
 
