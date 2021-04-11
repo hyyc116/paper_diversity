@@ -69,9 +69,8 @@ def plot_fig2():
 # C FD 与C5的相关关系
 # D FD与C10的关系
 def plot_fig3():
-
-    all_data = pd.read_csv('data/ALL_attrs.txt')
     shuffed_data = pd.read_csv('data/new_shuffled_yd_lines.csv')
+    all_data = pd.read_csv('data/ALL_attrs.txt', error_bad_lines=False)
 
     _, axes = plt.subplots(2, 2, figsize=(10, 8))
 
