@@ -93,7 +93,9 @@ def plot_fig3():
                  cumulative=True,
                  hue='subjs',
                  fill=False,
-                 stat='density')
+                 stat='probability',
+                 common_norm=False,
+                 element='poly')
 
     # 所有的分布
     sns.histplot(all_data,
