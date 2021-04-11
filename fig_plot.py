@@ -107,14 +107,19 @@ def plot_fig3():
                 ax=ax,
                 cumulative=True,
                 fill=False,
-                label='ALL')
+                label='ALL',
+                color='blue',
+                lw='2')
 
     sns.kdeplot(data=shuffed_data,
                 x='yd_div',
                 ax=ax,
                 cumulative=True,
                 fill=False,
-                label='NULLMODEL')
+                label='NULLMODEL',
+                color='c',
+                ls='--',
+                lw=2)
 
     ax.set_xlabel('freshness diversity')
 
@@ -137,13 +142,18 @@ def plot_fig3():
                  y='yd_div',
                  ax=axb,
                  ci=None,
-                 label='ALL')
+                 label='ALL',
+                 color='blue',
+                 lw='2')
     sns.lineplot(data=shuffed_data,
                  x='year',
                  y='yd_div',
                  ax=axb,
                  ci=None,
-                 label='NULLMODEL')
+                 label='NULLMODEL',
+                 color='c',
+                 ls='--',
+                 lw='2')
 
     axb.set_xlabel('year')
     axb.set_ylabel('freshness diversity')
