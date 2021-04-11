@@ -120,6 +120,8 @@ def plot_fig3():
 
     ax.set_xlabel('freshness diversity')
 
+    ax.legend()
+
     axb = axes[0][1]
     sns.lineplot(data=all_data,
                  x='year',
