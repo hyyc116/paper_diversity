@@ -86,37 +86,34 @@ def plot_fig3():
 
     ax = axes[0][0]
     # CDF分布
-    sns.histplot(all_data,
-                 x='yd_div',
-                 ax=ax,
-                 kde=True,
-                 cumulative=True,
-                 hue='subjs',
-                 fill=False,
-                 stat='probability',
-                 common_norm=False,
-                 element='poly')
+    sns.kdeplot(data=all_data,
+                x='yd_div',
+                ax=ax,
+                cumulative=True,
+                hue='subjs',
+                fill=False,
+                stat='probability',
+                common_norm=False,
+                element='poly')
 
     # 所有的分布
-    sns.histplot(all_data,
-                 x='yd_div',
-                 ax=ax,
-                 kde=True,
-                 cumulative=True,
-                 fill=False,
-                 stat='probability',
-                 label='ALL',
-                 element='poly')
+    sns.kdeplot(data=all_data,
+                x='yd_div',
+                ax=ax,
+                cumulative=True,
+                fill=False,
+                stat='probability',
+                label='ALL',
+                element='poly')
 
-    sns.histplot(shuffed_data,
-                 x='yd_div',
-                 ax=ax,
-                 kde=True,
-                 cumulative=True,
-                 fill=False,
-                 stat='probability',
-                 label='NULLMODEL',
-                 element='poly')
+    sns.kdeplot(data=shuffed_data,
+                x='yd_div',
+                ax=ax,
+                cumulative=True,
+                fill=False,
+                stat='probability',
+                label='NULLMODEL',
+                element='poly')
 
     ax.set_xlabel('freshness diversity')
 
