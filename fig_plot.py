@@ -93,7 +93,7 @@ def plot_fig3():
                  cumulative=True,
                  hue='subjs',
                  fill=False,
-                 stat='probability')
+                 stat='density')
 
     # 所有的分布
     sns.histplot(all_data,
@@ -103,7 +103,8 @@ def plot_fig3():
                  cumulative=True,
                  fill=False,
                  stat='probability',
-                 label='ALL')
+                 label='ALL',
+                 element='poly')
 
     sns.histplot(shuffed_data,
                  x='yd_div',
@@ -112,7 +113,8 @@ def plot_fig3():
                  cumulative=True,
                  fill=False,
                  stat='probability',
-                 label='NULLMODEL')
+                 label='NULLMODEL',
+                 element='poly')
 
     ax.set_xlabel('freshness diversity')
 
