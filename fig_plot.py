@@ -82,7 +82,7 @@ def plot_fig3():
     shuffed_data = pd.read_csv('data/new_shuffled_yd_lines.csv')
     data = all_data = pd.read_csv('data/ALL_attrs.txt', error_bad_lines=False)
 
-    _, axes = plt.subplots(2, 2, figsize=(10, 8))
+    _, axes = plt.subplots(2, 2, figsize=(20, 16))
 
     ax = axes[0][0]
     # CDF分布
@@ -116,8 +116,6 @@ def plot_fig3():
 
     ax.set_xlabel('freshness diversity')
 
-    ax.legend()
-
     axb = axes[0][1]
     sns.lineplot(data=all_data,
                  x='year',
@@ -140,8 +138,6 @@ def plot_fig3():
 
     axb.set_xlabel('year')
     axb.set_ylabel('freshness diversity')
-
-    axb.legend()
 
     axc = axes[1][0]
 
