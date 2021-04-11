@@ -92,7 +92,6 @@ def plot_fig3():
                 cumulative=True,
                 hue='subjs',
                 fill=False,
-                stat='probability',
                 common_norm=False,
                 element='poly')
 
@@ -102,7 +101,6 @@ def plot_fig3():
                 ax=ax,
                 cumulative=True,
                 fill=False,
-                stat='probability',
                 label='ALL',
                 element='poly')
 
@@ -111,7 +109,6 @@ def plot_fig3():
                 ax=ax,
                 cumulative=True,
                 fill=False,
-                stat='probability',
                 label='NULLMODEL',
                 element='poly')
 
