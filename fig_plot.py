@@ -80,7 +80,7 @@ def replace_subj(filepath):
 # D FD与C10的关系
 def plot_fig3():
     shuffed_data = pd.read_csv('data/new_shuffled_yd_lines.csv')
-    all_data = pd.read_csv('data/ALL_attrs.txt', error_bad_lines=False)
+    data = all_data = pd.read_csv('data/ALL_attrs.txt', error_bad_lines=False)
 
     _, axes = plt.subplots(2, 2, figsize=(10, 8))
 
@@ -119,9 +119,19 @@ def plot_fig3():
     ax.legend()
 
     axb = axes[0][1]
-    sns.lineplot(all_data, x='year', y='yd_div', ax=axb, ci=95, hue='subjs')
-    sns.lineplot(all_data, x='year', y='yd_div', ax=axb, ci=95, label='ALL')
-    sns.lineplot(shuffed_data,
+    sns.lineplot(data=all_data,
+                 x='year',
+                 y='yd_div',
+                 ax=axb,
+                 ci=95,
+                 hue='subjs')
+    sns.lineplot(data=all_data,
+                 x='year',
+                 y='yd_div',
+                 ax=axb,
+                 ci=95,
+                 label='ALL')
+    sns.lineplot(data=shuffed_data,
                  x='year',
                  y='yd_div',
                  ax=axb,
@@ -135,9 +145,19 @@ def plot_fig3():
 
     axc = axes[1][0]
 
-    sns.lineplot(all_data, x='c10', y='yd_div', ax=axc, ci=95, hue='subjs')
-    sns.lineplot(all_data, x='c10', y='yd_div', ax=axc, ci=95, label='ALL')
-    sns.lineplot(shuffed_data,
+    sns.lineplot(data=all_data,
+                 x='c10',
+                 y='yd_div',
+                 ax=axc,
+                 ci=95,
+                 hue='subjs')
+    sns.lineplot(data=all_data,
+                 x='c10',
+                 y='yd_div',
+                 ax=axc,
+                 ci=95,
+                 label='ALL')
+    sns.lineplot(data=shuffed_data,
                  x='c10',
                  y='yd_div',
                  ax=axc,
@@ -151,9 +171,9 @@ def plot_fig3():
 
     axc = axes[1][1]
 
-    sns.lineplot(all_data, x='c5', y='yd_div', ax=axc, ci=95, hue='subjs')
-    sns.lineplot(all_data, x='c5', y='yd_div', ax=axc, ci=95, label='ALL')
-    sns.lineplot(shuffed_data,
+    sns.lineplot(data=all_data, x='c5', y='yd_div', ax=axc, ci=95, hue='subjs')
+    sns.lineplot(data=all_data, x='c5', y='yd_div', ax=axc, ci=95, label='ALL')
+    sns.lineplot(data=shuffed_data,
                  x='c5',
                  y='yd_div',
                  ax=axc,
