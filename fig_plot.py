@@ -1,4 +1,5 @@
 #coding:utf-8
+from matplotlib.pyplot import legend
 from basic_config import *
 import pandas as pd
 import seaborn as sns
@@ -91,8 +92,14 @@ def plot_fig3():
                 ax=ax,
                 cumulative=True,
                 hue='subjs',
+                hue_order=[
+                    'Arts & Humanities', 'Clinical Pre-Clinical & Health',
+                    'Engineering & Technology', 'Life Sciences',
+                    'Physical Sciences', 'Social Sciences'
+                ],
                 fill=False,
-                common_norm=False)
+                common_norm=False,
+                legend=False)
 
     # 所有的分布
     sns.kdeplot(data=all_data,
@@ -118,19 +125,24 @@ def plot_fig3():
                  x='year',
                  y='yd_div',
                  ax=axb,
-                 ci=95,
+                 ci=None,
+                 hue_order=[
+                     'Arts & Humanities', 'Clinical Pre-Clinical & Health',
+                     'Engineering & Technology', 'Life Sciences',
+                     'Physical Sciences', 'Social Sciences'
+                 ],
                  hue='subjs')
     sns.lineplot(data=all_data,
                  x='year',
                  y='yd_div',
                  ax=axb,
-                 ci=95,
+                 ci=None,
                  label='ALL')
     sns.lineplot(data=shuffed_data,
                  x='year',
                  y='yd_div',
                  ax=axb,
-                 ci=95,
+                 ci=None,
                  label='NULLMODEL')
 
     axb.set_xlabel('year')
@@ -142,19 +154,24 @@ def plot_fig3():
                  x='c10',
                  y='yd_div',
                  ax=axc,
-                 ci=95,
+                 ci=None,
+                 hue_order=[
+                     'Arts & Humanities', 'Clinical Pre-Clinical & Health',
+                     'Engineering & Technology', 'Life Sciences',
+                     'Physical Sciences', 'Social Sciences'
+                 ],
                  hue='subjs')
     sns.lineplot(data=all_data,
                  x='c10',
                  y='yd_div',
                  ax=axc,
-                 ci=95,
+                 ci=None,
                  label='ALL')
     sns.lineplot(data=shuffed_data,
                  x='c10',
                  y='yd_div',
                  ax=axc,
-                 ci=95,
+                 ci=None,
                  label='NULLMODEL')
 
     axc.set_xlabel('$c_{10}$')
@@ -164,13 +181,28 @@ def plot_fig3():
 
     axc = axes[1][1]
 
-    sns.lineplot(data=all_data, x='c5', y='yd_div', ax=axc, ci=95, hue='subjs')
-    sns.lineplot(data=all_data, x='c5', y='yd_div', ax=axc, ci=95, label='ALL')
+    sns.lineplot(data=all_data,
+                 x='c5',
+                 y='yd_div',
+                 ax=axc,
+                 hue='subjs',
+                 ci=None,
+                 hue_order=[
+                     'Arts & Humanities', 'Clinical Pre-Clinical & Health',
+                     'Engineering & Technology', 'Life Sciences',
+                     'Physical Sciences', 'Social Sciences'
+                 ])
+    sns.lineplot(data=all_data,
+                 x='c5',
+                 y='yd_div',
+                 ax=axc,
+                 ci=None,
+                 label='ALL')
     sns.lineplot(data=shuffed_data,
                  x='c5',
                  y='yd_div',
                  ax=axc,
-                 ci=95,
+                 ci=None,
                  label='NULLMODEL')
 
     axc.set_xlabel('$c_5$')
