@@ -64,6 +64,16 @@ def plot_fig2():
     logging.info('fig saved to fig/fig2.png.')
 
 
+def replace_subj(filepath):
+
+    data = []
+    for line in open(filepath):
+        data.append(line.strip().replace('Clinical, Pre-Clinical & Health',
+                                         'Clinical Pre-Clinical & Health'))
+
+    open(filepath, 'w').write('\n'.join(data))
+
+
 # A Freshness diversity的CDF分布
 # B FD 随着时间的变化
 # C FD 与C5的相关关系
@@ -164,4 +174,6 @@ def plot_fig3():
 if __name__ == '__main__':
     # plot_fig2()
 
-    plot_fig3()
+    # plot_fig3()
+
+    replace_subj(sys.argv[1])
