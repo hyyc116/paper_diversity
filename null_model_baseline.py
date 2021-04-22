@@ -3,6 +3,7 @@ from basic_config import *
 
 import pandas as pd
 import seaborn as sns
+from wos_diversity import cal_subj_div
 
 
 # 保持引用的学科不变，改变引用节点的时间
@@ -28,6 +29,20 @@ def shuffle_year_refs():
         open('../WOS_data_processing/data/pid_topsubjs.json').read())
     logging.info('{} papers has top subject label.'.format(
         len(pid_topsubjs.keys())))
+
+    logging.info('loading paper subjects ...')
+    pid_subjects = json.loads(
+        open('../WOS_data_processing/data/pid_subjects.json').read())
+    logging.info('{} papers has subject label.'.format(len(
+        pid_subjects.keys())))
+
+    subj_subj_sim = json.loads(
+        open('../WOS_data_processing/data/subj_subj_sim.json').read())
+
+    subj_totalnum = float(len(subj_subj_sim.keys()))
+
+    # 已经有的
+    pid_divs = json.loads(open('data/pid_divs.json').read())
 
     progress = 0
 
@@ -83,23 +98,46 @@ def shuffle_year_refs():
             ref = refs[i]
             new_pid_refs[pid].append(ref)
 
-    lines = ['pid,year,subj,c2,c5,c10,yd_div,yd_mean,yd_std']
+    lines = [
+        'pid,year,subj,c2,c5,c10,yd_div,yd_mean,yd_std,c5_div,c10_div,subj_div,_yd_div,_subj_div,_c5_div,_c10_div'
+    ]
 
     # 根据新混乱的进行统计
     for pid in new_pid_refs.keys():
 
-        yds = []
-
         refs = new_pid_refs[pid]
-
         pubyear = int(pid_pubyear[pid])
+
+        yds = []
+        c5s = []
+        c10s = []
+        ref_subjs = []
+        subj_nums = []
 
         for ref in refs:
             yds.append(float(abs(int(pid_pubyear[ref]) - pubyear)))
 
+            c5s.append(pid_c5.get(ref, 0))
+            c10s.append(pid_c10.get(ref, 0))
+
+            ref_subjs.extend(pid_subjects.get(ref, []))
+            subj_nums.extend(len(pid_subjects.get(pid, [])))
+
         yd_div = gini(yds)
         yd_mean = np.mean(yds)
         yd_std = np.std(yds)
+
+        c5_div = gini(c5s)
+        c10_div = gini(c10s)
+
+        ref_subjs = list(set(ref_subjs))
+
+        if len(ref_subjs) <= 1:
+            subj_div = 0
+
+        else:
+            subj_div = cal_subj_div(subj_totalnum, subj_nums, ref_subjs,
+                                    subj_subj_sim)
 
         c2 = pid_c2.get(pid, 0)
         c5 = pid_c5.get(pid, 0)
@@ -112,8 +150,12 @@ def shuffle_year_refs():
 
         subj = np.random.choice(subjs, size=1)[0]
 
+        # 非shuffle的数据值
+        _yd_div, _subj_div, _c2_div, _c5_div, _c10_div, _yd_mean, _yd_std, c2_mean, c2_std, c5_mean, c5_std, c10_mean, c10_std, c2p_div, c5p_div, c10p_div, c2p_mean, c2p_std, c5p_mean, c5p_std, c10p_mean, c10p_std = pid_divs[
+            pid]
+
         lines.append(
-            f'{pid},{pubyear},{subj},{c2},{c5},{c10},{yd_div},{yd_mean},{yd_std}'
+            f'{pid},{pubyear},{subj},{c2},{c5},{c10},{yd_div},{yd_mean},{yd_std},{c5_div},{c10_div},{subj_div},{_yd_div},{_subj_div},{_c5_div},{_c10_div}'
         )
 
     open('data/new_shuffled_yd_lines.csv', 'w').write('\n'.join(lines))
