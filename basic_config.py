@@ -331,7 +331,8 @@ def gini(array):
     # from:
     # http://www.statsdirect.com/help/default.htm#nonparametric_methods/gini.htm
     # All values are treated equally, arrays must be 1d:
-    array = np.array(array).flatten()
+    array = np.array([float(i) for i in array])
+    # array = array.flatten()
     if np.amin(array) < 0:
         # Values cannot be negative:
         array -= np.amin(array)
