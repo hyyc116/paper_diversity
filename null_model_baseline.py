@@ -121,7 +121,7 @@ def shuffle_year_refs():
             c10s.append(pid_c10.get(ref, 0))
 
             ref_subjs.extend(pid_subjects.get(ref, []))
-            subj_nums.extend(len(pid_subjects.get(pid, [])))
+            subj_nums.append(len(pid_subjects.get(pid, [])))
 
         yd_div = gini(yds)
         yd_mean = np.mean(yds)
