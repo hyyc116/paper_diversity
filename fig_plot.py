@@ -153,8 +153,8 @@ def plot_line_with_norm(data, x, y, ax, smooth=False):
             ys.append(y)
         # 把之前的消除了
 
-        print(xs)
-        print(ys)
+        # print(xs)
+        # print(ys)
 
         ax.clear()
 
@@ -165,7 +165,7 @@ def plot_line_with_norm(data, x, y, ax, smooth=False):
             if len(x) == 0:
                 continue
 
-            xi, yi = zip(*lowess(y, x, frac=0.8, it=0))
+            xi, yi = zip(*lowess(y, x, frac=0.5, it=0))
 
             ax.plot(xi, yi, label=labels[i])
 
@@ -227,18 +227,18 @@ def plot_fig3():
     ])
 
     axb = axes[0][1]
-    # sns.lineplot(data=shuffed_data,
-    #              x='year',
-    #              y='_yd_div',
-    #              ax=axb,
-    #              ci=None,
-    #              hue_order=[
-    #                  'Arts & Humanities', 'Clinical Pre-Clinical & Health',
-    #                  'Engineering & Technology', 'Life Sciences',
-    #                  'Physical Sciences', 'Social Sciences'
-    #              ],
-    #              hue='subj')
-    plot_line_with_norm(shuffed_data, 'year', '_yd_div', axb, True)
+    sns.lineplot(data=shuffed_data,
+                 x='year',
+                 y='_yd_div',
+                 ax=axb,
+                 ci=None,
+                 hue_order=[
+                     'Arts & Humanities', 'Clinical Pre-Clinical & Health',
+                     'Engineering & Technology', 'Life Sciences',
+                     'Physical Sciences', 'Social Sciences'
+                 ],
+                 hue='subj')
+    # plot_line_with_norm(shuffed_data, 'year', '_yd_div', axb, True)
 
     sns.lineplot(data=shuffed_data,
                  x='year',
@@ -260,28 +260,35 @@ def plot_fig3():
 
     axb.set_xlabel('year')
     axb.set_ylabel('freshness diversity')
+    axb.set_ylim(0.1, 0.5)
 
     axc = axes[1][0]
 
     plot_line_with_norm(shuffed_data, 'c10', '_yd_div', axc, True)
 
-    sns.lineplot(data=shuffed_data,
-                 x='c10',
-                 y='_yd_div',
-                 ax=axc,
-                 ci=None,
-                 label='ALL',
-                 c='blue',
-                 lw=3)
-    sns.lineplot(data=shuffed_data,
-                 x='c10',
-                 y='yd_div',
-                 ax=axc,
-                 ci=None,
-                 label='NULLMODEL',
-                 color='c',
-                 lw=3,
-                 ls='--')
+    # sns.lineplot(data=shuffed_data,
+    #              x='c10',
+    #              y='_yd_div',
+    #              ax=axc,
+    #              ci=None,
+    #              label='ALL',
+    #              c='blue',
+    #              lw=3)
+    # sns.lineplot(data=shuffed_data,
+    #              x='c10',
+    #              y='yd_div',
+    #              ax=axc,
+    #              ci=None,
+    #              label='NULLMODEL',
+    #              color='c',
+    #              lw=3,
+    #              ls='--')
+    xi, yi = zip(
+        *lowess(shuffed_data['_yd_div'], shuffed_data['c10'], frac=0.5, it=0))
+    axc.plot(xi, yi, label='ALL', c='blue', lw=2)
+    xi, yi = zip(
+        *lowess(shuffed_data['yd_div'], shuffed_data['c10'], frac=0.5, it=0))
+    axc.plot(xi, yi, label='NULLMODEL', c='blue', lw=2)
 
     axc.set_xlabel('$c_{10}$')
     axc.set_ylabel('freshness diversity')
@@ -303,23 +310,30 @@ def plot_fig3():
     #              ])
     plot_line_with_norm(shuffed_data, 'c5', '_yd_div', axc, True)
 
-    sns.lineplot(data=shuffed_data,
-                 x='c5',
-                 y='_yd_div',
-                 ax=axc,
-                 ci=None,
-                 label='ALL',
-                 color='blue',
-                 lw=3)
-    sns.lineplot(data=shuffed_data,
-                 x='c5',
-                 y='yd_div',
-                 ax=axc,
-                 ci=None,
-                 label='NULLMODEL',
-                 lw=3,
-                 ls='--',
-                 color='c')
+    xi, yi = zip(
+        *lowess(shuffed_data['_yd_div'], shuffed_data['c5'], frac=0.5, it=0))
+    axc.plot(xi, yi, label='ALL', c='blue', lw=2)
+    xi, yi = zip(
+        *lowess(shuffed_data['yd_div'], shuffed_data['c5'], frac=0.5, it=0))
+    axc.plot(xi, yi, label='NULLMODEL', c='blue', lw=2)
+
+    # sns.lineplot(data=shuffed_data,
+    #              x='c5',
+    #              y='_yd_div',
+    #              ax=axc,
+    #              ci=None,
+    #              label='ALL',
+    #              color='blue',
+    #              lw=3)
+    # sns.lineplot(data=shuffed_data,
+    #              x='c5',
+    #              y='yd_div',
+    #              ax=axc,
+    #              ci=None,
+    #              label='NULLMODEL',
+    #              lw=3,
+    #              ls='--',
+    #              color='c')
 
     axc.set_xlabel('$c_5$')
     axc.set_ylabel('freshness diversity')
