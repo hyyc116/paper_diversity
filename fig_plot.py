@@ -81,17 +81,17 @@ def replace_subj(filepath):
 # D FD与C10的关系
 def plot_fig3():
     shuffed_data = pd.read_csv('data/new_shuffled_yd_lines.csv')
-    data = all_data = pd.read_csv('data/ALL_attrs.txt', error_bad_lines=False)
+    # data = shuffed_data = pd.read_csv('data/ALL_attrs.txt', error_bad_lines=False)
 
     _, axes = plt.subplots(2, 2, figsize=(20, 16))
 
     ax = axes[0][0]
     # CDF分布
-    sns.kdeplot(data=all_data,
-                x='yd_div',
+    sns.kdeplot(data=shuffed_data,
+                x='_yd_div',
                 ax=ax,
                 cumulative=True,
-                hue='subjs',
+                hue='subj',
                 hue_order=[
                     'Arts & Humanities', 'Clinical Pre-Clinical & Health',
                     'Engineering & Technology', 'Life Sciences',
@@ -102,8 +102,8 @@ def plot_fig3():
                 legend=False)
 
     # 所有的分布
-    sns.kdeplot(data=all_data,
-                x='yd_div',
+    sns.kdeplot(data=shuffed_data,
+                x='_yd_div',
                 ax=ax,
                 cumulative=True,
                 fill=False,
@@ -126,9 +126,9 @@ def plot_fig3():
     ax.legend()
 
     axb = axes[0][1]
-    sns.lineplot(data=all_data,
+    sns.lineplot(data=shuffed_data,
                  x='year',
-                 y='yd_div',
+                 y='_yd_div',
                  ax=axb,
                  ci=None,
                  hue_order=[
@@ -136,10 +136,10 @@ def plot_fig3():
                      'Engineering & Technology', 'Life Sciences',
                      'Physical Sciences', 'Social Sciences'
                  ],
-                 hue='subjs')
-    sns.lineplot(data=all_data,
+                 hue='subj')
+    sns.lineplot(data=shuffed_data,
                  x='year',
-                 y='yd_div',
+                 y='_yd_div',
                  ax=axb,
                  ci=None,
                  label='ALL',
@@ -160,9 +160,9 @@ def plot_fig3():
 
     axc = axes[1][0]
 
-    sns.lineplot(data=all_data,
+    sns.lineplot(data=shuffed_data,
                  x='c10',
-                 y='yd_div',
+                 y='_yd_div',
                  ax=axc,
                  ci=None,
                  hue_order=[
@@ -170,10 +170,10 @@ def plot_fig3():
                      'Engineering & Technology', 'Life Sciences',
                      'Physical Sciences', 'Social Sciences'
                  ],
-                 hue='subjs')
-    sns.lineplot(data=all_data,
+                 hue='subj')
+    sns.lineplot(data=shuffed_data,
                  x='c10',
-                 y='yd_div',
+                 y='_yd_div',
                  ax=axc,
                  ci=None,
                  label='ALL')
@@ -191,20 +191,20 @@ def plot_fig3():
 
     axc = axes[1][1]
 
-    sns.lineplot(data=all_data,
+    sns.lineplot(data=shuffed_data,
                  x='c5',
-                 y='yd_div',
+                 y='_yd_div',
                  ax=axc,
-                 hue='subjs',
+                 hue='subj',
                  ci=None,
                  hue_order=[
                      'Arts & Humanities', 'Clinical Pre-Clinical & Health',
                      'Engineering & Technology', 'Life Sciences',
                      'Physical Sciences', 'Social Sciences'
                  ])
-    sns.lineplot(data=all_data,
+    sns.lineplot(data=shuffed_data,
                  x='c5',
-                 y='yd_div',
+                 y='_yd_div',
                  ax=axc,
                  ci=None,
                  label='ALL')
