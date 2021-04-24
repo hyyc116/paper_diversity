@@ -229,6 +229,6 @@ def plot_fig3():
 if __name__ == '__main__':
     # plot_fig2()
 
-    plot_fig3()
+    # plot_fig3()
 
-    # replace_subj(sys.argv[1])
+    replace_subj(sys.argv[1])
