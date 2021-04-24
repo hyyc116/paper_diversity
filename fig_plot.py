@@ -165,7 +165,7 @@ def plot_line_with_norm(data, x, y, ax, smooth=False):
             if len(x) == 0:
                 continue
 
-            xi, yi = zip(*lowess(y, x, frac=0.3, it=0))
+            xi, yi = zip(*lowess(y, x, frac=0.25, it=0))
 
             ax.plot(xi, yi, label=labels[i])
 
@@ -295,7 +295,7 @@ def plot_fig3(attrName='yd_div'):
                          shuffed_data['c10'],
                          frac=0.3,
                          it=0))
-    axc.plot(xi, yi, label='NULLMODEL', c='blue', lw=2)
+    axc.plot(xi, yi, label='NULLMODEL', c='c', lw=2, ls='--')
 
     axc.legend()
 
@@ -328,7 +328,7 @@ def plot_fig3(attrName='yd_div'):
                          shuffed_data['c5'],
                          frac=0.3,
                          it=0))
-    axc.plot(xi, yi, label='NULLMODEL', c='blue', lw=2)
+    axc.plot(xi, yi, label='NULLMODEL', c='c', lw=2, ls='--')
 
     # sns.lineplot(data=shuffed_data,
     #              x='c5',
@@ -364,6 +364,8 @@ def plot_fig3(attrName='yd_div'):
 if __name__ == '__main__':
     # plot_fig2()
 
-    plot_fig3()
+    plot_fig3('yd_div')
+    plot_fig3('c10_div')
+    plot_fig3('subj_div')
 
     # replace_subj(sys.argv[1])
