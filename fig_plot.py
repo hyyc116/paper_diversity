@@ -3,6 +3,8 @@ from matplotlib.pyplot import legend
 from basic_config import *
 import pandas as pd
 import seaborn as sns
+import statsmodels.api as sm
+lowess = sm.nonparametric.lowess
 
 
 def plot_fig2():
@@ -123,7 +125,11 @@ def plot_fig3():
 
     ax.set_xlabel('freshness diversity')
 
-    ax.legend()
+    ax.legend(labels=[
+        'Arts & Humanities', 'Clinical Pre-Clinical & Health',
+        'Engineering & Technology', 'Life Sciences', 'Physical Sciences',
+        'Social Sciences', 'ALL', 'NULLMODEL'
+    ])
 
     axb = axes[0][1]
     sns.lineplot(data=shuffed_data,
@@ -137,6 +143,7 @@ def plot_fig3():
                      'Physical Sciences', 'Social Sciences'
                  ],
                  hue='subj')
+
     sns.lineplot(data=shuffed_data,
                  x='year',
                  y='_yd_div',
