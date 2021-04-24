@@ -77,6 +77,93 @@ def replace_subj(filepath):
     open(filepath, 'w').write('\n'.join(data))
 
 
+# 根据属性 画 多个领域的折线图，并平滑
+def plot_cdf_with_norm(data, attrname, ax, smooth=False):
+
+    labels = [
+        'Arts & Humanities', 'Clinical Pre-Clinical & Health',
+        'Engineering & Technology', 'Life Sciences', 'Physical Sciences',
+        'Social Sciences'
+    ]
+
+    # CDF分布
+    sns.kdeplot(data=data,
+                x=attrname,
+                ax=ax,
+                cumulative=True,
+                hue='subj',
+                hue_order=labels,
+                fill=False,
+                common_norm=False,
+                legend=False)
+
+    if smooth:
+        xs = []
+        ys = []
+        for line in ax.get_lines():
+
+            x = line.get_xdata()
+            y = line.get_ydata()
+
+            xs.append(x)
+            ys.append(y)
+        # 把之前的消除了
+
+        ax.clear()
+
+        for i, x in enumerate(xs):
+
+            y = ys[i]
+
+            xi, yi = zip(*lowess(y, x, frac=1. / 3, it=0))
+
+            ax.plot(xi, yi, label=labels[i])
+
+
+def plot_line_with_norm(data, x, y, ax, smooth=False):
+
+    labels = [
+        'Arts & Humanities', 'Clinical Pre-Clinical & Health',
+        'Engineering & Technology', 'Life Sciences', 'Physical Sciences',
+        'Social Sciences'
+    ]
+
+    # CDF分布
+    sns.lineplot(data=data,
+                 x=x,
+                 y=y,
+                 ax=ax,
+                 ci=None,
+                 hue_order=[
+                     'Arts & Humanities', 'Clinical Pre-Clinical & Health',
+                     'Engineering & Technology', 'Life Sciences',
+                     'Physical Sciences', 'Social Sciences'
+                 ],
+                 hue='subj')
+
+    if smooth:
+        xs = []
+        ys = []
+        for line in ax.get_lines():
+
+            x = line.get_xdata()
+            y = line.get_ydata()
+
+            xs.append(x)
+            ys.append(y)
+        # 把之前的消除了
+
+        ax.clear()
+
+        for i, x in enumerate(xs):
+
+            y = ys[i]
+
+            xi, yi = zip(*lowess(y, x, frac=1. / 3, it=0))
+
+            ax.plot(xi, yi, label=labels[i])
+
+
 # A Freshness diversity的CDF分布
 # B FD 随着时间的变化
 # C FD 与C5的相关关系
@@ -86,6 +173,8 @@ def plot_fig3():
     # data = shuffed_data = pd.read_csv('data/ALL_attrs.txt', error_bad_lines=False)
 
     _, axes = plt.subplots(2, 2, figsize=(20, 16))
+
+    sns.set_theme(style="ticks")
 
     ax = axes[0][0]
     # CDF分布
@@ -111,7 +200,7 @@ def plot_fig3():
                 fill=False,
                 label='ALL',
                 color='blue',
-                lw='2')
+                lw=3)
 
     sns.kdeplot(data=shuffed_data,
                 x='yd_div',
@@ -121,7 +210,7 @@ def plot_fig3():
                 label='NULLMODEL',
                 color='c',
                 ls='--',
-                lw=2)
+                lw=3)
 
     ax.set_xlabel('freshness diversity')
 
@@ -132,17 +221,18 @@ def plot_fig3():
     ])
 
     axb = axes[0][1]
-    sns.lineplot(data=shuffed_data,
-                 x='year',
-                 y='_yd_div',
-                 ax=axb,
-                 ci=None,
-                 hue_order=[
-                     'Arts & Humanities', 'Clinical Pre-Clinical & Health',
-                     'Engineering & Technology', 'Life Sciences',
-                     'Physical Sciences', 'Social Sciences'
-                 ],
-                 hue='subj')
+    # sns.lineplot(data=shuffed_data,
+    #              x='year',
+    #              y='_yd_div',
+    #              ax=axb,
+    #              ci=None,
+    #              hue_order=[
+    #                  'Arts & Humanities', 'Clinical Pre-Clinical & Health',
+    #                  'Engineering & Technology', 'Life Sciences',
+    #                  'Physical Sciences', 'Social Sciences'
+    #              ],
+    #              hue='subj')
+    plot_line_with_norm(shuffed_data, 'year', '_yd_div', axb, True)
 
     sns.lineplot(data=shuffed_data,
                  x='year',
@@ -151,7 +241,7 @@ def plot_fig3():
                  ci=None,
                  label='ALL',
                  color='blue',
-                 lw='2')
+                 lw=3)
     sns.lineplot(data=shuffed_data,
                  x='year',
                  y='yd_div',
@@ -160,36 +250,32 @@ def plot_fig3():
                  label='NULLMODEL',
                  color='c',
                  ls='--',
-                 lw='2')
+                 lw=3)
 
     axb.set_xlabel('year')
     axb.set_ylabel('freshness diversity')
 
     axc = axes[1][0]
 
+    plot_line_with_norm(shuffed_data, 'c10', '_yd_div', axc, True)
+
     sns.lineplot(data=shuffed_data,
                  x='c10',
                  y='_yd_div',
                  ax=axc,
                  ci=None,
-                 hue_order=[
-                     'Arts & Humanities', 'Clinical Pre-Clinical & Health',
-                     'Engineering & Technology', 'Life Sciences',
-                     'Physical Sciences', 'Social Sciences'
-                 ],
-                 hue='subj')
-    sns.lineplot(data=shuffed_data,
-                 x='c10',
-                 y='_yd_div',
-                 ax=axc,
-                 ci=None,
-                 label='ALL')
+                 label='ALL',
+                 c='blue',
+                 lw=3)
     sns.lineplot(data=shuffed_data,
                  x='c10',
                  y='yd_div',
                  ax=axc,
                  ci=None,
-                 label='NULLMODEL')
+                 label='NULLMODEL',
+                 color='c',
+                 lw=3,
+                 ls='--')
 
     axc.set_xlabel('$c_{10}$')
     axc.set_ylabel('freshness diversity')
@@ -198,29 +284,36 @@ def plot_fig3():
 
     axc = axes[1][1]
 
+    # sns.lineplot(data=shuffed_data,
+    #              x='c5',
+    #              y='_yd_div',
+    #              ax=axc,
+    #              hue='subj',
+    #              ci=None,
+    #              hue_order=[
+    #                  'Arts & Humanities', 'Clinical Pre-Clinical & Health',
+    #                  'Engineering & Technology', 'Life Sciences',
+    #                  'Physical Sciences', 'Social Sciences'
+    #              ])
+    plot_line_with_norm(shuffed_data, 'c5', '_yd_div', axc, True)
+
     sns.lineplot(data=shuffed_data,
                  x='c5',
                  y='_yd_div',
                  ax=axc,
-                 hue='subj',
                  ci=None,
-                 hue_order=[
-                     'Arts & Humanities', 'Clinical Pre-Clinical & Health',
-                     'Engineering & Technology', 'Life Sciences',
-                     'Physical Sciences', 'Social Sciences'
-                 ])
-    sns.lineplot(data=shuffed_data,
-                 x='c5',
-                 y='_yd_div',
-                 ax=axc,
-                 ci=None,
-                 label='ALL')
+                 label='ALL',
+                 color='blue',
+                 lw=3)
     sns.lineplot(data=shuffed_data,
                  x='c5',
                  y='yd_div',
                  ax=axc,
                  ci=None,
-                 label='NULLMODEL')
+                 label='NULLMODEL',
+                 lw=3,
+                 ls='--',
+                 color='c')
 
     axc.set_xlabel('$c_5$')
     axc.set_ylabel('freshness diversity')
