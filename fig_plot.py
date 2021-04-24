@@ -153,6 +153,9 @@ def plot_line_with_norm(data, x, y, ax, smooth=False):
             ys.append(y)
         # 把之前的消除了
 
+        print(xs)
+        print(ys)
+
         ax.clear()
 
         for i, x in enumerate(xs):
