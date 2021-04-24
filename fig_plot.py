@@ -165,7 +165,7 @@ def plot_line_with_norm(data, x, y, ax, smooth=False):
             if len(x) == 0:
                 continue
 
-            xi, yi = zip(*lowess(y, x, frac=0.5, it=0))
+            xi, yi = zip(*lowess(y, x, frac=0.3, it=0))
 
             ax.plot(xi, yi, label=labels[i])
 
@@ -174,7 +174,7 @@ def plot_line_with_norm(data, x, y, ax, smooth=False):
 # B FD 随着时间的变化
 # C FD 与C5的相关关系
 # D FD与C10的关系
-def plot_fig3():
+def plot_fig3(attrName='yd_div'):
     shuffed_data = pd.read_csv('data/new_shuffled_yd_lines.csv')
     # data = shuffed_data = pd.read_csv('data/ALL_attrs.txt', error_bad_lines=False)
 
@@ -185,7 +185,7 @@ def plot_fig3():
     ax = axes[0][0]
     # CDF分布
     sns.kdeplot(data=shuffed_data,
-                x='_yd_div',
+                x='_{:}'.format(attrName),
                 ax=ax,
                 cumulative=True,
                 hue='subj',
@@ -200,7 +200,7 @@ def plot_fig3():
 
     # 所有的分布
     sns.kdeplot(data=shuffed_data,
-                x='_yd_div',
+                x='_{:}'.format(attrName),
                 ax=ax,
                 cumulative=True,
                 fill=False,
@@ -209,7 +209,7 @@ def plot_fig3():
                 lw=3)
 
     sns.kdeplot(data=shuffed_data,
-                x='yd_div',
+                x='{:}'.format(attrName),
                 ax=ax,
                 cumulative=True,
                 fill=False,
@@ -229,7 +229,7 @@ def plot_fig3():
     axb = axes[0][1]
     sns.lineplot(data=shuffed_data,
                  x='year',
-                 y='_yd_div',
+                 y='_{:}'.format(attrName),
                  ax=axb,
                  ci=None,
                  hue_order=[
@@ -238,11 +238,11 @@ def plot_fig3():
                      'Physical Sciences', 'Social Sciences'
                  ],
                  hue='subj')
-    # plot_line_with_norm(shuffed_data, 'year', '_yd_div', axb, True)
+    # plot_line_with_norm(shuffed_data, 'year', '_{:}'.format(attrName), axb, True)
 
     sns.lineplot(data=shuffed_data,
                  x='year',
-                 y='_yd_div',
+                 y='_{:}'.format(attrName),
                  ax=axb,
                  ci=None,
                  label='ALL',
@@ -250,7 +250,7 @@ def plot_fig3():
                  lw=3)
     sns.lineplot(data=shuffed_data,
                  x='year',
-                 y='yd_div',
+                 y='{:}'.format(attrName),
                  ax=axb,
                  ci=None,
                  label='NULLMODEL',
@@ -262,13 +262,16 @@ def plot_fig3():
     axb.set_ylabel('freshness diversity')
     axb.set_ylim(0.1, 0.5)
 
+    axb.legend()
+
     axc = axes[1][0]
 
-    plot_line_with_norm(shuffed_data, 'c10', '_yd_div', axc, True)
+    plot_line_with_norm(shuffed_data, 'c10', '_{:}'.format(attrName), axc,
+                        True)
 
     # sns.lineplot(data=shuffed_data,
     #              x='c10',
-    #              y='_yd_div',
+    #              y='_{:}'.format(attrName),
     #              ax=axc,
     #              ci=None,
     #              label='ALL',
@@ -276,19 +279,25 @@ def plot_fig3():
     #              lw=3)
     # sns.lineplot(data=shuffed_data,
     #              x='c10',
-    #              y='yd_div',
+    #              y='{:}'.format(attrName),
     #              ax=axc,
     #              ci=None,
     #              label='NULLMODEL',
     #              color='c',
     #              lw=3,
     #              ls='--')
-    xi, yi = zip(
-        *lowess(shuffed_data['_yd_div'], shuffed_data['c10'], frac=0.5, it=0))
+    xi, yi = zip(*lowess(shuffed_data['_{:}'.format(attrName)],
+                         shuffed_data['c10'],
+                         frac=0.3,
+                         it=0))
     axc.plot(xi, yi, label='ALL', c='blue', lw=2)
-    xi, yi = zip(
-        *lowess(shuffed_data['yd_div'], shuffed_data['c10'], frac=0.5, it=0))
+    xi, yi = zip(*lowess(shuffed_data['{:}'.format(attrName)],
+                         shuffed_data['c10'],
+                         frac=0.3,
+                         it=0))
     axc.plot(xi, yi, label='NULLMODEL', c='blue', lw=2)
+
+    axc.legend()
 
     axc.set_xlabel('$c_{10}$')
     axc.set_ylabel('freshness diversity')
@@ -299,7 +308,7 @@ def plot_fig3():
 
     # sns.lineplot(data=shuffed_data,
     #              x='c5',
-    #              y='_yd_div',
+    #              y='_{:}'.format(attrName),
     #              ax=axc,
     #              hue='subj',
     #              ci=None,
@@ -308,18 +317,22 @@ def plot_fig3():
     #                  'Engineering & Technology', 'Life Sciences',
     #                  'Physical Sciences', 'Social Sciences'
     #              ])
-    plot_line_with_norm(shuffed_data, 'c5', '_yd_div', axc, True)
+    plot_line_with_norm(shuffed_data, 'c5', '_{:}'.format(attrName), axc, True)
 
-    xi, yi = zip(
-        *lowess(shuffed_data['_yd_div'], shuffed_data['c5'], frac=0.5, it=0))
+    xi, yi = zip(*lowess(shuffed_data['_{:}'.format(attrName)],
+                         shuffed_data['c5'],
+                         frac=0.3,
+                         it=0))
     axc.plot(xi, yi, label='ALL', c='blue', lw=2)
-    xi, yi = zip(
-        *lowess(shuffed_data['yd_div'], shuffed_data['c5'], frac=0.5, it=0))
+    xi, yi = zip(*lowess(shuffed_data['{:}'.format(attrName)],
+                         shuffed_data['c5'],
+                         frac=0.3,
+                         it=0))
     axc.plot(xi, yi, label='NULLMODEL', c='blue', lw=2)
 
     # sns.lineplot(data=shuffed_data,
     #              x='c5',
-    #              y='_yd_div',
+    #              y='_{:}'.format(attrName),
     #              ax=axc,
     #              ci=None,
     #              label='ALL',
@@ -327,7 +340,7 @@ def plot_fig3():
     #              lw=3)
     # sns.lineplot(data=shuffed_data,
     #              x='c5',
-    #              y='yd_div',
+    #              y='{:}'.format(attrName),
     #              ax=axc,
     #              ci=None,
     #              label='NULLMODEL',
@@ -340,10 +353,12 @@ def plot_fig3():
 
     axc.set_xscale('log')
 
+    axc.legend()
+
     plt.tight_layout()
 
-    plt.savefig('fig/fig3.png', dpi=400)
-    logging.info('fig saved to fig/fig3.png.')
+    plt.savefig('fig/fig_{:}.png'.format(attrName), dpi=400)
+    logging.info(f'fig saved to fig/fig_{attrName}.png.')
 
 
 if __name__ == '__main__':
