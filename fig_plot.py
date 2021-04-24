@@ -162,6 +162,9 @@ def plot_line_with_norm(data, x, y, ax, smooth=False):
 
             y = ys[i]
 
+            if len(x) == 0:
+                continue
+
             xi, yi = zip(*lowess(y, x, frac=0.8, it=0))
 
             ax.plot(xi, yi, label=labels[i])
