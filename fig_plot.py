@@ -219,11 +219,11 @@ def plot_fig3(attrName='yd_div'):
                 lw=3)
 
     if attrName == 'yd_div':
-        axc.set_ylabel('freshness diversity')
+        ax.set_ylabel('freshness diversity')
     elif attrName == 'subj_div':
-        axc.set_ylabel('subject diversity')
+        ax.set_ylabel('subject diversity')
     elif attrName == 'c10':
-        axc.set_ylabel('impact diversity')
+        ax.set_ylabel('impact diversity')
 
     ax.legend(labels=[
         'Arts & Humanities', 'Clinical Pre-Clinical & Health',
