@@ -309,6 +309,8 @@ def plot_fig3(attrName='yd_div'):
                          it=0))
     axc.plot(xi, yi, label='NULLMODEL', c='c', lw=2, ls='--')
 
+    axc.set_xlim(1, 5 * 10**4)
+
     axc.legend()
 
     axc.set_xlabel('$c_{10}$')
@@ -346,6 +348,8 @@ def plot_fig3(attrName='yd_div'):
                          frac=0.3,
                          it=0))
     axc.plot(xi, yi, label='NULLMODEL', c='c', lw=2, ls='--')
+
+    axc.set_xlim(2, 10**4)
 
     # sns.lineplot(data=shuffed_data,
     #              x='c5',
