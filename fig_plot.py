@@ -386,8 +386,8 @@ def plot_fig3(attrName='yd_div'):
 if __name__ == '__main__':
     # plot_fig2()
 
-    plot_fig3('yd_div')
-    plot_fig3('c10_div')
-    plot_fig3('subj_div')
+    # plot_fig3('yd_div')
+    # plot_fig3('c10_div')
+    # plot_fig3('subj_div')
 
-    # replace_subj(sys.argv[1])
+    replace_subj(sys.argv[1])
