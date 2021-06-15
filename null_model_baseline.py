@@ -191,6 +191,6 @@ def plot_attrs():
 
 
 if __name__ == "__main__":
-    shuffle_year_refs()
+    # shuffle_year_refs()
 
     plot_attrs()
