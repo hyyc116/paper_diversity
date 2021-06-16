@@ -268,13 +268,13 @@ def plot_fig3(attrName='yd_div'):
     axb.set_xlabel('year')
     if attrName == 'yd_div':
         axb.set_ylabel('freshness diversity')
-        axb.set_ylim(0.1, 0.8)
+        # axb.set_ylim(0.1, 0.8)
 
     elif attrName == 'subj_div':
         axb.set_ylabel('subject diversity')
     elif attrName == 'c10_div':
         axb.set_ylabel('impact diversity')
-        axb.set_ylim(0.1, 0.5)
+        # axb.set_ylim(0.1, 0.5)
 
     axb.legend()
 
@@ -393,7 +393,7 @@ if __name__ == '__main__':
     # plot_fig2()
 
     plot_fig3('yd_div')
-    # plot_fig3('c10_div')
-    # plot_fig3('subj_div')
+    plot_fig3('c10_div')
+    plot_fig3('subj_div')
 
     # replace_subj(sys.argv[1])
