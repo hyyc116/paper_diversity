@@ -219,11 +219,13 @@ def plot_fig3(attrName='yd_div'):
                 lw=3)
 
     if attrName == 'yd_div':
-        ax.set_ylabel('freshness diversity')
+        ax.set_xlabel('freshness diversity')
     elif attrName == 'subj_div':
-        ax.set_ylabel('subject diversity')
-    elif attrName == 'c10':
-        ax.set_ylabel('impact diversity')
+        ax.set_xlabel('subject diversity')
+    elif attrName == 'c10_div':
+        ax.set_xlabel('impact diversity')
+
+    ax.set_ylabel('probability')
 
     ax.legend(labels=[
         'Arts & Humanities', 'Clinical Pre-Clinical & Health',
@@ -270,7 +272,7 @@ def plot_fig3(attrName='yd_div'):
 
     elif attrName == 'subj_div':
         axb.set_ylabel('subject diversity')
-    elif attrName == 'c10':
+    elif attrName == 'c10_div':
         axb.set_ylabel('impact diversity')
         axb.set_ylim(0.1, 0.5)
 
@@ -318,7 +320,7 @@ def plot_fig3(attrName='yd_div'):
         axc.set_ylabel('freshness diversity')
     elif attrName == 'subj_div':
         axc.set_ylabel('subject diversity')
-    elif attrName == 'c10':
+    elif attrName == 'c10_div':
         axc.set_ylabel('impact diversity')
 
     axc.set_xscale('log')
@@ -374,7 +376,7 @@ def plot_fig3(attrName='yd_div'):
         axc.set_ylabel('freshness diversity')
     elif attrName == 'subj_div':
         axc.set_ylabel('subject diversity')
-    elif attrName == 'c10':
+    elif attrName == 'c10_div':
         axc.set_ylabel('impact diversity')
 
     axc.set_xscale('log')
