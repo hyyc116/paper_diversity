@@ -177,7 +177,7 @@ def plot_line_with_norm(data, x, y, ax, smooth=False):
 def plot_fig3(attrName='yd_div', shuffed_data=None):
     # data = shuffed_data = pd.read_csv('data/ALL_attrs.txt', error_bad_lines=False)
 
-    _, axes = plt.subplots(4, 1, figsize=(5, 18))
+    _, axes = plt.subplots(4, 1, figsize=(10, 36))
 
     sns.set_theme(style="ticks")
 
