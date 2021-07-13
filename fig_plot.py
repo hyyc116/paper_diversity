@@ -178,7 +178,7 @@ def plot_fig3(attrName='yd_div'):
     shuffed_data = pd.read_csv('data/new_shuffled_yd_lines.csv')
     # data = shuffed_data = pd.read_csv('data/ALL_attrs.txt', error_bad_lines=False)
 
-    _, axes = plt.subplots(2, 2, figsize=(20, 16))
+    _, axes = plt.subplots(2, 2, figsize=(15, 12))
 
     sns.set_theme(style="ticks")
 
