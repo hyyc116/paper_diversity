@@ -396,8 +396,8 @@ if __name__ == '__main__':
 
     shuffed_data = pd.read_csv('data/new_shuffled_yd_lines.csv')
 
-    plot_fig3('yd_div', shuffed_data)
+    # plot_fig3('yd_div', shuffed_data)
     plot_fig3('c10_div', shuffed_data)
-    plot_fig3('subj_div', shuffed_data)
+    # plot_fig3('subj_div', shuffed_data)
 
     # replace_subj(sys.argv[1])
