@@ -177,11 +177,11 @@ def plot_line_with_norm(data, x, y, ax, smooth=False):
 def plot_fig3(attrName='yd_div', shuffed_data=None):
     # data = shuffed_data = pd.read_csv('data/ALL_attrs.txt', error_bad_lines=False)
 
-    _, axes = plt.subplots(4, 1, figsize=(10, 36))
+    _, axes = plt.subplots(2, 2, figsize=(25, 20))
 
     sns.set_theme(style="ticks")
 
-    ax = axes[0]
+    ax = axes[0][0]
     # CDF分布
     sns.kdeplot(data=shuffed_data,
                 x='_{:}'.format(attrName),
@@ -225,7 +225,9 @@ def plot_fig3(attrName='yd_div', shuffed_data=None):
 
     ax.set_ylabel('probability')
 
-    axb = axes[1]
+    ax.legend()
+
+    axb = axes[0][1]
     sns.lineplot(data=shuffed_data,
                  x='year',
                  y='_{:}'.format(attrName),
@@ -259,19 +261,19 @@ def plot_fig3(attrName='yd_div', shuffed_data=None):
     axb.set_xlabel('year')
     if attrName == 'yd_div':
         axb.set_ylabel('freshness diversity')
-        axb.set_ylim(0.2, 0.5)
+        axb.set_ylim(0.2, 0.6)
 
     elif attrName == 'subj_div':
         axb.set_ylabel('subject diversity')
-        axb.set_ylim(0, 0.03)
+        axb.set_ylim(0, 0.04)
 
     elif attrName == 'c10_div':
         axb.set_ylabel('impact diversity')
-        axb.set_ylim(0.3, 0.7)
+        axb.set_ylim(0.2, 0.7)
 
-    # axb.legend()
+    axb.legend()
 
-    axc = axes[2]
+    axc = axes[1][0]
 
     plot_line_with_norm(shuffed_data, 'c10', '_{:}'.format(attrName), axc,
                         True)
@@ -306,23 +308,23 @@ def plot_fig3(attrName='yd_div', shuffed_data=None):
 
     axc.set_xlim(1, 5 * 10**4)
 
-    # axc.legend()
+    axc.legend()
 
     axc.set_xlabel('$c_{10}$')
     if attrName == 'yd_div':
         axc.set_ylabel('freshness diversity')
-        axc.set_ylim(0.2, 0.5)
+        axc.set_ylim(0.2, 0.6)
     elif attrName == 'subj_div':
         axc.set_ylabel('subject diversity')
-        axc.set_ylim(0, 0.03)
+        axc.set_ylim(0, 0.04)
 
     elif attrName == 'c10_div':
         axc.set_ylabel('impact diversity')
-        axc.set_ylim(0.3, 0.7)
+        axc.set_ylim(0.2, 0.7)
 
     axc.set_xscale('log')
 
-    axc = axes[3]
+    axc = axes[1][1]
 
     # sns.lineplot(data=shuffed_data,
     #              x='c5',
@@ -371,26 +373,17 @@ def plot_fig3(attrName='yd_div', shuffed_data=None):
     axc.set_xlabel('$c_5$')
     if attrName == 'yd_div':
         axc.set_ylabel('freshness diversity')
-        axc.set_ylim(0.2, 0.5)
+        axc.set_ylim(0.2, 0.6)
     elif attrName == 'subj_div':
         axc.set_ylabel('subject diversity')
-        axc.set_ylim(0, 0.03)
+        axc.set_ylim(0, 0.04)
     elif attrName == 'c10_div':
         axc.set_ylabel('impact diversity')
-        axc.set_ylim(0.3, 0.7)
+        axc.set_ylim(0.2, 0.7)
 
     axc.set_xscale('log')
 
-    # axc.legend()
-
-    axc.legend(labels=[
-        'Arts & Humanities', 'Clinical Pre-Clinical & Health',
-        'Engineering & Technology', 'Life Sciences', 'Physical Sciences',
-        'Social Sciences', 'ALL', 'NULLMODEL'
-    ],
-               bbox_to_anchor=(0.5, -0.2),
-               loc='center',
-               ncol=4)
+    axc.legend()
 
     plt.tight_layout()
 
