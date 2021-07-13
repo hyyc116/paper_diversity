@@ -214,9 +214,8 @@ def plot_fig3(attrName='yd_div'):
                 cumulative=True,
                 fill=False,
                 label='NULLMODEL',
-                color='c',
-                ls='--',
-                lw=3)
+                color='r',
+                lw=4)
 
     if attrName == 'yd_div':
         ax.set_xlabel('freshness diversity')
@@ -261,9 +260,8 @@ def plot_fig3(attrName='yd_div'):
                  ax=axb,
                  ci=None,
                  label='NULLMODEL',
-                 color='c',
-                 ls='--',
-                 lw=3)
+                 color='r',
+                 lw=4)
 
     axb.set_xlabel('year')
     if attrName == 'yd_div':
@@ -272,6 +270,8 @@ def plot_fig3(attrName='yd_div'):
 
     elif attrName == 'subj_div':
         axb.set_ylabel('subject diversity')
+        axb.set_ylim(0, 0.03)
+
     elif attrName == 'c10_div':
         axb.set_ylabel('impact diversity')
         axb.set_ylim(0.3, 0.7)
@@ -309,7 +309,7 @@ def plot_fig3(attrName='yd_div'):
                          shuffed_data['c10'],
                          frac=0.3,
                          it=0))
-    axc.plot(xi, yi, label='NULLMODEL', c='c', lw=2, ls='--')
+    axc.plot(xi, yi, label='NULLMODEL', c='r', lw=4)
 
     axc.set_xlim(1, 5 * 10**4)
 
@@ -318,10 +318,14 @@ def plot_fig3(attrName='yd_div'):
     axc.set_xlabel('$c_{10}$')
     if attrName == 'yd_div':
         axc.set_ylabel('freshness diversity')
+        axc.set_ylim(0.2, 0.5)
     elif attrName == 'subj_div':
         axc.set_ylabel('subject diversity')
+        axc.set_ylim(0, 0.03)
+
     elif attrName == 'c10_div':
         axc.set_ylabel('impact diversity')
+        axc.set_ylim(0.3, 0.7)
 
     axc.set_xscale('log')
 
@@ -349,7 +353,7 @@ def plot_fig3(attrName='yd_div'):
                          shuffed_data['c5'],
                          frac=0.3,
                          it=0))
-    axc.plot(xi, yi, label='NULLMODEL', c='c', lw=2, ls='--')
+    axc.plot(xi, yi, label='NULLMODEL', c='r', lw=4)
 
     axc.set_xlim(2, 10**4)
 
@@ -374,10 +378,13 @@ def plot_fig3(attrName='yd_div'):
     axc.set_xlabel('$c_5$')
     if attrName == 'yd_div':
         axc.set_ylabel('freshness diversity')
+        axc.set_ylim(0.2, 0.5)
     elif attrName == 'subj_div':
         axc.set_ylabel('subject diversity')
+        axc.set_ylim(0, 0.03)
     elif attrName == 'c10_div':
         axc.set_ylabel('impact diversity')
+        axc.set_ylim(0.3, 0.7)
 
     axc.set_xscale('log')
 
