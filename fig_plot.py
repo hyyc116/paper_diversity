@@ -178,11 +178,11 @@ def plot_fig3(attrName='yd_div'):
     shuffed_data = pd.read_csv('data/new_shuffled_yd_lines.csv')
     # data = shuffed_data = pd.read_csv('data/ALL_attrs.txt', error_bad_lines=False)
 
-    _, axes = plt.subplots(2, 2, figsize=(15, 12))
+    _, axes = plt.subplots(4, 1, figsize=(5, 18))
 
     sns.set_theme(style="ticks")
 
-    ax = axes[0][0]
+    ax = axes[0]
     # CDF分布
     sns.kdeplot(data=shuffed_data,
                 x='_{:}'.format(attrName),
@@ -226,13 +226,7 @@ def plot_fig3(attrName='yd_div'):
 
     ax.set_ylabel('probability')
 
-    ax.legend(labels=[
-        'Arts & Humanities', 'Clinical Pre-Clinical & Health',
-        'Engineering & Technology', 'Life Sciences', 'Physical Sciences',
-        'Social Sciences', 'ALL', 'NULLMODEL'
-    ])
-
-    axb = axes[0][1]
+    axb = axes[1]
     sns.lineplot(data=shuffed_data,
                  x='year',
                  y='_{:}'.format(attrName),
@@ -276,9 +270,9 @@ def plot_fig3(attrName='yd_div'):
         axb.set_ylabel('impact diversity')
         axb.set_ylim(0.3, 0.7)
 
-    axb.legend()
+    # axb.legend()
 
-    axc = axes[1][0]
+    axc = axes[2]
 
     plot_line_with_norm(shuffed_data, 'c10', '_{:}'.format(attrName), axc,
                         True)
@@ -313,7 +307,7 @@ def plot_fig3(attrName='yd_div'):
 
     axc.set_xlim(1, 5 * 10**4)
 
-    axc.legend()
+    # axc.legend()
 
     axc.set_xlabel('$c_{10}$')
     if attrName == 'yd_div':
@@ -329,7 +323,7 @@ def plot_fig3(attrName='yd_div'):
 
     axc.set_xscale('log')
 
-    axc = axes[1][1]
+    axc = axes[3]
 
     # sns.lineplot(data=shuffed_data,
     #              x='c5',
@@ -388,7 +382,16 @@ def plot_fig3(attrName='yd_div'):
 
     axc.set_xscale('log')
 
-    axc.legend()
+    # axc.legend()
+
+    axc.legend(labels=[
+        'Arts & Humanities', 'Clinical Pre-Clinical & Health',
+        'Engineering & Technology', 'Life Sciences', 'Physical Sciences',
+        'Social Sciences', 'ALL', 'NULLMODEL'
+    ],
+               bbox_to_anchor=(0.5, -0.2),
+               loc='center',
+               ncol=4)
 
     plt.tight_layout()
 
