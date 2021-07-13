@@ -174,8 +174,7 @@ def plot_line_with_norm(data, x, y, ax, smooth=False):
 # B FD 随着时间的变化
 # C FD 与C5的相关关系
 # D FD与C10的关系
-def plot_fig3(attrName='yd_div'):
-    shuffed_data = pd.read_csv('data/new_shuffled_yd_lines.csv')
+def plot_fig3(attrName='yd_div', shuffed_data=None):
     # data = shuffed_data = pd.read_csv('data/ALL_attrs.txt', error_bad_lines=False)
 
     _, axes = plt.subplots(4, 1, figsize=(5, 18))
@@ -402,8 +401,10 @@ def plot_fig3(attrName='yd_div'):
 if __name__ == '__main__':
     # plot_fig2()
 
-    plot_fig3('yd_div')
-    plot_fig3('c10_div')
-    plot_fig3('subj_div')
+    shuffed_data = pd.read_csv('data/new_shuffled_yd_lines.csv')
+
+    plot_fig3('yd_div', shuffed_data)
+    plot_fig3('c10_div', shuffed_data)
+    plot_fig3('subj_div', shuffed_data)
 
     # replace_subj(sys.argv[1])
