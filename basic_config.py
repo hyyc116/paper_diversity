@@ -68,7 +68,7 @@ params = {
     'xtick.labelsize': 25,
     'ytick.labelsize': 25
 }
-pylab.rcParams.update(params)
+mpl.rcParams.update(params)
 
 # from paths import *
 
