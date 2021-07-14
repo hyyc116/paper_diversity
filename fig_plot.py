@@ -233,7 +233,7 @@ def plot_fig3(attrName='yd_div', shuffed_data=None):
         'Engineering & Technology', 'Life Sciences', 'Physical Sciences',
         'Social Sciences', 'ALL', 'NULLMODEL'
     ],
-              prop={'size': 30})
+              prop={'size': 20})
 
     axb = axes[0][1]
     sns.lineplot(data=shuffed_data,
@@ -282,7 +282,12 @@ def plot_fig3(attrName='yd_div', shuffed_data=None):
     axb.tick_params(axis='x', labelsize=20)
     axb.tick_params(axis='y', labelsize=20)
 
-    axb.legend()
+    axb.legend(labels=[
+        'Arts & Humanities', 'Clinical Pre-Clinical & Health',
+        'Engineering & Technology', 'Life Sciences', 'Physical Sciences',
+        'Social Sciences', 'ALL', 'NULLMODEL'
+    ],
+               prop={'size': 20})
 
     axc = axes[1][0]
 
@@ -319,7 +324,12 @@ def plot_fig3(attrName='yd_div', shuffed_data=None):
 
     axc.set_xlim(1, 5 * 10**4)
 
-    axc.legend()
+    axc.legend(labels=[
+        'Arts & Humanities', 'Clinical Pre-Clinical & Health',
+        'Engineering & Technology', 'Life Sciences', 'Physical Sciences',
+        'Social Sciences', 'ALL', 'NULLMODEL'
+    ],
+               prop={'size': 20})
 
     axc.set_xlabel('$c_{10}$')
     if attrName == 'yd_div':
@@ -398,11 +408,16 @@ def plot_fig3(attrName='yd_div', shuffed_data=None):
     axc.tick_params(axis='x', labelsize=20)
     axc.tick_params(axis='y', labelsize=20)
 
-    axc.legend()
+    axc.legend(labels=[
+        'Arts & Humanities', 'Clinical Pre-Clinical & Health',
+        'Engineering & Technology', 'Life Sciences', 'Physical Sciences',
+        'Social Sciences', 'ALL', 'NULLMODEL'
+    ],
+               prop={'size': 20})
 
     plt.tight_layout()
 
-    plt.savefig('fig/fig_{:}.png'.format(attrName), dpi=400)
+    plt.savefig('fig/fig_{:}.png'.format(attrName), dpi=600)
     logging.info(f'fig saved to fig/fig_{attrName}.png.')
 
 
