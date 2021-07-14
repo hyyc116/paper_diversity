@@ -396,5 +396,5 @@ if __name__ == '__main__':
         plot_fig3('yd_div', shuffed_data)
     elif sys.argv[1] == '2':
         plot_fig3('c10_div', shuffed_data)
-    elif sys.argv[2] == '3':
+    elif sys.argv[1] == '3':
         plot_fig3('subj_div', shuffed_data)
