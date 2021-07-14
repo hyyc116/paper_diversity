@@ -233,7 +233,7 @@ def plot_fig3(attrName='yd_div', shuffed_data=None):
         'Engineering & Technology', 'Life Sciences', 'Physical Sciences',
         'Social Sciences', 'ALL', 'NULLMODEL'
     ],
-              prop={'size': 20})
+              prop={'size': 17})
 
     axb = axes[0][1]
     sns.lineplot(data=shuffed_data,
@@ -287,7 +287,7 @@ def plot_fig3(attrName='yd_div', shuffed_data=None):
         'Engineering & Technology', 'Life Sciences', 'Physical Sciences',
         'Social Sciences', 'ALL', 'NULLMODEL'
     ],
-               prop={'size': 20})
+               prop={'size': 17})
 
     axc = axes[1][0]
 
@@ -329,7 +329,8 @@ def plot_fig3(attrName='yd_div', shuffed_data=None):
         'Engineering & Technology', 'Life Sciences', 'Physical Sciences',
         'Social Sciences', 'ALL', 'NULLMODEL'
     ],
-               prop={'size': 20})
+               prop={'size': 17},
+               loc=2)
 
     axc.set_xlabel('$c_{10}$')
     if attrName == 'yd_div':
@@ -413,7 +414,8 @@ def plot_fig3(attrName='yd_div', shuffed_data=None):
         'Engineering & Technology', 'Life Sciences', 'Physical Sciences',
         'Social Sciences', 'ALL', 'NULLMODEL'
     ],
-               prop={'size': 20})
+               prop={'size': 17},
+               loc=2)
 
     plt.tight_layout()
 
