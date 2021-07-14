@@ -225,6 +225,16 @@ def plot_fig3(attrName='yd_div', shuffed_data=None):
 
     ax.set_ylabel('probability')
 
+    ax.tick_params(axis='x', labelsize=20)
+    ax.tick_params(axis='y', labelsize=20)
+
+    ax.legend(labels=[
+        'Arts & Humanities', 'Clinical Pre-Clinical & Health',
+        'Engineering & Technology', 'Life Sciences', 'Physical Sciences',
+        'Social Sciences', 'ALL', 'NULLMODEL'
+    ],
+              prop={'size': 30})
+
     axb = axes[0][1]
     sns.lineplot(data=shuffed_data,
                  x='year',
@@ -268,6 +278,9 @@ def plot_fig3(attrName='yd_div', shuffed_data=None):
     elif attrName == 'c10_div':
         axb.set_ylabel('impact diversity')
         axb.set_ylim(0.2, 0.7)
+
+    axb.tick_params(axis='x', labelsize=20)
+    axb.tick_params(axis='y', labelsize=20)
 
     axb.legend()
 
@@ -321,6 +334,8 @@ def plot_fig3(attrName='yd_div', shuffed_data=None):
         axc.set_ylim(0.2, 0.7)
 
     axc.set_xscale('log')
+    axc.tick_params(axis='x', labelsize=20)
+    axc.tick_params(axis='y', labelsize=20)
 
     axc = axes[1][1]
 
@@ -380,6 +395,8 @@ def plot_fig3(attrName='yd_div', shuffed_data=None):
         axc.set_ylim(0.2, 0.7)
 
     axc.set_xscale('log')
+    axc.tick_params(axis='x', labelsize=20)
+    axc.tick_params(axis='y', labelsize=20)
 
     axc.legend()
 
