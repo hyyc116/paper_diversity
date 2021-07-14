@@ -225,8 +225,6 @@ def plot_fig3(attrName='yd_div', shuffed_data=None):
 
     ax.set_ylabel('probability')
 
-    ax.legend()
-
     axb = axes[0][1]
     sns.lineplot(data=shuffed_data,
                  x='year',
@@ -392,12 +390,11 @@ def plot_fig3(attrName='yd_div', shuffed_data=None):
 
 
 if __name__ == '__main__':
-    # plot_fig2()
-
     shuffed_data = pd.read_csv('data/new_shuffled_yd_lines.csv')
 
-    # plot_fig3('yd_div', shuffed_data)
-    plot_fig3('c10_div', shuffed_data)
-    # plot_fig3('subj_div', shuffed_data)
-
-    # replace_subj(sys.argv[1])
+    if sys.argv[1] == '1':
+        plot_fig3('yd_div', shuffed_data)
+    elif sys.argv[1] == '2':
+        plot_fig3('c10_div', shuffed_data)
+    elif sys.argv[2] == '3':
+        plot_fig3('subj_div', shuffed_data)
