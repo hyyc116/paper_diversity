@@ -111,6 +111,8 @@ def paper_control_variables():
     query_op = dbop()
     sql = 'select A.paper_id,A.author_id,A.affiliation_id,B.rank,C.year,C.journal_id from mag_core.paper_author_affiliations as A, mag_core.affiliations as B, mag_core.papers as C where C.paper_id = A.paper_id and A.affiliation_id = B.affiliation_id'
     for pid,auid,affid,affrank,pubyear,pubjournal in query_op.query_database(sql):
+        if pid not in pids:
+            continue
 
         pid_authors[pid].append(auid)
         pid_affs[pid].append(affrank)
@@ -125,7 +127,7 @@ def paper_control_variables():
     auids = set(auids)
     auid_pyears = defaultdict(list) 
     auid_cns = defaultdict(list)
-    sql = 'select A.paper_id, A.year,A.citation_count B.author_id from mag_core.papers as A, mag_core.paper_author_affiliations as B where A.paper_id = B.paper_id'
+    sql = 'select A.paper_id, A.year,A.citation_count,B.author_id from mag_core.papers as A, mag_core.paper_author_affiliations as B where A.paper_id = B.paper_id'
     for pid, year, cn, auid in query_op.query_database(sql):
         if auid in auids:
             auid_pyears[auid].append(int(year))
