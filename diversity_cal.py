@@ -153,9 +153,6 @@ def cal_diversity():
 
             all_subjs = []
 
-
-
-
             for ref_attr in paper_ref_attrs[pid]:
 
                 year,c5,c10,subjs = ref_attr

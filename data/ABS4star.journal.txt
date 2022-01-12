@@ -1,0 +1,117 @@
+jname==star
+Accounting Review==4*
+Accounting, Organizations and Society==4*
+Journal of Accounting and Economics==4*
+Journal of Accounting Research==4*
+Contemporary Accounting Research==4
+Review of Accounting Studies==4
+Business History Review==4
+Economic History Review==4
+American Economic Review==4*
+Annals of Statistics==4*
+Econometrica==4*
+Journal of Political Economy==4*
+Quarterly Journal of Economics==4*
+Review of Economic Studies==4*
+Biometrika==4
+Econometric Theory==4
+Economic Journal==4
+International Economic Review==4
+Journal of Business and Economic Statistics==4
+Journal of Econometrics==4
+Journal of Economic Literature==4
+Journal of Economic Perspectives==4
+Journal of Economic Theory==4
+Journal of International Economics==4
+Journal of Labor Economics==4
+Journal of Monetary Economics==4
+Journal of the American Statistical Association==4
+Journal of the European Economic Association==4
+Journal of the Royal Statistical Society Series B (Methodology)==4
+RAND Journal of Economics==4
+Review of Economics and Statistics==4
+Entrepreneurship, Theory and Practice==4
+Journal of Business Venturing==4
+Strategic Entrepreneurship Journal==4
+Academy of Management Journal==4*
+Academy of Management Review==4*
+Administrative Science Quarterly==4*
+Journal of Management==4*
+Academy of Management Annals==
+British Journal of Management==4
+Business Ethics Quarterly==4
+Journal of Management Studies==4
+Journal of Finance==4*
+Journal of Financial Economics==4*
+Review of Financial Studies==4*
+Journal of Corporate Finance==4
+Journal of Financial and Quantitative Analysis==4
+Journal of Financial Intermediation==4
+Journal of Money, Credit and Banking==4
+Review of Finance (formerly European Finance Review)==4
+British Journal of Industrial Relations==4
+Human Resource Management (USA)==4
+Human Resource Management Journal(UK)==4
+Industrial Relations: A Journal of Economy and Society==4
+Work, Employment and Society==4
+Journal of International Business Studies==4*
+Journal of World Business (formerly Columbia JWB)==4
+Information Systems Research==4*
+MIS Quarterly==4*
+Journal of Management Information Systems==4
+Journal of the Association of Information Systems==4
+Research Policy==4*
+Journal of Product Innovation Management==4
+Academy of Management, Learning and Education==4
+Journal of Consumer Psychology==4*
+Journal of Consumer Research==4*
+Journal of Marketing==4*
+Journal of Marketing Research==4*
+Journal of the Academy of Marketing Science==4*
+Marketing Science==4*
+International Journal of Research in Marketing==4
+Journal of Retailing==4
+Journal of Operations Management==4*
+International Journal of Operations and Production Management==4
+Production and Operations Management==4
+Management Science==4*
+Operations Research==4*
+European Journal of Operational Research==4
+IEEE Transactions on Evolutionary Computation==4
+Mathematical Programming==4
+OR&MANSCI==2
+Organization Science==4*
+Human Relations==4
+Leadership Quarterly==4
+Organization Studies==4
+Organizational Research Methods==4
+Psychological Science==4*
+Annual Review of Psychology==4
+Current Directions in Psychological Science==4
+Journal of Experimental Psychology - Applied==4
+Journal of Experimental Social Psychology==4
+Journal of Personality and Social Psychology==4
+Personality and Social Psychology Bulletin==4
+Psychological Bulletin==4
+Psychological Review==4
+Journal of Applied Psychology==4*
+Journal of Occupational and Organizational Psychology==4
+Journal of Occupational Health Psychology==4
+Journal of Organizational Behavior==4
+Journal of Vocational Behavior==4
+Organizational Behavior and Human Decision Processes==4
+Personnel Psychology==4
+Public Administration Review==4*
+Journal of Public Administration: Research and Theory==4
+Public Administration: An International Quarterly==4
+Environment and Planning A==4
+Environment and Planning D: Society and Space==4
+Annals of Tourism Research==4
+Journal of Service Research==4
+Journal of Travel Research==4
+Tourism Management==4
+Transportation Research Part B: Methodological==4
+American Journal of Sociology==4*
+American Sociological Review==4*
+Annual Review of Sociology==4*
+Economic Geography==4
