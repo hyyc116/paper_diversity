@@ -21,9 +21,9 @@ def filter_4_star_journal():
 
 
 def search_abs_journal_paper():
-    # jnames = set([line.strip().split('==')[0].lower().replace(',','') for line in open('data/ABS4star.journal.txt')])
-    jnames = set([line.strip().split('==')[0]
-                 for line in open('data/ABS4star.journal.txt')])
+    jnames = set([line.strip().split('==')[0].lower().replace(',','') for line in open('data/ABS4star.journal.txt')])
+    # jnames = set([line.strip().split('==')[0]
+                #  for line in open('data/ABS4star.journal.txt')])
 
     query_op = dbop()
     jids = []
