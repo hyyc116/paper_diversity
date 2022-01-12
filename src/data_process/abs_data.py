@@ -27,13 +27,17 @@ def search_abs_journal_paper():
 
     query_op = dbop()
     jids = []
+
+    founded_jnames = []
     sql = 'select journal_id,normalized_name,display_name from mag_core.journals'
     for jid, jname, display_name in query_op.query_database(sql):
 
         if jname in jnames:
             jids.append(jid)
+            founded_jnames.append(display_name)
     
     open('data/abs_jid.txt','w').write('\n'.join(jids))
+    open('data/abs.used_journal.txt','w').write('\n'.join(founded_jnames))
 
     logging.info(f'{len(jnames)} journals in total, found {len(jids)} journals in MAG.')
 
