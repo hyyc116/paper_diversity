@@ -98,7 +98,7 @@ def paper_independent_variables():
 '''
 def paper_control_variables():
 
-    pids = set([line.strip() for line in open('data/abs_pid.txt')])
+    pids = set([line.strip() for line in open('data/abs_pids.txt')])
 
     # 团队大小
     pid_authors = defaultdict(list)
