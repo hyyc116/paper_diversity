@@ -158,8 +158,8 @@ def paper_control_variables():
                     pnum+=1
                     cn+=cns[i]
             # 作者在此之前发表的论文数量及获得的引用总次数
-            pid_author_pnums[auid].append(pnum)
-            pid_author_cns[auid].append(cn)
+            pid_author_pnums[pid].append(pnum)
+            pid_author_cns[pid].append(cn)
     
     logging.info(f'{len(pid_author_ages)} papers age attrs are read.')
 
@@ -173,7 +173,7 @@ def paper_control_variables():
         # 作者研究年龄
         ages = pid_author_ages[pid]
         age_mean = np.mean(ages)
-        age_std = np.mean(ages)
+        age_std = np.std(ages)
         # 作者已发表论文数量
         pnums = pid_author_pnums[pid]
         pnum_mean = np.mean(pnums)
@@ -181,11 +181,11 @@ def paper_control_variables():
         # 作者已发表论文的引用次数
         cns = pid_author_cns[pid]
         cn_mean = np.mean(cns)
-        cn_std = np.mean(cns)
+        cn_std = np.std(cns)
         # 机构ranking
         ranks = pid_affs[pid]
         rank_mean = np.mean(ranks)
-        rank_std = np.mean(ranks)
+        rank_std = np.std(ranks)
         # journal 
         jid = pid_jid[pid]
         # year 
