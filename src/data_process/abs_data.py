@@ -25,7 +25,7 @@ def search_abs_journal_paper():
     query_op = dbop()
     jids = []
     sql = 'select journal_id,normalized_name,display_name from mag_core.journals'
-    for jid,jname in query_op.query_database(sql):
+    for jid, jname, display_name in query_op.query_database(sql):
 
         if jname in jnames:
             jids.append(jid)
