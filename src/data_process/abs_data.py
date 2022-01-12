@@ -1,4 +1,7 @@
 #coding:utf-8
+import sys 
+sys.path.append('src')
+from basic_config import *
 
 def filter_4_star_journal():
     journal_names = ['jname==star']
@@ -17,6 +20,22 @@ def filter_4_star_journal():
     open('data/ABS4star.journal.txt','w').write('\n'.join(journal_names))
 
 
+def search_abs_journal_paper():
+    jnames = set([line.strip().split('==')[0].lower().replace(',','') for line in open('data/ABS4star.journal.txt')])
+    query_op = dbop()
+    jids = []
+    sql = 'select journal_id,normalized_name,display_name from mag_core.journals'
+    for jid,jname in query_op.query_database(sql):
+
+        if jname in jnames:
+            jids.append(jid)
+    
+    open('data/abs_jid.txt','w').write('\n'.join(jids))
+
+    logging.info(f'{len(jnames)} journals in total, found {len(jids)} journals in MAG.')
+
+
 
 if __name__ == "__main__":
-    filter_4_star_journal()
+    # filter_4_star_journal()
+    search_abs_journal_paper()
