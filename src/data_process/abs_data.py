@@ -30,7 +30,7 @@ def search_abs_journal_paper():
     sql = 'select journal_id,normalized_name,display_name from mag_core.journals'
     for jid, jname, display_name in query_op.query_database(sql):
 
-        if display_name in jnames:
+        if jname in jnames:
             jids.append(jid)
     
     open('data/abs_jid.txt','w').write('\n'.join(jids))
