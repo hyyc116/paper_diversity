@@ -8,6 +8,8 @@ from basic_config import *
 
 91本期刊中一种374,838篇论文。
 
+
+
 '''
 
 def filter_4_star_journal():
@@ -204,9 +206,37 @@ def paper_control_variables():
 
 '''
 def paper_dependent_variables():
+    pid_pubyear = json.loads(
+        open('../MAG_data_processing/data/pid_pubyear.json').read())
 
-    pass
+    # 获得abs论文及其参考文献每一年的引用次数
+    abs_pids = set(line.strip().split(",")[0]
+                   for line in open('data/ABS.controlVariables.txt'))
+    
+    logging.info(f'total number of abs ids is {len(abs_pids)}')
 
+    query_op = dbop()
+    sql = "select paper_id,paper_reference_id from mag_core.paper_references"
+
+    all_ids = []
+
+    for pid,ref_id in query_op.query_database(sql):
+        if pid in abs_pids:
+            all_ids.append(pid)
+            all_ids.append(ref_id)
+    
+    all_ids = set(all_ids)
+    logging.info(f'total number of ids is {len(all_ids)}')
+
+    paper_year_citnum = defaultdict(lambda:defaultdict(int))
+
+    for pid, ref_id in query_op.query_database(sql):
+        if ref_id in all_ids:
+            pid_year = int(pid_pubyear[pid])
+            paper_year_citnum[ref_id][pid_year]+=1
+    
+    open('data/ABS.ALLid.year_citnum.json','w').write(json.dumps(paper_year_citnum))
+    logging.info('data saved.')
 
 
 if __name__ == "__main__":
@@ -214,4 +244,6 @@ if __name__ == "__main__":
     # search_abs_journal_paper()
     # get_abs_paper_ids()
 
-    paper_control_variables()
+    # paper_control_variables()
+
+    paper_dependent_variables()
