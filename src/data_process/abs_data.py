@@ -202,7 +202,7 @@ def paper_control_variables():
 '''
 1. citation相关 c_2,c_5,c_10
 2. Disruption相关 d_2,d_5,d_10
-3. Novelty相关 n_2,n_5,n_10
+3. Novelty相关 n_2,n_5,n_10  需要计算n年前参考文献的共被引次数
 
 '''
 def paper_dependent_variables():
@@ -211,7 +211,7 @@ def paper_dependent_variables():
 
     # 获得abs论文及其参考文献每一年的引用次数
     abs_pids = set(line.strip().split(",")[0]
-                   for line in open('data/ABS.controlVariables.txt'))
+                   for line in open('data/ABS.controlVariables.csv'))
     
     logging.info(f'total number of abs ids is {len(abs_pids)}')
 
