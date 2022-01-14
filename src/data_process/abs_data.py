@@ -238,6 +238,8 @@ def paper_dependent_variables():
     # 获得每一篇参考文献每年的引用次数
     paper_year_citnum = defaultdict(lambda:defaultdict(int))
 
+    paper_N_cits = defaultdict(lambda:defaultdict(int))
+
     for pid, ref_id in query_op.query_database(sql):
         if ref_id in all_ids:
             pid_year = int(pid_pubyear[pid])
@@ -257,9 +259,11 @@ def paper_dependent_variables():
                 if int(pyear)-int(refyear) < 10:
                     abs_pid_c10[ref_id] += 1
     
-    open('data/ABS.ALLid.year_citnum.json','w').write(json.dumps(paper_year_citnum))
+    open('data/ABS.paper_c2.json', 'w').write(json.dumps(abs_pid_c2))
+    open('data/ABS.paper_c5.json', 'w').write(json.dumps(abs_pid_c5))
+    open('data/ABS.paper_c10.json', 'w').write(json.dumps(abs_pid_c10))
 
-    open('data/ABS.paperc2.json', 'w').write(json.dumps(abs_pid_c2))
+    open('data/ABS.ALLid.year_citnum.json','w').write(json.dumps(paper_year_citnum))
 
     logging.info('data saved.')
     
