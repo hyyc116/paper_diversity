@@ -1,5 +1,6 @@
 #coding:utf-8
-import sys 
+import sys
+from weakref import ref 
 sys.path.append('src')
 from basic_config import *
 
@@ -8,7 +9,8 @@ from basic_config import *
 
 91本期刊中一种374,838篇论文。
 
-
+198,927
+1,433,193
 
 '''
 
@@ -213,8 +215,12 @@ def paper_dependent_variables():
     abs_pids = set(line.strip().split(",")[0]
                    for line in open('data/ABS.controlVariables.csv'))
     
+    abs_pid_c2 = defaultdict(int)
+    abs_pid_c5 = defaultdict(int)
+    abs_pid_c10 = defaultdict(int)
+    
     logging.info(f'total number of abs ids is {len(abs_pids)}')
-
+    # 获得ABS参考文献的id
     query_op = dbop()
     sql = "select paper_id,paper_reference_id from mag_core.paper_references"
 
@@ -224,20 +230,41 @@ def paper_dependent_variables():
         if pid in abs_pids:
             all_ids.append(pid)
             all_ids.append(ref_id)
+
     
     all_ids = set(all_ids)
     logging.info(f'total number of ids is {len(all_ids)}')
 
+    # 获得每一篇参考文献每年的引用次数
     paper_year_citnum = defaultdict(lambda:defaultdict(int))
 
     for pid, ref_id in query_op.query_database(sql):
         if ref_id in all_ids:
             pid_year = int(pid_pubyear[pid])
             paper_year_citnum[ref_id][pid_year]+=1
+
+            pyear = pid_pubyear[pid]
+            refyear = pid_pubyear[ref_id]
+
+            if ref_id in abs_pids:
+
+                if int(pyear)-int(refyear) < 2:
+                    abs_pid_c2[ref_id]+=1
+
+                if int(pyear)-int(refyear) < 5:
+                    abs_pid_c5[ref_id]+=1
+                
+                if int(pyear)-int(refyear) < 10:
+                    abs_pid_c10[ref_id] += 1
     
     open('data/ABS.ALLid.year_citnum.json','w').write(json.dumps(paper_year_citnum))
-    logging.info('data saved.')
 
+    open('data/ABS.paperc2.json', 'w').write(json.dumps(abs_pid_c2))
+
+    logging.info('data saved.')
+    
+
+    
 
 if __name__ == "__main__":
     # filter_4_star_journal()
