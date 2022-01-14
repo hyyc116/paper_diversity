@@ -236,14 +236,12 @@ def paper_dependent_variables():
     logging.info(f'total number of ids is {len(all_ids)}')
 
     # 获得每一篇参考文献每年的引用次数
-    paper_year_citnum = defaultdict(lambda:defaultdict(int))
-
-    paper_N_cits = defaultdict(lambda:defaultdict(int))
+    paper_year_citnum = defaultdict(lambda:defaultdict(list))
 
     for pid, ref_id in query_op.query_database(sql):
         if ref_id in all_ids:
             pid_year = int(pid_pubyear[pid])
-            paper_year_citnum[ref_id][pid_year]+=1
+            paper_year_citnum[ref_id][pid_year].append(pid)
 
             pyear = pid_pubyear[pid]
             refyear = pid_pubyear[ref_id]
