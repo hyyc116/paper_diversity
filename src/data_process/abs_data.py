@@ -225,23 +225,27 @@ def paper_dependent_variables():
     sql = "select paper_id,paper_reference_id from mag_core.paper_references"
 
     all_ids = []
+    # ABS的论文参考文献
+    abs_pid_refs = defaultdict(list)
 
     for pid,ref_id in query_op.query_database(sql):
         if pid in abs_pids:
             all_ids.append(pid)
             all_ids.append(ref_id)
 
+            abs_pid_refs[pid].append(ref_id)
+
     
     all_ids = set(all_ids)
     logging.info(f'total number of ids is {len(all_ids)}')
 
     # 获得每一篇参考文献每年的引用次数
-    paper_year_citnum = defaultdict(lambda:defaultdict(list))
+    paper_year_cits = defaultdict(lambda:defaultdict(list))
 
     for pid, ref_id in query_op.query_database(sql):
         if ref_id in all_ids:
             pid_year = int(pid_pubyear[pid])
-            paper_year_citnum[ref_id][pid_year].append(pid)
+            paper_year_cits[ref_id][pid_year].append(pid)
 
             pyear = pid_pubyear[pid]
             refyear = pid_pubyear[ref_id]
@@ -261,12 +265,92 @@ def paper_dependent_variables():
     open('data/ABS.paper_c5.json', 'w').write(json.dumps(abs_pid_c5))
     open('data/ABS.paper_c10.json', 'w').write(json.dumps(abs_pid_c10))
 
-    open('data/ABS.ALLid.year_citnum.json','w').write(json.dumps(paper_year_citnum))
+    open('data/ABS.ALLid.year_citnum.json','w').write(json.dumps(paper_year_cits))
 
     logging.info('data saved.')
-    
 
+    pid_dn = {}
+
+    progress = 0
+    # 计算每一篇论文的dn
+    for pid in list(abs_pids):
+
+        progress+=1
+
+        if progress%10000==0:
+            logging.info(f'progress {progress}...')
+
+        # 这篇论文
+        year_cits = paper_year_cits[pid]
+
+        years = [int(y) for y in year_cits.keys()]
+
+        min_year = np.min(years)
     
+        pid2_cits, pid5_cits, pid10_cits = get_c2510_papers(min_year, year_cits)
+
+        refs = abs_pid_refs[pid]
+
+        ref2_cits = []
+        ref5_cits = []
+        ref10_cits = []
+        for ref in refs:
+
+            ref_year_cits = paper_year_cits[ref]
+
+            refc2papers, refc5papers, refc10papers = get_c2510_papers(
+                min_year, ref_year_cits)
+            
+            ref2_cits.extend(refc2papers)
+            ref5_cits.extend(refc5papers)
+            ref10_cits.extend(refc10papers)
+        
+        d2 = cal_dn(pid2_cits,ref2_cits)
+        d5 = cal_dn(pid5_cits,ref5_cits)
+        d10 = cal_dn(pid10_cits,ref10_cits)
+
+        pid_dn[pid] = [d2,d5,d10]
+    
+    open('data/ABS.paper_dn.json',
+         'w').write(json.dumps(pid_dn))
+
+    logging.info('data saved to data/ABS.paper_dn.json.')
+        
+        
+
+def cal_dn(pid_cits, ref_cits):
+
+    pid_cits = set(pid_cits)
+    ref_cits = set(ref_cits)
+
+    i = float(len(pid_cits - ref_cits))
+    j = float(len(ref_cits & pid_cits))
+    k = float(len(ref_cits - pid_cits)) 
+
+    if i + j + k == 0:
+        return 0
+
+    return float(i - j) / float((i + j + k))
+
+
+def get_c2510_papers(start_year,year_cits):
+    c2papers = []
+    c5papers = []
+    c10papers = []
+
+    for i in range(11):
+
+        if i<=2:
+            c2papers.extend(year_cits.get(str(start_year+i), []))
+        
+        if i<=5:
+            c5papers.extend(year_cits.get(str(start_year+i), []))
+        
+        if i <= 10:
+            c10papers.extend(year_cits.get(str(start_year+i), []))
+    
+    return c2papers,c5papers,c10papers
+
 
 if __name__ == "__main__":
     # filter_4_star_journal()
