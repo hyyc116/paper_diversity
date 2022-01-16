@@ -285,6 +285,9 @@ def paper_dependent_variables():
 
         years = [int(y) for y in year_cits.keys()]
 
+        if len(years)==0:
+            continue
+
         min_year = np.min(years)
     
         pid2_cits, pid5_cits, pid10_cits = get_c2510_papers(min_year, year_cits)
