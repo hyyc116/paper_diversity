@@ -344,13 +344,13 @@ def get_c2510_papers(start_year,year_cits):
     for i in range(11):
 
         if i<=2:
-            c2papers.extend(year_cits.get(str(start_year+i), []))
+            c2papers.extend(year_cits.get(start_year+i, []))
         
         if i<=5:
-            c5papers.extend(year_cits.get(str(start_year+i), []))
+            c5papers.extend(year_cits.get(start_year+i, []))
         
         if i <= 10:
-            c10papers.extend(year_cits.get(str(start_year+i), []))
+            c10papers.extend(year_cits.get(start_year+i, []))
     
     return c2papers,c5papers,c10papers
 
