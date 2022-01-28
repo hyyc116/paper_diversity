@@ -106,7 +106,7 @@ def paper_independent_variables():
 def paper_control_variables():
 
     # 使用所有的id的参考文献 + 参考文献
-    pids = set([line.strip() for line in open('ABS.ALL_pids.txt')])
+    pids = set([line.strip() for line in open('data/ABS.ALL_pids.txt')])
 
     # 团队大小
     pid_authors = defaultdict(list)
@@ -376,6 +376,6 @@ if __name__ == "__main__":
     # get_abs_paper_ids()
 
 
-    paper_dependent_variables()
+    # paper_dependent_variables()
 
     paper_control_variables()
