@@ -76,16 +76,19 @@ def get_abs_paper_ids():
 
 # 自变量计算
 '''
-1. Topic Diversity --- DIV citing角度的，Raw sIRLING是哪个？
-2. Freshness Diverisity --- year difference diversity
+1. Topic Diversity --- DIV citing角度的，Raw sIRLING是哪个？，计算两个领域之间的相似度
+2. Freshness Diverisity --- year difference diversity，每一个参考文献的发表年份
 3. Impact Diversity
-    3.1 参考文献的被引次数的gini系数
-    3.2 参考文献 d10的gini系数
+    3.1 参考文献的被引次数的gini系数，每一个参考文献的c10
+    3.2 参考文献 d10的gini系数, 每一篇论文的d10
     3.3 参考文献期刊影响因子gini系数，只能瞎算，有的可能引用期刊或者会议
     3.4 归一化影响一字，这个比较难算了就，顶多一起归一化。
 
 '''
 def paper_independent_variables():
+    # 一共多少主题、这个reference有多少主题
+    # 主题的GINI
+    # 主题和主题之间的相似度的平均值
 
     pass
 
@@ -102,7 +105,8 @@ def paper_independent_variables():
 '''
 def paper_control_variables():
 
-    pids = set([line.strip() for line in open('data/abs_pids.txt')])
+    # 使用所有的id的参考文献 + 参考文献
+    pids = set([line.strip() for line in open('ABS.ALL_pids.txt')])
 
     # 团队大小
     pid_authors = defaultdict(list)
@@ -204,7 +208,7 @@ def paper_control_variables():
 '''
 1. citation相关 c_2,c_5,c_10
 2. Disruption相关 d_2,d_5,d_10
-3. Novelty相关 n_2,n_5,n_10  需要计算n年前参考文献的共被引次数
+3. Novelty相关 n_2,n_5,n_10  需要计算n年前参考文献的共被引次数， 目前不计算
 
 '''
 def paper_dependent_variables():
@@ -212,8 +216,7 @@ def paper_dependent_variables():
         open('../MAG_data_processing/data/pid_pubyear.json').read())
 
     # 获得abs论文及其参考文献每一年的引用次数
-    abs_pids = set(line.strip().split(",")[0]
-                   for line in open('data/ABS.controlVariables.csv'))
+    abs_pids = set([line.strip() for line in open('data/abs_pids.txt')])
     
     abs_pid_c2 = defaultdict(int)
     abs_pid_c5 = defaultdict(int)
@@ -225,18 +228,30 @@ def paper_dependent_variables():
     sql = "select paper_id,paper_reference_id from mag_core.paper_references"
 
     all_ids = []
-    # ABS的论文参考文献
-    abs_pid_refs = defaultdict(list)
-
+    # 获得ABS的论文参考文献
     for pid,ref_id in query_op.query_database(sql):
         if pid in abs_pids:
             all_ids.append(pid)
             all_ids.append(ref_id)
-
+    
+    all_ids = set(all_ids)
+    # 还需要获得参考文献的参考文献
+    for pid, ref_id in query_op.query_database(sql):
+        if pid in all_ids:
+            all_ids.add(pid)
+            all_ids.add(ref_id)
+    
+    # 记录所有需要记录的文章的参考文献
+    abs_pid_refs = defaultdict(list)
+    for pid, ref_id in query_op.query_database(sql):
+        if pid in all_ids:
             abs_pid_refs[pid].append(ref_id)
 
     
     all_ids = set(all_ids)
+# 存储所有的id
+    open('data/ABS.ALL_pids.txt','w').write('\n'.join(list(all_ids)))
+
     logging.info(f'total number of ids is {len(all_ids)}')
 
     # 获得每一篇参考文献每年的引用次数
@@ -265,7 +280,7 @@ def paper_dependent_variables():
     open('data/ABS.paper_c5.json', 'w').write(json.dumps(abs_pid_c5))
     open('data/ABS.paper_c10.json', 'w').write(json.dumps(abs_pid_c10))
 
-    open('data/ABS.ALLid.year_citnum.json','w').write(json.dumps(paper_year_cits))
+    # open('data/ABS.ALLid.year_citnum.json','w').write(json.dumps(paper_year_cits))
 
     logging.info('data saved.')
 
@@ -360,6 +375,7 @@ if __name__ == "__main__":
     # search_abs_journal_paper()
     # get_abs_paper_ids()
 
-    # paper_control_variables()
 
     paper_dependent_variables()
+
+    paper_control_variables()
