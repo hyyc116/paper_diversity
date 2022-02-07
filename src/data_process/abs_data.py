@@ -156,7 +156,7 @@ def paper_journal_subjects():
     # 二级领域之间的引用次数
     # 根据引用关系计算领域之间的相似度
     
-    sql = 'select A.paper_id,A.field_of_study_id,B.level from mag_core.paper_fields_of_study as A, mag_core.fields_of_study as B where A.field_of_study_id = B.field_of_study and B.level = 1'
+    sql = 'select A.paper_id,A.field_of_study_id,B.level from mag_core.paper_fields_of_study as A, mag_core.fields_of_study as B where A.field_of_study_id = B.field_of_study_id and B.level = 1'
     paper_subjs = defaultdict(list)
     query_op = dbop()
     for pid,fid,_ in query_op.query_database(sql):
