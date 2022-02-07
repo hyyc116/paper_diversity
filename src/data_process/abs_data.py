@@ -1,8 +1,9 @@
 #coding:utf-8
 import sys
-from weakref import ref 
 sys.path.append('src')
 from basic_config import *
+from gini import *
+
 
 '''
 一共117本ABS四星以上期刊，一共找到91本，放在了data/abs.used_journal.txt
@@ -90,7 +91,96 @@ def paper_independent_variables():
     # 主题的GINI
     # 主题和主题之间的相似度的平均值
 
-    pass
+    # 使用所有的id的参考文献 + 参考文献
+    pids = set([line.strip() for line in open('data/ABS.ALL_pids.txt')])
+
+    pid_pubyear = json.loads(
+        open('../MAG_data_processing/data/pid_pubyear.json').read())
+
+    paper_c10 = json.loads(open('data/ABS.paper_c10.json').read())
+
+    paper_dn = json.loads(open('data/ABS.paper_dn.json').read())
+
+    logging.info(f'total number of abs ids is {len(pids)}')
+    # 获得ABS参考文献的id
+    query_op = dbop()
+    sql = "select paper_id,paper_reference_id from mag_core.paper_references"
+    pid_refs = defaultdict(list)
+    for pid,ref_pid in query_op.query_database(sql):
+        pid_refs[pid].append(ref_pid)
+    
+    pid_attrs = {}
+    
+    # 计算diversity
+    for pid in pid_refs.keys():
+        pyear = pid_pubyear.get(pid,None)
+        if pyear is None:
+            continue
+        
+        pyear = int(pyear)
+
+        # freshness diversity
+        freshenesses = []
+        c10s = []
+        d10s = []
+
+        # 每一个参考文献
+        for ref in pid_refs[pid]:
+
+            refyear = pid_pubyear.get(ref, None)
+            if refyear is None:
+                continue
+
+            freshness = int(pyear - int(refyear))
+
+            freshenesses.append(freshness)
+
+            c10s.append(paper_c10.get(ref,0))
+
+            dns = paper_dn.get(ref,[0,0,0]) 
+            d10s.append(dns[2])
+        
+        freshness_diversity = gini(freshenesses)
+        c10_diversity = gini(c10s)
+        d10_diversity = gini(d10s)
+
+        pid_attrs[pid] = [freshness_diversity,c10_diversity,d10_diversity]
+
+
+# 需要对论文的领域进行计算
+# subject用几级的field标签
+# journal的期刊影响因子需要每年都计算
+def paper_journal_subjects():
+    # 每一个论文的二级领域
+    # 每一篇论文的journal ALL_pids.txt 
+    # 二级领域之间的引用次数
+    # 根据引用关系计算领域之间的相似度
+    
+    sql = 'select A.paper_id,A.field_of_study_id,B.level from mag_core.paper_fields_of_study as A, mag_core.fields_of_study as B where A.field_of_study_id = B.field_of_study and B.level = 1'
+    paper_subjs = defaultdict(list)
+    query_op = dbop()
+    for pid,fid,_ in query_op.query_database(sql):
+
+        paper_subjs[pid].append(fid)
+    
+    sql = "select paper_id,paper_reference_id from mag_core.paper_references"
+    query_op.query_database(sql)
+
+    subj_subj_refnum = defaultdict(lambda:defaultdict(int))
+    for pid,ref_pid in query_op.query_database(sql):
+
+        subjs = paper_subjs[pid]
+        ref_subjs = paper_subjs[ref_pid]
+
+        for s1 in subjs:
+            for s2 in ref_subjs:
+                subj_subj_refnum[s1][s2]+=1
+    
+    open('data/pid_subjs.json','w').write(json.dumps(paper_subjs))
+
+    open('data/subj_subj_refnum.json','w').write(json.dumps(subj_subj_refnum))
+
+    logging.info('data saved to data/subj_subj_refnum.json.')
 
 
 #ABS期刊论文的控制变量
@@ -378,4 +468,6 @@ if __name__ == "__main__":
 
     # paper_dependent_variables()
 
-    paper_control_variables()
+    # paper_control_variables()
+
+    paper_journal_subjects()
