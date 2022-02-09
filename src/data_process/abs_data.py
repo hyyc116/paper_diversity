@@ -159,7 +159,7 @@ def paper_independent_variables():
             dns = paper_dn.get(ref,[0,0,0])
             d10s.append(dns[2])
 
-            all_subjs.extend(paper_subjs.get(ref,[]))
+            all_subjs.append(paper_subjs.get(ref,[]))
 
         subj_div,variety,balance,disparsity = cal_subj_div(all_subjs, subj_subj_refnum, total_subjnum,
                                 citnum_total)
