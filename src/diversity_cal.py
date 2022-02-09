@@ -127,8 +127,6 @@ def cal_diversity():
         for subj2 in subj_refnum[subj].keys():
             citnum_total[subj2]+=subj_refnum[subj][subj2]
 
-
-
     of = open('data/pid_divs.txt','w')
     progress = 0
 
@@ -196,7 +194,7 @@ def cal_subj_div(all_subjs,subj_refnum,subj_totalnum,citnum_total):
 
     disparsity = cal_disparsity(subj_set,subj_refnum,citnum_total)
 
-    return variety*balance*disparsity
+    return variety*balance*disparsity,variety,balance,disparsity
 
 
 def cal_disparsity(subj_set,subj_refnum,citnum_total):
