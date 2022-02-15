@@ -230,6 +230,8 @@ def journal_impact():
             year = int(pid_pubyear[pid])
 
             jid_year_num[jid][year]+=1
+    
+    open('data/paper_jid.json','w').write(json.dumps(pid_jid))
 
     sql = 'select paper_id,paper_reference_id from mag_core.paper_references'
 
@@ -270,7 +272,7 @@ def journal_impact():
 
     open("data/journal_year_impact.json",'w').write(json.dumps(jid_year_impact))
 
-    logging.info(f'{len(jid_year_impact.keys)} journal have impact data.')
+    logging.info(f'{len(jid_year_impact.keys())} journal have impact data.')
 
 
 #ABS期刊论文的控制变量
