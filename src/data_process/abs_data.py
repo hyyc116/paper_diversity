@@ -164,7 +164,7 @@ def paper_independent_variables():
 
             refjid = pid_jid.get(ref,None)
 
-            if refjid is None:
+            if refjid is None or journal_year_impact.get(refjid,None) is None:
                 all_impacts.append(0)
             else:
                 all_impacts.append(journal_year_impact[refjid].get(str(pyear),0))
@@ -585,6 +585,6 @@ if __name__ == "__main__":
 
     # paper_independent_variables()
 
-    journal_impact()
+    # journal_impact()
 
     paper_independent_variables()
