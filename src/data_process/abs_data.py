@@ -1,6 +1,7 @@
 #coding:utf-8
 
 import sys
+from weakref import ref
 sys.path.append('src')
 from basic_config import *
 
@@ -210,6 +211,66 @@ def paper_journal_subjects():
     open('data/subj_subj_refnum.json','w').write(json.dumps(subj_subj_refnum))
 
     logging.info('data saved to data/subj_subj_refnum.json.')
+
+
+# 计算每一本期刊的影响因子
+# 2011年论文对前两年论文的引用次数/前两年的论文总数
+def journal_impact():
+    query_op = dbop()
+
+    pid_pubyear = json.loads(
+        open('../MAG_data_processing/data/pid_pubyear.json').read())
+
+    sql = "select paper_id,journal_id from mag_core.papers"
+    pid_jid = {}
+    jid_year_num = defaultdict(lambda:defaultdict(int))
+    for pid,jid in query_op.query_database(sql):
+        if jid!="":
+            pid_jid[pid] = jid
+            year = int(pid_pubyear[pid])
+
+            jid_year_num[jid][year]+=1
+
+    sql = 'select paper_id,paper_reference_id from mag_core.paper_references'
+
+    jid_year_cits = defaultdict(lambda:defaultdict(int))
+
+    for pid,ref_id in query_op.query_database(sql):
+
+        ref_jid = pid_jid.get(ref_id,None)
+        if ref_jid is None:
+            continue
+
+        year = int(pid_pubyear[pid])
+        ref_year = int(pid_pubyear[ref_id])
+
+        yd = year-ref_year
+
+        #在year年对于期刊的引用次数
+        if yd==1 or yd==2:
+            jid_year_cits[ref_jid][year] += 1
+
+    # 计算每一个期刊的影响因子
+    jid_year_impact = defaultdict(dict)
+
+    for jid in jid_year_cits.keys():
+
+        year_cits = jid_year_cits[jid]
+
+        for year in year_cits.keys():
+
+            cits = year_cits[year]
+
+            num = jid_year_num[jid].get(year - 1, 0) + jid_year_num[jid].get(
+                year - 2, 0)
+
+            impact = cits/float(num)
+
+            jid_year_impact[jid][year] = impact
+
+    open("data/journal_year_impact.json",'w').write(json.dumps(jid_year_impact))
+
+    logging.info(f'{len(jid_year_impact.keys)} journal have impact data.')
 
 
 #ABS期刊论文的控制变量
@@ -501,4 +562,6 @@ if __name__ == "__main__":
 
     # paper_journal_subjects()
 
-    paper_independent_variables()
+    # paper_independent_variables()
+
+    journal_impact()
