@@ -110,6 +110,13 @@ def paper_independent_variables():
     paper_subjs = json.loads(open('data/pid_subjs.json').read())
     # 主题之间的互相引用
     subj_subj_refnum = json.loads(open('data/subj_subj_refnum.json').read())
+
+    # 每一篇论文的journal
+    pid_jid = json.loads(open('data/paper_jid.json').read())
+
+    # 每一篇论文在各个年份的引用次数
+    journal_year_impact = json.loads(open('data/journal_year_impact.json').read())
+
     # 主题数量
     total_subjnum = len(subj_subj_refnum.keys())
     # 每一个学科被引总次数
@@ -137,6 +144,8 @@ def paper_independent_variables():
 
         pyear = int(pyear)
 
+        pjid = pid_jid.get(pid, None)
+
         # freshness diversity
         freshenesses = []
         c10s = []
@@ -144,12 +153,21 @@ def paper_independent_variables():
 
         all_subjs = []
 
+        all_impacts = []
+
         # 每一个参考文献
         for ref in pid_refs[pid]:
 
             refyear = pid_pubyear.get(ref, None)
             if refyear is None:
                 continue
+
+            refjid = pid_jid.get(ref,None)
+
+            if refjid is None:
+                all_impacts.append(0)
+            else:
+                all_impacts.append(journal_year_impact[refjid].get(str(pyear),0))
 
             freshness = int(pyear - int(refyear))
 
@@ -167,10 +185,11 @@ def paper_independent_variables():
         freshness_diversity = gini(freshenesses)
         c10_diversity = gini(c10s)
         d10_diversity = gini(d10s)
+        impact_diversity = gini(all_impacts)
 
         pid_attrs[pid] = [
             freshness_diversity, c10_diversity, d10_diversity, subj_div,
-            variety, balance, disparsity
+            variety, balance, disparsity,impact_diversity
         ]
 
     open('data/ABS_independent.json','w').write(json.dumps(pid_attrs))
@@ -230,7 +249,7 @@ def journal_impact():
             year = int(pid_pubyear[pid])
 
             jid_year_num[jid][year]+=1
-    
+
     open('data/paper_jid.json','w').write(json.dumps(pid_jid))
 
     sql = 'select paper_id,paper_reference_id from mag_core.paper_references'
@@ -567,3 +586,5 @@ if __name__ == "__main__":
     # paper_independent_variables()
 
     journal_impact()
+
+    paper_independent_variables()
