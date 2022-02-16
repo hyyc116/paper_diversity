@@ -186,10 +186,11 @@ def paper_independent_variables():
         c10_diversity = gini(c10s)
         d10_diversity = gini(d10s)
         impact_diversity = gini(all_impacts)
+        num_of_refs = len(pid_refs[pid])
 
         pid_attrs[pid] = [
             freshness_diversity, c10_diversity, d10_diversity, subj_div,
-            variety, balance, disparsity,impact_diversity
+            variety, balance, disparsity,impact_diversity,num_of_refs
         ]
 
     open('data/ABS_independent.json','w').write(json.dumps(pid_attrs))
