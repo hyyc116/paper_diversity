@@ -1,6 +1,7 @@
 #coding:utf-8
 
 import sys
+from tkinter import N
 from weakref import ref
 sys.path.append('src')
 from basic_config import *
@@ -104,6 +105,8 @@ def paper_independent_variables():
         open('../MAG_data_processing/data/pid_pubyear.json').read())
 
     paper_c10 = json.loads(open('data/ABS.paper_c10.json').read())
+    paper_c5 = json.loads(open('data/ABS.paper_c5.json').read())
+    paper_c2 = json.loads(open('data/ABS.paper_c2.json').read())
 
     paper_dn = json.loads(open('data/ABS.paper_dn.json').read())
     # 一篇论文对应的主题列表
@@ -148,7 +151,11 @@ def paper_independent_variables():
 
         # freshness diversity
         freshenesses = []
+        c2s = []
+        c5s = []
         c10s = []
+        d2s = []
+        d5s = []
         d10s = []
 
         all_subjs = []
@@ -173,9 +180,13 @@ def paper_independent_variables():
 
             freshenesses.append(freshness)
 
+            c2s.append(paper_c2.get(ref,0))
+            c5s.append(paper_c5.get(ref,0))
             c10s.append(paper_c10.get(ref,0))
 
             dns = paper_dn.get(ref,[0,0,0])
+            d2s.append(dns[0])
+            d5s.append(dns[1])
             d10s.append(dns[2])
 
             all_subjs.append(paper_subjs.get(ref,[]))
@@ -183,14 +194,19 @@ def paper_independent_variables():
         subj_div,variety,balance,disparsity = cal_subj_div(all_subjs, subj_subj_refnum, total_subjnum,
                                 citnum_total)
         freshness_diversity = gini(freshenesses)
+        c2_diversity = gini(c2s)
+        c5_diversity = gini(c5s)
         c10_diversity = gini(c10s)
+        d2_diversity = gini(d2s)
+        d5_diversity = gini(d5s)
         d10_diversity = gini(d10s)
         impact_diversity = gini(all_impacts)
         num_of_refs = len(pid_refs[pid])
 
         pid_attrs[pid] = [
-            freshness_diversity, c10_diversity, d10_diversity, subj_div,
-            variety, balance, disparsity,impact_diversity,num_of_refs
+            freshness_diversity, c2_diversity, c5_diversity, c10_diversity,
+            d2_diversity, d5_diversity, d10_diversity, subj_div, variety,
+            balance, disparsity, impact_diversity, num_of_refs
         ]
 
     open('data/ABS_independent.json','w').write(json.dumps(pid_attrs))
@@ -572,6 +588,56 @@ def get_c2510_papers(start_year,year_cits):
     return c2papers,c5papers,c10papers
 
 
+# 以ABS pid为主，将所有自变量控制变量因变量何在一张表里面，需要控制论文发表的年份
+def combine_all_data():
+    # 综合所有数据
+
+    '''自变量'''
+    pid_independents = json.loads(open("data/ABS_independent.json").read())
+    logging.info(f'{len(pid_independents)} independents data.')
+    '''因变量'''
+    pid_dn = json.loads(open('data/ABS.paper_dn.json').read())
+    pid_c2 = json.loads(open('data/ABS.paper_c2.json').read())
+    pid_c5 = json.loads(open('data/ABS.paper_c5.json').read())
+    pid_c10 = json.loads(open('data/ABS.paper_c10.json').read())
+    '''控制变量'''
+    pid_controls = {}
+    for line in open('data/ABS.controlVariables.csv'):
+
+        line = line.strip()
+        pid = line.split(',')[0]
+        pid_controls[pid] = line
+
+    lines = [
+        'paper_id,year,journal id,teamsize,age mean,age std,pnum mean,pnum std,cn mean,cn_std,rank mean,rank std,freshness DIV,c2 DIV,c5 DIV,c10 DIV,d2 DIV,d5 DIV,d10 DIV,subject DIV,variety,balance,disparsity,impact_diversity,num_of_refs,d2,d5,d10,c2,c5,c10'
+    ]
+
+    # 合起来
+    for pid in pid_independents.keys():
+
+        freshness_diversity, c2_diversity, c5_diversity, c10_diversity,\
+        d2_diversity, d5_diversity, d10_diversity, subj_div, variety,\
+        balance, disparsity, impact_diversity, num_of_refs = pid_independents[pid]
+
+        # 控制变量
+        control = pid_controls.get(pid,None)
+        if control is None:
+            continue
+
+        # 因变量
+        d2,d5,d10 = pid_dn[pid]
+        c2 = pid_c2.get(pid,0)
+        c5 = pid_c2.get(pid,0)
+        c10 = pid_c2.get(pid,0)
+
+        lines.append(
+            f'{control}{freshness_diversity}{ c2_diversity}{ c5_diversity}{ c10_diversity}{d2_diversity}{ d5_diversity}{ d10_diversity}{ subj_div}{ variety}{balance}{ disparsity}{ impact_diversity}{ num_of_refs},{d2},{d5},{d10},{c2},{c5},{c10}')
+
+
+    open("data/ABS_ALLdata.csv",'w').write('\n'.join(lines))
+    logging.info('data saved to data/ABS_ALLdata.csv.')
+
+
 if __name__ == "__main__":
     # filter_4_star_journal()
     # search_abs_journal_paper()
@@ -589,3 +655,4 @@ if __name__ == "__main__":
     # journal_impact()
 
     paper_independent_variables()
+    combine_all_data()
