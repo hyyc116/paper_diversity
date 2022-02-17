@@ -625,7 +625,10 @@ def combine_all_data():
             continue
 
         # 因变量
-        d2,d5,d10 = pid_dn[pid]
+        dns= pid_dn.get(pid,None)
+        if dns is None:
+            continue
+        d2,d2,d10 = dns
         c2 = pid_c2.get(pid,0)
         c5 = pid_c2.get(pid,0)
         c10 = pid_c2.get(pid,0)
@@ -654,5 +657,5 @@ if __name__ == "__main__":
 
     # journal_impact()
 
-    paper_independent_variables()
+    # paper_independent_variables()
     combine_all_data()
