@@ -23,7 +23,7 @@ def regress_FE():
 
     exog_vars = ["teamsize", "age_mean", "age_std", "rank_mean", "rank_std"]
     exog = sm.add_constant(data[exog_vars])
-    mod = PanelOLS(data.c10, exog, entity_effects=False)
+    mod = PanelOLS(data10.c10, exog, entity_effects=False)
     fe_res = mod.fit()
     print(fe_res)
 
