@@ -629,8 +629,8 @@ def combine_all_data():
             continue
         d2,d5,d10 = dns
         c2 = pid_c2.get(pid,0)
-        c5 = pid_c2.get(pid,0)
-        c10 = pid_c2.get(pid,0)
+        c5 = pid_c5.get(pid,0)
+        c10 = pid_c10.get(pid,0)
 
         lines.append(
             f'{control},{freshness_diversity},{ c2_diversity},{ c5_diversity},{ c10_diversity},{d2_diversity},{ d5_diversity},{ d10_diversity},{ subj_div},{ variety},{balance},{ disparsity},{ impact_diversity},{ num_of_refs},{d2},{d5},{d10},{c2},{c5},{c10}')
