@@ -33,6 +33,10 @@ def regress_FE():
     fe_res = mod.fit()
     print(fe_res)
 
+    mod = PanelOLS(data10.c10, exog, time_effects=True)
+    fe_res = mod.fit()
+    print(fe_res)
+
 
 if __name__ =="__main__":
 
