@@ -36,6 +36,10 @@ def regress_FE():
          ["teamsize", "age_mean", "age_std", "rank_mean", "rank_std"], True,
          True)
 
+    POLS(data10, 'c5',
+         ["teamsize", "age_mean", "age_std", "rank_mean", "rank_std"], True,
+         True)
+
 
 
 
@@ -67,10 +71,9 @@ def POLS(data,y,xs,includeFixed=False,includeTime=False):
         formula += '+ EntityEffects'
     if includeTime:
         formula += '+ TimeEffects'
-    print(formula)
     mod = PanelOLS.from_formula(formula, data=data)
     ori = mod.fit()
-    print(formula)
+    print("Formula:"+formula)
     print(ori.params)
     print(ori.pvalues)
     print(ori.rsquared_overall)
