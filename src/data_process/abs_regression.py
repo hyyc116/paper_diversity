@@ -21,25 +21,26 @@ def regress_FE():
     data10 = data10.set_index(['journal_id','year'],append=False)
     # data10 = data10.set_index(['year'], append=True)
 
-    # mod = PanelOLS.from_formula("c10 ~ teamsize + age_mean + age_std + rank_mean + rank_std", data=data10)
+    mod = PanelOLS.from_formula("c10 ~ teamsize + age_mean + age_std + rank_mean + rank_std + 1", data=data10)
+    print(mod.fit())
 
-    exog_vars = ["teamsize", "age_mean", "age_std", "rank_mean", "rank_std"]
-    exog = sm.add_constant(data10[exog_vars])
-    mod = PanelOLS(data10.c10, exog, entity_effects=False)
-    fe_res = mod.fit()
-    print(fe_res)
+    # exog_vars = ["teamsize", "age_mean", "age_std", "rank_mean", "rank_std"]
+    # exog = sm.add_constant(data10[exog_vars])
+    # mod = PanelOLS(data10.c10, exog, entity_effects=False)
+    # fe_res = mod.fit()
+    # print(fe_res)
 
-    mod = PanelOLS(data10.c10, exog, entity_effects=True)
-    fe_res = mod.fit()
-    print(fe_res)
+    # mod = PanelOLS(data10.c10, exog, entity_effects=True)
+    # fe_res = mod.fit()
+    # print(fe_res)
 
-    mod = PanelOLS(data10.c10, exog, time_effects=True)
-    fe_res = mod.fit()
-    print(fe_res)
+    # mod = PanelOLS(data10.c10, exog, time_effects=True)
+    # fe_res = mod.fit()
+    # print(fe_res)
 
-    mod = PanelOLS(data10.c10, exog, entity_effects=True, time_effects=True)
-    fe_res = mod.fit()
-    print(fe_res)
+    # mod = PanelOLS(data10.c10, exog, entity_effects=True, time_effects=True)
+    # fe_res = mod.fit()
+    # print(fe_res)
 
 
 if __name__ =="__main__":
