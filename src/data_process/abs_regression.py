@@ -14,7 +14,7 @@ def regress_FE():
 
     data10 = data[data['year']<2010]
 
-    data10 = pd.DataFrame(data=data10,columns=["year","journal_id","teamsize", "age_mean", "age_std", "rank_mean", "rank_std","c10"])
+    data10 = pd.DataFrame(data=data10,columns=["year","journal_id","teamsize", "age_mean", "age_std", "rank_mean", "rank_std","c10","c2","c5","d10"])
 
     print(data10.describe())
 
