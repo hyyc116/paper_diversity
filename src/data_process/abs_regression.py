@@ -16,7 +16,7 @@ def regress_FE():
     print(data10.describe())
 
     data.set_index(['year', 'journal_id'])
-    mod = PanelOLS.from_formula("c5 ~ teamsize + age_mean + age_std + rank_mean + rank_std", data=data10)
+    mod = PanelOLS.from_formula("c10 ~ teamsize + age_mean + age_std + rank_mean + rank_std", data=data10)
 
     print(mod.fit())
 
