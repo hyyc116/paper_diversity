@@ -12,12 +12,12 @@ def regress_FE():
 
     data = pd.read_csv('data/ABS_ALLdata.csv')
 
-    data.set_index(['paper id','journal id'])
+    data10 = data[data['year']<2010]
+    print(data10.describe())
 
-    print(data.describe())
+    data.set_index(['year', 'journal id'])
+    mod = PanelOLS.from_formula("c10 ~ teamsize + age mean + age std + rank mean + rank std", data=data10)
 
-    mod = PanelOLS.from_formula("invest ~ value + capital + EntityEffects", data=data)
-    
     print(mod.fit())
 
 if __name__ =="__main__":
