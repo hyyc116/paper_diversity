@@ -608,8 +608,8 @@ def combine_all_data():
         pid_controls[pid] = line
 
     lines = [
-        'paper_id,year,journal id,teamsize,age mean,age std,pnum mean,pnum std,cn mean,cn_std,rank mean,rank std,freshness DIV,c2 DIV,c5 DIV,c10 DIV,d2 DIV,d5 DIV,d10 DIV,subject DIV,variety,balance,disparsity,impact_diversity,num_of_refs,d2,d5,d10,c2,c5,c10'
-    ]
+        'paper_id,year,journal_id,teamsize,age_mean,age_std,pnum_mean,pnum_std,cn_mean,cn_std,rank_mean,rank_std,freshness_DIV,c2_DIV,c5_DIV,c10_DIV,d2_DIV,d5_DIV,d10_DIV,subject_DIV,variety,balance,disparsity,impact_diversity,num_of_refs,d2,d5,d10,c2,c5,c10'
+        ]
 
     # 合起来
     for pid in pid_independents.keys():
