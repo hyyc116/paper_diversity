@@ -21,8 +21,25 @@ def regress_FE():
     data10 = data10.set_index(['journal_id','year'],append=False)
     # data10 = data10.set_index(['year'], append=True)
 
-    mod = PanelOLS.from_formula("c10 ~ teamsize + age_mean + age_std + rank_mean + rank_std + 1", data=data10)
-    print(mod.fit())
+    POLS(data10, 'c10',
+         ["teamsize", "age_mean", "age_std", "rank_mean", "rank_std"],False,False)
+
+    POLS(data10, 'c10',
+         ["teamsize", "age_mean", "age_std", "rank_mean", "rank_std"], True,
+         False)
+
+    POLS(data10, 'c10',
+         ["teamsize", "age_mean", "age_std", "rank_mean", "rank_std"], False,
+         True)
+
+    POLS(data10, 'c10',
+         ["teamsize", "age_mean", "age_std", "rank_mean", "rank_std"], True,
+         True)
+
+
+
+
+
 
     # exog_vars = ["teamsize", "age_mean", "age_std", "rank_mean", "rank_std"]
     # exog = sm.add_constant(data10[exog_vars])
@@ -41,6 +58,23 @@ def regress_FE():
     # mod = PanelOLS(data10.c10, exog, entity_effects=True, time_effects=True)
     # fe_res = mod.fit()
     # print(fe_res)
+
+
+def POLS(data,y,xs,includeFixed=False,includeTime=False):
+    xs_str = ' + '.join(xs)
+    formula = f'{y}~{xs_str} + 1'
+    if includeFixed:
+        formula += '+ EntityEffects'
+    if includeTime:
+        formula += '+ TimeEffects'
+    print(formula)
+    mod = PanelOLS.from_formula(formula, data=data)
+    ori = mod.fit()
+    print(formula)
+    print(ori.params)
+    print(ori.pvalues)
+    print(ori.rsquared_overall)
+    print('\n')
 
 
 if __name__ =="__main__":
