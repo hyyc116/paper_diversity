@@ -1,8 +1,7 @@
 #coding:utf-8
 
 import sys
-from tkinter import N
-from weakref import ref
+
 sys.path.append('src')
 from basic_config import *
 
