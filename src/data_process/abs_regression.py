@@ -13,11 +13,12 @@ def regress_FE():
     data = pd.read_csv('data/ABS_ALLdata.csv')
 
     data10 = data[data['year']<2010]
+
+    data10 = pd.DataFrame(data=data10,columns=["teamsize", "age_mean", "age_std", "rank_mean", "rank_std"])
+
     print(data10.describe())
 
-    data10 = pd.DataFrame(data=data10)
-
-    data10.reset_index().set_index(['year', 'journal_id'])
+    data10 = data10.set_index(['year', 'journal_id'])
     # mod = PanelOLS.from_formula("c10 ~ teamsize + age_mean + age_std + rank_mean + rank_std", data=data10)
 
     exog_vars = ["teamsize", "age_mean", "age_std", "rank_mean", "rank_std"]
