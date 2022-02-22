@@ -39,6 +39,8 @@ def regress_FE(N=10):
             Varis=[]
             Varis.extend(control_variables)
             Varis.extend(v)
+            Varis.extend(fixed_effects)
+            Varis.extend(dependent_variables)
 
             data10 = pd.DataFrame(data=data10,
                                   columns=Varis)
