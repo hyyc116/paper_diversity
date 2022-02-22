@@ -35,32 +35,37 @@ def regress_FE(N=10):
     ALLVS.extend(fixed_effects)
     ALLVS.extend(dependent_variables)
 
+    VS = []
+    VS.extend(independent_variables)
+    VS.extend(control_variables)
+
     data = pd.DataFrame(data=data10, columns=ALLVS)
     data = data.reset_index().set_index(fixed_effects)
 
     model_name = "Model"
     model_count = 0
-    for _N in range(1,len(independent_variables)+1):
-        for v in it.combinations(independent_variables,_N):
-            Varis=[]
-            Varis.extend(control_variables)
-            Varis.extend(v)
+    for dv in dependent_variables:
 
-            for dv in dependent_variables:
+        for _N in range(1,len(independent_variables)+1):
+            for v in it.combinations(independent_variables,_N):
+                Varis=[]
+                Varis.extend(control_variables)
+                Varis.extend(v)
+
                 model_count+=1
                 model_name +=str(model_count)
                 res = POLS(data, dv, Varis, includeFixed=False,includeTime=False)
 
-                line = print_result(model_name,res,ALLVS,False,False)
+                line = print_result(model_name,res,VS,False,False)
                 print(line)
 
                 model_count += 1
                 model_name += str(model_count)
                 res = POLS(data,
-                           dv,
-                           Varis,
-                           includeFixed=True,
-                           includeTime=False)
+                        dv,
+                        Varis,
+                        includeFixed=True,
+                        includeTime=False)
 
                 model_count+=1
                 model_name += str(model_count)
@@ -69,10 +74,10 @@ def regress_FE(N=10):
                 model_count += 1
                 model_name += str(model_count)
                 res = POLS(data,
-                           dv,
-                           Varis,
-                           includeFixed=True,
-                           includeTime=True)
+                        dv,
+                        Varis,
+                        includeFixed=True,
+                        includeTime=True)
 
 
 def print_result(model_name,res,ALLVs,include_fixed=False,include_time=False):
@@ -85,10 +90,11 @@ def print_result(model_name,res,ALLVs,include_fixed=False,include_time=False):
     for v in ALLVs:
         if v in params:
             vs.append('{:.4f}({:})'.format(params[v],sig_star(pvs[v])))
-    
+        else:
+            vs.append('--')
 
     return model_name+','+','.join(vs)+','+str(include_fixed)+','+str(include_time)+','+str(R2)+','+str(nobs)
-    
+
 
 
 def sig_star(p):
