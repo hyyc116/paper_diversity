@@ -32,11 +32,10 @@ def regress_FE(N=10):
     ALLVS.extend(independent_variables)
     ALLVS.extend(control_variables)
     ALLVS.extend(fixed_effects)
-    ALLVS.extend(independent_variables)
+    ALLVS.extend(dependent_variables)
 
     data = pd.DataFrame(data=data10, columns=ALLVS)
     data.set_index(fixed_effects, append=True)
-    print(data['c10'].head())
 
     model_name = "Model"
     model_count = 0
