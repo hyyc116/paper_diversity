@@ -44,7 +44,7 @@ def regress_FE(N=10):
             Varis.extend(control_variables)
             Varis.extend(v)
 
-            data10 = data10.reset_index().set_index(fixed_effects, append=True)
+            data = data10.reset_index().set_index(fixed_effects, append=True)
 
             for dv in dependent_variables:
                 model_count+=1
