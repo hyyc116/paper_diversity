@@ -35,7 +35,7 @@ def regress_FE(N=10):
     ALLVS.extend(dependent_variables)
 
     data = pd.DataFrame(data=data10, columns=ALLVS)
-    data = data.set_index(['journal_id'], append=True)
+    data = data.set_index(fixed_effects, append=True)
 
     model_name = "Model"
     model_count = 0
