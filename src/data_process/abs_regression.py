@@ -6,62 +6,86 @@ from basic_config import *
 import pandas as pd
 
 from linearmodels import PanelOLS
+import itertools as it
 
 # 筛选数据
-def regress_FE():
+def regress_FE(N=10):
 
     data = pd.read_csv('data/ABS_ALLdata.csv')
 
-    data10 = data[data['year']<2010]
+    data10 = data[data['year']<=(2019-N)]
 
-    data10 = pd.DataFrame(data=data10,columns=["year","journal_id","teamsize", "age_mean", "age_std", "rank_mean", "rank_std","c10","c2","c5","d10"])
+    control_variables = [
+        "teamsize", "age_mean", "age_std", "pnum_mean", "pnum_std", "cn_mean",
+        "cn_std", "rank_mean", "rank_std", "num_of_refs"
+    ]
+    fixed_effects = ['journal_id','year']
 
-    print(data10.describe())
+    independent_variables = [
+        "freshness_DIV", f"c{N}_DIV", f"d{N}_DIV"
+        "subject_DIV", "variety", "balance", "disparsity", "impact_diversity"
+    ]
 
-    data10 = data10.set_index(['journal_id','year'],append=False)
-    # data10 = data10.set_index(['year'], append=True)
+    dependent_variables = [f'c{N}',f'd{N}']
 
-    POLS(data10, 'c10',
-         ["teamsize", "age_mean", "age_std", "rank_mean", "rank_std"],False,False)
+    ALLVS= []
+    ALLVS.extend(independent_variables)
+    ALLVS.extend(control_variables)
 
-    POLS(data10, 'c10',
-         ["teamsize", "age_mean", "age_std", "rank_mean", "rank_std"], True,
-         False)
+    model_name = "Model"
+    model_count = 0
+    for _N in range(1,len(independent_variables)+1):
+        for v in it.combinations(independent_variables,_N):
+            Varis=[]
+            Varis.extend(control_variables)
+            Varis.extend(v)
 
-    POLS(data10, 'c10',
-         ["teamsize", "age_mean", "age_std", "rank_mean", "rank_std"], False,
-         True)
+            data10 = pd.DataFrame(data=data10,
+                                  columns=Varis)
 
-    POLS(data10, 'c10',
-         ["teamsize", "age_mean", "age_std", "rank_mean", "rank_std"], True,
-         True)
+            data10 = data10.set_index(fixed_effects, append=False)
 
-    POLS(data10, 'c5',
-         ["teamsize", "age_mean", "age_std", "rank_mean", "rank_std"], True,
-         True)
+            for dv in dependent_variables:
+                model_count+=1
+                model_name +=str(model_count)
+                res = POLS(data, dv, Varis, includeFixed=False,includeTime=False)
+
+                print_result(res)
+
+                model_count += 1
+                model_name += str(model_count)
+                res = POLS(data,
+                           dv,
+                           Varis,
+                           includeFixed=True,
+                           includeTime=False)
+
+                model_count+=1
+                model_name += str(model_count)
+                res = POLS(data, dv, Varis, includeFixed=False,includeTime=True)
+
+                model_count += 1
+                model_name += str(model_count)
+                res = POLS(data,
+                           dv,
+                           Varis,
+                           includeFixed=True,
+                           includeTime=True)
+
+
+def print_result(model_name,res,ALLVs,include_fixed=False,include_time=False):
+
+    R2 = res.rsquared
+    params = res.params
+    pvs = res.pvalues
+    print(params.__class__)
+    print(pvs.__class__)
+    # for v in ALLVs:
 
 
 
 
 
-
-    # exog_vars = ["teamsize", "age_mean", "age_std", "rank_mean", "rank_std"]
-    # exog = sm.add_constant(data10[exog_vars])
-    # mod = PanelOLS(data10.c10, exog, entity_effects=False)
-    # fe_res = mod.fit()
-    # print(fe_res)
-
-    # mod = PanelOLS(data10.c10, exog, entity_effects=True)
-    # fe_res = mod.fit()
-    # print(fe_res)
-
-    # mod = PanelOLS(data10.c10, exog, time_effects=True)
-    # fe_res = mod.fit()
-    # print(fe_res)
-
-    # mod = PanelOLS(data10.c10, exog, entity_effects=True, time_effects=True)
-    # fe_res = mod.fit()
-    # print(fe_res)
 
 
 def POLS(data,y,xs,includeFixed=False,includeTime=False):
@@ -72,12 +96,17 @@ def POLS(data,y,xs,includeFixed=False,includeTime=False):
     if includeTime:
         formula += '+ TimeEffects'
     mod = PanelOLS.from_formula(formula, data=data)
-    ori = mod.fit()
-    print("Formula:"+formula)
-    print(ori.params)
-    print(ori.pvalues)
-    print(ori.rsquared_overall)
-    print('\n')
+    if includeFixed:
+        ori = mod.fit(cov_type='clustered', cluster_entity=True)
+    else:
+        ori = mod.fit()
+    # print("Formula:"+formula)
+    # print(ori.params)
+    # print(ori.pvalues)
+    # print(ori.rsquared_overall)
+    # print('\n')
+
+    return ori
 
 
 if __name__ =="__main__":
