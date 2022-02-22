@@ -23,7 +23,7 @@ def regress_FE(N=10):
     fixed_effects = ['journal_id','year']
 
     independent_variables = [
-        "freshness_DIV", f"c{N}_DIV", f"d{N}_DIV"
+        "freshness_DIV", f"c{N}_DIV", f"d{N}_DIV",
         "subject_DIV", "variety", "balance", "disparsity", "impact_diversity"
     ]
 
