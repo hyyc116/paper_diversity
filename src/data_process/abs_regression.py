@@ -1,6 +1,8 @@
 from pickle import FALSE
 import sys
 
+from pyparsing import string_start
+
 sys.path.append('src')
 from basic_config import *
 
@@ -51,7 +53,8 @@ def regress_FE(N=10):
                 model_name +=str(model_count)
                 res = POLS(data, dv, Varis, includeFixed=False,includeTime=False)
 
-                print_result(model_name,res,ALLVS,False,False)
+                line = print_result(model_name,res,ALLVS,False,False)
+                print(line)
 
                 model_count += 1
                 model_name += str(model_count)
@@ -77,11 +80,30 @@ def regress_FE(N=10):
 def print_result(model_name,res,ALLVs,include_fixed=False,include_time=False):
 
     R2 = res.rsquared
+    nobs = res.nobs
     params = res.params
     pvs = res.pvalues
-    print(params.__class__)
-    print(pvs.__class__)
-    # for v in ALLVs:
+    vs = []
+    for v in ALLVs:
+        if v in params:
+            vs.append('{:.4f}({:})'.format(params[v],sig_star(pvs[v])))
+    
+
+    return model_name+','+','.join(vs)+','+str(include_fixed)+','+str(include_time)+','+R2+','+str(nobs)
+    
+
+
+def sig_star(p):
+    if p>0.05:
+        return ""
+    elif p<=0.0001:
+        return "****"
+    elif p<0.001:
+        return "***"
+    elif p<0.01:
+        return "**"
+    elif p<0.05:
+        return "*"
 
 
 def POLS(data,y,xs,includeFixed=False,includeTime=False):
