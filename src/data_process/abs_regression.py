@@ -45,6 +45,8 @@ def regress_FE(N=10):
             data10 = pd.DataFrame(data=data10,
                                   columns=Varis)
 
+            print(data10.head())
+
             data10 = data10.set_index(fixed_effects, append=False)
 
             for dv in dependent_variables:
