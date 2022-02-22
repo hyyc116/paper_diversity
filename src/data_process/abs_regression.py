@@ -87,7 +87,7 @@ def print_result(model_name,res,ALLVs,include_fixed=False,include_time=False):
             vs.append('{:.4f}({:})'.format(params[v],sig_star(pvs[v])))
     
 
-    return model_name+','+','.join(vs)+','+str(include_fixed)+','+str(include_time)+','+R2+','+str(nobs)
+    return model_name+','+','.join(vs)+','+str(include_fixed)+','+str(include_time)+','+str(R2)+','+str(nobs)
     
 
 
