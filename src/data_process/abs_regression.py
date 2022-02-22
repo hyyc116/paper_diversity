@@ -130,6 +130,8 @@ def POLS(data,y,xs,includeFixed=False,includeTime=False):
     # print(ori.rsquared_overall)
     # print('\n')
 
+    data = data.dropna()
+
     exog = sm.add_constant(data[xs])
     res = PanelOLS(data[y],exog,entity_effects = includeFixed, time_effects = includeTime).fit()
     return res
