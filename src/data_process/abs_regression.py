@@ -36,6 +36,7 @@ def regress_FE(N=10):
 
     data = pd.DataFrame(data=data10, columns=ALLVS)
     data.set_index(fixed_effects, append=True)
+    print(data['c10'].head())
 
     model_name = "Model"
     model_count = 0
