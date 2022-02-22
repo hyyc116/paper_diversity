@@ -36,7 +36,6 @@ def regress_FE(N=10):
 
     data = pd.DataFrame(data=data10, columns=ALLVS)
     data.set_index(fixed_effects, append=True)
-    print(data['c10'].head())
 
     model_name = "Model"
     model_count = 0
@@ -84,15 +83,11 @@ def print_result(model_name,res,ALLVs,include_fixed=False,include_time=False):
     # for v in ALLVs:
 
 
-
-
-
-
-
 def POLS(data,y,xs,includeFixed=False,includeTime=False):
     xs_str = ' + '.join(xs)
     formula = f'{y} ~ {xs_str} + 1'
     print(formula)
+    print(data['c10'].head())
     if includeFixed:
         formula += '+ EntityEffects'
     if includeTime:
