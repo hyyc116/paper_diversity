@@ -131,6 +131,7 @@ def POLS(data,y,xs,includeFixed=False,includeTime=False):
     # print('\n')
 
     # data = data.dropna()
+    print(xs)
 
     exog = sm.add_constant(data[xs])
     res = PanelOLS(data[y],exog,entity_effects = includeFixed, time_effects = includeTime).fit()
