@@ -1,3 +1,4 @@
+from pickle import FALSE
 import sys
 
 sys.path.append('src')
@@ -50,7 +51,7 @@ def regress_FE(N=10):
                 model_name +=str(model_count)
                 res = POLS(data, dv, Varis, includeFixed=False,includeTime=False)
 
-                print_result(res)
+                print_result(model_name,res,ALLVS,False,False)
 
                 model_count += 1
                 model_name += str(model_count)
