@@ -47,7 +47,7 @@ def regress_FE(N=10):
 
             print(data10.head())
 
-            data10 = data10.set_index(fixed_effects, append=False)
+            data10 = data10.set_index(fixed_effects, append=True)
 
             for dv in dependent_variables:
                 model_count+=1
