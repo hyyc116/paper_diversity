@@ -84,26 +84,28 @@ def print_result(model_name,res,ALLVs,include_fixed=False,include_time=False):
 
 
 def POLS(data,y,xs,includeFixed=False,includeTime=False):
-    xs_str = ' + '.join(xs)
-    formula = f'{y} ~ {xs_str} + 1'
-    print(formula)
-    print(data['c10'].head())
-    if includeFixed:
-        formula += '+ EntityEffects'
-    if includeTime:
-        formula += '+ TimeEffects'
-    mod = PanelOLS.from_formula(formula, data=data)
-    if includeFixed:
-        ori = mod.fit(cov_type='clustered', cluster_entity=True)
-    else:
-        ori = mod.fit()
+    # xs_str = ' + '.join(xs)
+    # formula = f'{y} ~ {xs_str} + 1'
+    # print(formula)
+    # print(data['c10'].head())
+    # if includeFixed:
+    #     formula += '+ EntityEffects'
+    # if includeTime:
+    #     formula += '+ TimeEffects'
+    # mod = PanelOLS.from_formula(formula, data=data)
+    # if includeFixed:
+    #     ori = mod.fit(cov_type='clustered', cluster_entity=True)
+    # else:
+    #     ori = mod.fit()
     # print("Formula:"+formula)
     # print(ori.params)
     # print(ori.pvalues)
     # print(ori.rsquared_overall)
     # print('\n')
 
-    return ori
+    exog = sm.add_constant(data[xs])
+    res = PanelOLS(data[y],exog,entity_effects = includeFixed, time_effects = includeTime).fit()
+    return res
 
 
 if __name__ =="__main__":
