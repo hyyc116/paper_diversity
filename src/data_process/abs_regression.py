@@ -38,13 +38,16 @@ def regress_FE(N=10):
     VS = []
     VS.extend(independent_variables)
     VS.extend(control_variables)
+    vs_str = ','.join(VS)
+
 
     data = pd.DataFrame(data=data10, columns=ALLVS)
     data = data.reset_index().set_index(fixed_effects)
 
-    model_name = "Model"
-    model_count = 0
     for dv in dependent_variables:
+        model_count = 0
+        lines = [f'dependents:{dv}']
+        lines.append(f',{vs_str},journal fixed,Year fixed,R2,# of Smaples')
 
         for _N in range(1,len(independent_variables)+1):
             for v in it.combinations(independent_variables,_N):
@@ -53,31 +56,46 @@ def regress_FE(N=10):
                 Varis.extend(v)
 
                 model_count+=1
-                model_name +=str(model_count)
+                model_name ="Model "+str(model_count)
                 res = POLS(data, dv, Varis, includeFixed=False,includeTime=False)
 
                 line = print_result(model_name,res,VS,False,False)
-                print(line)
+                lines.append(line)
 
                 model_count += 1
-                model_name += str(model_count)
+                model_name ="Model "+str(model_count)
                 res = POLS(data,
                         dv,
                         Varis,
                         includeFixed=True,
                         includeTime=False)
 
+                line = print_result(model_name, res, VS, True, False)
+                lines.append(line)
+
                 model_count+=1
-                model_name += str(model_count)
+                model_name ="Model "+str(model_count)
                 res = POLS(data, dv, Varis, includeFixed=False,includeTime=True)
 
+                line = print_result(model_name, res, VS, False, True)
+                lines.append(line)
+
                 model_count += 1
-                model_name += str(model_count)
+                model_name ="Model "+str(model_count)
                 res = POLS(data,
                         dv,
                         Varis,
                         includeFixed=True,
                         includeTime=True)
+
+                line = print_result(model_name, res, VS, True, True)
+                lines.append(line)
+        
+        open(f'data/regression_{dv}_{N}.result.csv','w').write('\n'.join(lines))
+        logging.info(f'{dv}_{N} regression saved')
+    
+    logging.info(F'{N} Done')
+            
 
 
 def print_result(model_name,res,ALLVs,include_fixed=False,include_time=False):
@@ -140,4 +158,7 @@ def POLS(data,y,xs,includeFixed=False,includeTime=False):
 
 if __name__ =="__main__":
 
-    regress_FE()
+    regress_FE(10)
+    regress_FE(5)
+    regress_FE(2)
+
