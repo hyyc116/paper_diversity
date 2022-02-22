@@ -94,7 +94,8 @@ def print_result(model_name,res,ALLVs,include_fixed=False,include_time=False):
 
 def POLS(data,y,xs,includeFixed=False,includeTime=False):
     xs_str = ' + '.join(xs)
-    formula = f'{y}~{xs_str} + 1'
+    formula = f'{y} ~ {xs_str} + 1'
+    print(formula)
     if includeFixed:
         formula += '+ EntityEffects'
     if includeTime:
