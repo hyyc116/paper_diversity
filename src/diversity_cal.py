@@ -190,7 +190,7 @@ def cal_subj_div(all_subjs,subj_refnum,subj_totalnum,citnum_total):
     ## nc/N
     variety = len(subj_set)/float(subj_totalnum)
 
-    balance = gini(subj_num)
+    balance = 1-gini(subj_num)
 
     disparsity = cal_disparsity(subj_set,subj_refnum,citnum_total)
 

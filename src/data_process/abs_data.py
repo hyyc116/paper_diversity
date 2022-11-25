@@ -191,16 +191,16 @@ def paper_independent_variables():
             all_subjs.append(paper_subjs.get(ref,[]))
 
         subj_div,variety,balance,disparsity = cal_subj_div(all_subjs, subj_subj_refnum, total_subjnum,
-                                citnum_total)
-        freshness_diversity = gini(freshenesses)
-        c2_diversity = gini(c2s)
-        c5_diversity = gini(c5s)
+                                citnum_total) # 这个参考文献的subject来算的diversity 包括了 diversity = variety * balance * disparsity 
+        freshness_diversity = gini(freshenesses) # 论文发表年份 - 参考文献年份
+        c2_diversity = gini(c2s) # 参考文献先两年内的引用次数 下同
+        c5_diversity = gini(c5s) 
         c10_diversity = gini(c10s)
-        d2_diversity = gini(d2s)
+        d2_diversity = gini(d2s) # 参考文献的disruptiveness的分数 d2 下同
         d5_diversity = gini(d5s)
         d10_diversity = gini(d10s)
-        impact_diversity = gini(all_impacts)
-        num_of_refs = len(pid_refs[pid])
+        impact_diversity = gini(all_impacts) # 参考文献所在期刊在当年的引用次数
+        num_of_refs = len(pid_refs[pid])   #引用次数
 
         pid_attrs[pid] = [
             freshness_diversity, c2_diversity, c5_diversity, c10_diversity,
@@ -656,5 +656,5 @@ if __name__ == "__main__":
 
     # journal_impact()
 
-    # paper_independent_variables()
+    paper_independent_variables()
     combine_all_data()
